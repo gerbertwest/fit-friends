@@ -15,8 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fit-friends/config/config-users": [
+        "libs/config/config-users/src/index.ts"
+      ],
       "@fit-friends/shared/app-types": ["libs/shared/app-types/src/index.ts"],
-      "@fit-friends/util/util-core": ["libs/util/util-core/src/index.ts"]
+      "@fit-friends/util/util-core": ["libs/util/util-core/src/index.ts"],
+      "@fit-friends/util/util-types": ["libs/util/util-types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

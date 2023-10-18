@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { ConfigUsersModule, getMongooseOptions } from '@fit-friends/config/config-users';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    UserModule,
+    AuthenticationModule,
+    ConfigUsersModule,
+    MongooseModule.forRootAsync(
+      getMongooseOptions()
+)],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

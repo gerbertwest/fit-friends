@@ -1,21 +1,21 @@
 {
-  "name": "util-util-core",
+  "name": "config-config-users",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/util/util-core/src",
+  "sourceRoot": "libs/config/config-users/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/util/util-core/**/*.ts"]
+        "lintFilePatterns": ["libs/config/config-users/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/util/util-core/jest.config.ts",
+        "jestConfig": "libs/config/config-users/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

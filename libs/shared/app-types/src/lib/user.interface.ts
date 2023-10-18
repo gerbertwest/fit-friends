@@ -1,4 +1,4 @@
-import {UserLevel, UserRole, UserSex} from './users.enum';
+import {UserLevel, UserLocation, UserRole, UserSex} from './users.enum';
 
 export interface User {
   _id?: string;
@@ -7,11 +7,11 @@ export interface User {
   avatar: string;
   passwordHash: string;
   sex: UserSex;
-  dateBirth: Date;
+  dateBirth?: Date;
   role: UserRole;
   description: string;
-  location: string;
-  backgroundImage: string;
+  location: UserLocation;
+  backgroundImage?: string;
 
   level?: UserLevel;
   trainingType?: string[];

@@ -1,5 +1,5 @@
 {
-  "name": "shared/app-types",
+  "name": "shared-app-types",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/app-types/src",
   "projectType": "library",

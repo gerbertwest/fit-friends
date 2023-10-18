@@ -37,3 +37,17 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#
+/node_modules/
+/build/
+/lib/
+/dist/
+/docs/
+.idea/*
+
+coverage
+*.log
+
+*.env
+**/uploads/*
