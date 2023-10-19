@@ -29,4 +29,5 @@ export enum AuthUserError {
   MinCalories = `Minimum calories to lose must be ${Length.MinCalories}`,
   MaxCalories = `Maximum calories to lose must be ${Length.MaxCalories}`,
   MaxValue = `Maximum number of values ${Length.MaxArrayLength}`,
+  Сertificates = 'Certificates is required'
 }

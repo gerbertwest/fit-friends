@@ -19,6 +19,9 @@
         "libs/config/config-users/src/index.ts"
       ],
       "@fit-friends/shared/app-types": ["libs/shared/app-types/src/index.ts"],
+      "@fit-friends/shared/shared-pipes": [
+        "libs/shared/shared-pipes/src/index.ts"
+      ],
       "@fit-friends/util/util-core": ["libs/util/util-core/src/index.ts"],
       "@fit-friends/util/util-types": ["libs/util/util-types/src/index.ts"]
     }

@@ -5,9 +5,10 @@ import { Model } from "mongoose";
 import { UserEntity } from "./user.entity";
 import { UserModel } from "./user.model";
 import { CRUDRepository } from "@fit-friends/util/util-types";
+import { UpdateUserDto } from "../authentication/dto/update-user.dto";
 
 @Injectable()
-export class UserRepository implements CRUDRepository<UserEntity, string, User> {
+export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto, string, User> {
   constructor(
     @InjectModel(UserModel.name) private readonly taskUserModel: Model<UserModel>) {
   }
@@ -33,9 +34,9 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
       .exec();
   }
 
-  public async update(id: string, item: UserEntity): Promise<User> {
+  public async update(id: string, dto: UpdateUserDto): Promise<User> {
     return this.taskUserModel
-      .findByIdAndUpdate(id, item.toObject(), { new: true })
+      .findByIdAndUpdate(id, dto, { new: true })
       .exec();
   }
 

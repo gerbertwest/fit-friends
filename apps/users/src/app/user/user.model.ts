@@ -63,7 +63,6 @@ export class UserModel extends Document implements User {
   @Prop({
     type: String,
     enum: UserLevel,
-    //default: UserLevel.amateur,
   })
   public level?: UserLevel;
 

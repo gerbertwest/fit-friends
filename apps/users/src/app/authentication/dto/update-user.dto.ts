@@ -1,19 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { ArrayMaxSize, IsBoolean, IsDefined, IsEmail, IsEnum, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateIf } from "class-validator";
+import { ArrayMaxSize, IsBoolean, IsEnum, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateIf } from "class-validator";
 import { AuthUserError, Length } from "../authentication.constant";
 import { Transform } from "class-transformer";
 import { UserLevel, UserLocation, UserRole, UserSex, trainingTime, trainingsType } from "@fit-friends/shared/app-types";
 
-export class CreateUserDto {
+export class UpdateUserDto {
 
 // общие для всех ролей поля
-
-  @ApiProperty({
-    description: 'User unique address',
-    example: 'user@user.ru',
-  })
-  @IsEmail({}, { message: AuthUserError.EmailNotValid })
-    public email: string;
 
   @ApiProperty({
     description: 'User birth date',
@@ -27,31 +20,17 @@ export class CreateUserDto {
     description: 'User name',
     example: 'Keks',
   })
+  @IsOptional()
   @IsString()
   @MinLength(Length.MinName, {message: AuthUserError.MinNameLength})
   @MaxLength(Length.MaxName, {message: AuthUserError.MaxNameLength})
   public name: string;
 
   @ApiProperty({
-    description: 'User password',
-    example: '123456'
-  })
-  @IsString()
-  @MinLength(Length.MinPassword, {message: AuthUserError.MinPasswordLength})
-  @MaxLength(Length.MaxPassword, {message: AuthUserError.MaxPasswordLength})
-  public password: string;
-
-  @ApiProperty({
-    description: 'Role',
-    example: 'Исполнитель'
-  })
-  @IsEnum(UserRole, { message: AuthUserError.RoleNotValid })
-  public role: UserRole;
-
-  @ApiProperty({
     description: 'Sex',
     example: 'Мужской'
   })
+  @IsOptional()
   @IsEnum(UserSex, { message: AuthUserError.SexNotValid })
   public sex: UserSex;
 
@@ -66,6 +45,7 @@ export class CreateUserDto {
     description: 'User description',
     example: 'description',
   })
+  @IsOptional()
   @IsString()
   @MinLength(Length.MinDescriprion, {message: AuthUserError.MinDescriprionLength})
   @MaxLength(Length.MaxDescription, {message: AuthUserError.MaxDescriprionLength})
@@ -75,6 +55,7 @@ export class CreateUserDto {
     description: 'Subway',
     example: 'Пионерская'
   })
+  @IsOptional()
   @IsEnum(UserLocation)
   public location: UserLocation;
 
@@ -89,6 +70,7 @@ export class CreateUserDto {
     description: 'User level',
     example: 'новичок',
   })
+  @IsOptional()
   @IsEnum(UserLevel)
   public level: UserLevel;
 
@@ -96,6 +78,7 @@ export class CreateUserDto {
     description: 'training type',
     example: ['йога', 'бег'],
   })
+  @IsOptional()
   @IsIn(trainingsType, {
     each: true,
   })
@@ -108,6 +91,7 @@ export class CreateUserDto {
     description: 'training time',
     example: '10-30 мин',
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsIn(trainingTime)
   public trainingTime?: string;
@@ -116,6 +100,7 @@ export class CreateUserDto {
     description: 'calories to lose',
     example: 1000,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsNumber()
   @IsInt()
@@ -127,6 +112,7 @@ export class CreateUserDto {
     description: 'calories to burn per day',
     example: 1000,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsNumber()
   @IsInt()
@@ -138,6 +124,7 @@ export class CreateUserDto {
     description: 'ready to training',
     example: true,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsBoolean()
   public readyToTraining?: boolean;
@@ -148,14 +135,15 @@ export class CreateUserDto {
     description: 'certificates',
     example: 'example.pdf'
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.Admin)
-  @IsDefined({message: AuthUserError.Сertificates})
   public certificates?: string;
 
   @ApiProperty({
     description: 'merits of treiner',
     example: 'merit',
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.Admin)
   @IsString()
   @MinLength(Length.MinDescriprion, {message: AuthUserError.MinDescriprionLength})
@@ -166,6 +154,7 @@ export class CreateUserDto {
     description: 'ready to personal training',
     example: true,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.Admin)
   @IsBoolean()
   public personalTrainings?: boolean;
