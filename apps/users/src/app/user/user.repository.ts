@@ -6,6 +6,7 @@ import { UserEntity } from "./user.entity";
 import { UserModel } from "./user.model";
 import { CRUDRepository } from "@fit-friends/util/util-types";
 import { UpdateUserDto } from "../authentication/dto/update-user.dto";
+import { UserQuery } from "./query/user.query";
 
 @Injectable()
 export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto, string, User> {
@@ -40,10 +41,11 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
       .exec();
   }
 
-  public async find(id: string): Promise<User[] | null> {
+  public async find({limit, location, level, trainingType, sortDirection, page}: UserQuery): Promise<User[] | null> {
     return this.taskUserModel
-      .find({}, {_id: id}, {})
-      .sort({rating: -1})
+      .find({location: {$in: location}, level:level, trainingType: {$in: trainingType}})
+      .sort({role: sortDirection})
+      .limit(page > 0 ? limit*page : limit)
       .exec();
   }
 }
