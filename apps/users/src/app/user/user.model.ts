@@ -89,6 +89,9 @@ export class UserModel extends Document implements User {
 
   @Prop()
   public personalTrainings?: boolean;
+
+  @Prop()
+  public friends?: string[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

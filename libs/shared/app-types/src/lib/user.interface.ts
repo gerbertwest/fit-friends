@@ -23,4 +23,6 @@ export interface User {
   certificates?: string;
   merits?: string;
   personalTrainings?: boolean;
+
+  friends?: string[];
 }
