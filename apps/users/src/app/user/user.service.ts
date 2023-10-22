@@ -36,7 +36,6 @@ public async addFriend(userId: string, dto: UpdateUserDto, friendId: string): Pr
 public async deleteFriend(userId: string, dto: UpdateUserDto, friendId: string): Promise<User> {
   const user = await this.userRepository.findById(userId);
   const userFriends = user.friends;
-  console.log(userFriends)
   const index = userFriends.indexOf(friendId);
 
   if (index !== -1) {

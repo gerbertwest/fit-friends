@@ -7,7 +7,6 @@ Content-Type: application/json
   "dateBirth": "2004-09-21",
   "name": "Keks",
   "password": "123456",
-  "city": "Санкт-Петербург",
   "role": "Тренер",
   "level": "новичок",
   "sex": "мужской",

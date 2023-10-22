@@ -1,0 +1,84 @@
+# Create a new user
+POST http://localhost:4000/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user10@notfound.local",
+  "dateBirth": "2004-09-21",
+  "name": "Keks",
+  "password": "123456",
+  "role": "Тренер",
+  "level": "новичок",
+  "sex": "мужской",
+  "location": "Спортивная",
+  "description": "описание 1",
+  "trainingType": ["аэробика", "бег"],
+  "merits": "Заслуга 11111",
+  "personalTrainings": false,
+  "certificates": "example.pdf"
+}
+
+###
+
+# Login user by email and password
+POST http://localhost:4000/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user9@notfound.local",
+  "password": "123456"
+}
+
+###
+
+# Get new JWT pair
+POST http://localhost:4000/api/users/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNjhiNTJiYjZmYmViYjJmMDYzNTMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MiLCJ0b2tlbklkIjoiOGYzM2RkNTAtNmNlZS00MGYyLTkwYTUtM2ZiZmQ4MGU5ZGRjIiwiaWF0IjoxNjk3OTk2MjQwLCJleHAiOjE2OTg2MDEwNDB9.CVrU4bwUcdwjdu3vsvM3sAOqEwzu360dMeTec1zWSqc
+
+###
+
+# Update user
+PATCH http://localhost:4000/api/users/update HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM1NjQ3ZWVlZmQ3YTM3YTRjYjNiZGEiLCJlbWFpbCI6InVzZXI5QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk3OTk4NDEzLCJleHAiOjE2OTc5OTkzMTN9.FcAI475-mNml-9wt-yl70RgjCx-IXyhyFQZg9bAHDjU
+
+{
+  "description": "Описание 1.1"
+}
+
+###
+
+# Get user by id
+GET http://localhost:4000/api/users/65316d4d46a97c75bb8f9200 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk4MDAwNjk1LCJleHAiOjE2OTgwMDE1OTV9.lgjYTH7pYS2t_UMKI83qtzbMXCgwiyAQ321QOsE_Qz4
+
+###
+
+# Get all users
+GET http://localhost:4000/api/users?limit=1&page=3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk4MDA1MDY4LCJleHAiOjE2OTgwMDU5Njh9.pDbmlbWy3ZHKI-lVs6foo5lWk1rrPPEEv7y7IDzOww0
+
+###
+
+# Get users friends
+POST http://localhost:4000/api/users/friends HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk4MDA1MDY4LCJleHAiOjE2OTgwMDU5Njh9.pDbmlbWy3ZHKI-lVs6foo5lWk1rrPPEEv7y7IDzOww0
+
+###
+
+# Add friend
+PATCH http://localhost:4000/api/users/653387092ba11e4bcda11437 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk4MDA1MDY4LCJleHAiOjE2OTgwMDU5Njh9.pDbmlbWy3ZHKI-lVs6foo5lWk1rrPPEEv7y7IDzOww0
+
+###
+
+# Delete friend
+DELETE http://localhost:4000/api/users/65356452eefd7a37a4cb3bd4 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM1NjQ3ZWVlZmQ3YTM3YTRjYjNiZGEiLCJlbWFpbCI6InVzZXI5QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk4MDAzMzA1LCJleHAiOjE2OTgwMDQyMDV9.ClDe90clvoqIOGGYUPPxEVR0c-h46LaKHQF4S_dIFZ4
+
+###
