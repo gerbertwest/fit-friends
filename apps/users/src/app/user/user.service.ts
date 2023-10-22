@@ -14,14 +14,33 @@ public async getUsers(query: UserQuery): Promise<User[]> {
   return this.userRepository.find(query)
 }
 
+public async findUserFriends(userId: string) {
+  const user = await this.userRepository.findById(userId);
+
+  const userFriends = user.friends;
+  return this.userRepository.findFriends(userFriends)
+}
+
 public async addFriend(userId: string, dto: UpdateUserDto, friendId: string): Promise<User> {
+  const user = await this.userRepository.findById(userId);
+  const userFriends = user.friends;
+  const index = userFriends.indexOf(friendId);
+
+  if (index === -1) {
+    userFriends.push(friendId);
+  }
+
+  return this.userRepository.update(userId, {...dto, friends: userFriends})
+}
+
+public async deleteFriend(userId: string, dto: UpdateUserDto, friendId: string): Promise<User> {
   const user = await this.userRepository.findById(userId);
   const userFriends = user.friends;
   console.log(userFriends)
   const index = userFriends.indexOf(friendId);
 
-  if (index === -1) {
-    userFriends.push(friendId);
+  if (index !== -1) {
+    userFriends.splice(index, 1);
   }
 
   return this.userRepository.update(userId, {...dto, friends: userFriends})

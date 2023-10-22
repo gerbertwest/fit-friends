@@ -2,9 +2,22 @@
 GET http://localhost:3333/api/user?limit=2&page=3 HTTP/1.1
 ###
 
-# add Friends
-PATCH http://localhost:3333/api/user/653383f1780101af165b7826 HTTP/1.1
+# Add friends
+PATCH http://localhost:3333/api/user/65316f8cb0e8b7063fd9df88 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk3OTY5ODQ4LCJleHAiOjE2OTc5NzA3NDh9.jA0ZKdrWk6AfUs9a3hgBHF4fyMgGLrUEflKqDDdnijA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk3OTkzODgyLCJleHAiOjE2OTc5OTQ3ODJ9.xJzXdSFqaOssp3Ltxy5FaQKPG7FRJ0KmrXKG_Iont4A
+###
+
+# Delete friends
+DELETE http://localhost:3333/api/user/653383f1780101af165b7826 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk3OTkyNTg0LCJleHAiOjE2OTc5OTM0ODR9.LkpVoclD7fsteXXqUfKlrNxu81z2USBdVEaJYVqtbMU
+
+###
+
+# Get users friends
+GET http://localhost:3333/api/user/friends HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk3OTkzODgyLCJleHAiOjE2OTc5OTQ3ODJ9.xJzXdSFqaOssp3Ltxy5FaQKPG7FRJ0KmrXKG_Iont4A
 
 ###
