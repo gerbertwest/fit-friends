@@ -16,8 +16,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0Z
 ###
 
 # Get users friends
-GET http://localhost:3333/api/user/friends HTTP/1.1
+GET http://localhost:3333/api/user/friends?limit=1&page=2 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk4MDA1MDY4LCJleHAiOjE2OTgwMDU5Njh9.pDbmlbWy3ZHKI-lVs6foo5lWk1rrPPEEv7y7IDzOww0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNjhiNTJiYjZmYmViYjJmMDYzNTMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MiLCJpYXQiOjE2OTgwNzczMTUsImV4cCI6MTY5ODA3ODIxNX0.Jnwa9NlVPXYY6NCMeWPZMKy0cNqf7cOEqk12PI_kVvY
 
 ###

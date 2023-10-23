@@ -14,11 +14,11 @@ public async getUsers(query: UserQuery): Promise<User[]> {
   return this.userRepository.find(query)
 }
 
-public async findUserFriends(userId: string) {
+public async findUserFriends(userId: string, query: UserQuery) {
   const user = await this.userRepository.findById(userId);
 
   const userFriends = user.friends;
-  return this.userRepository.findFriends(userFriends)
+  return this.userRepository.findFriends(query, userFriends)
 }
 
 public async addFriend(userId: string, dto: UpdateUserDto, friendId: string): Promise<User> {

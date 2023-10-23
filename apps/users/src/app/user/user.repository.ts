@@ -49,9 +49,11 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
       .exec();
   }
 
-  public async findFriends(friends: string[]) {
+  public async findFriends({limit, page, sortDirection}: UserQuery, friends: string[]) {
     return this.userModel
     .find({_id: friends})
+    .sort({role: sortDirection})
+    .limit(page > 0 ? limit*page : limit)
     .exec();
   }
 }

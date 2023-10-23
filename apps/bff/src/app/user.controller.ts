@@ -9,6 +9,7 @@ import { CheckAuthGuard } from './guards/check-auth.guard';
 import { RequestWithTokenPayload } from '@fit-friends/shared/app-types';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserQuery } from './query/user.query';
+import { CheckUserRoleGuard } from './guards/check-user-role.guard';
 
 @ApiTags('User')
 @Controller('users')
@@ -104,7 +105,7 @@ export class UsersController {
     status: HttpStatus.OK,
     description: 'All users found.'
   })
-  @UseGuards(CheckAuthGuard)
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
   @Get('/')
   public async index(@Query() query: UserQuery, @Req() req: Request) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}`, {params: query,
@@ -123,8 +124,8 @@ export class UsersController {
   })
   @UseGuards(CheckAuthGuard)
   @Post('friends')
-  public async getUserFriends(@Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/friends`, {
+  public async getUserFriends(@Query() query: UserQuery, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/friends`, {params: query,
       headers: {
         'Authorization': req.headers['authorization']
       }
@@ -138,7 +139,7 @@ export class UsersController {
     status: HttpStatus.OK,
     description: 'add friend'
   })
-  @UseGuards(CheckAuthGuard)
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
   @Patch('/:userId')
   public async addFriend(@Param('userId') userId: string, @Req() req: Request) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.User}/${userId}`, {}, {
@@ -156,7 +157,7 @@ export class UsersController {
     status: HttpStatus.OK,
     description: 'delete friend'
   })
-  @UseGuards(CheckAuthGuard)
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
   @Delete('/:userId')
   public async deleteFriend(@Param('userId') userId: string, @Req() req: Request) {
     const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.User}/${userId}`, {
