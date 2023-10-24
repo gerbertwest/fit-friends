@@ -1,7 +1,7 @@
 import 'module-alias/register'
 
 import { Document } from 'mongoose';
-import { User, UserLevel, UserLocation, UserRole, UserSex, trainingTime } from "@fit-friends/shared/app-types";
+import { User, UserLevel, UserLocation, UserRole, UserSex, trainingTime, trainingsType } from "@fit-friends/shared/app-types";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Factory } from "nestjs-seeder";
 
@@ -80,7 +80,7 @@ export class UserModel extends Document implements User {
   })
   public level?: UserLevel;
 
-  @Factory(['аэробика', 'бег'])
+  @Factory((faker) => faker.helpers.arrayElement(trainingsType))
   @Prop()
   public trainingType?: string[];
 
