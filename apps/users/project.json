@@ -68,6 +68,13 @@
           "codeCoverage": true
         }
       }
+    },
+    "db:seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node seeder.ts",
+        "cwd": "apps/users/src/app/seeder"
+      }
     }
   },
   "tags": []
