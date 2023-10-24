@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 
 export interface Review {
   reviewId?: number;
-  //createdAt?: Date;
+  createdAt?: Date;
   trainingId?: number;
   message: string;
   userId: Types.ObjectId;

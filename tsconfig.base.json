@@ -18,6 +18,9 @@
       "@fit-friends/config/config-users": [
         "libs/config/config-users/src/index.ts"
       ],
+      "@fit-friends/models/training-models": [
+        "libs/models/training-models/src/index.ts"
+      ],
       "@fit-friends/shared/app-types": ["libs/shared/app-types/src/index.ts"],
       "@fit-friends/shared/shared-pipes": [
         "libs/shared/shared-pipes/src/index.ts"
