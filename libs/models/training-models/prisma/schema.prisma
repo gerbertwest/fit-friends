@@ -37,11 +37,13 @@ model Training {
 model Review {
   reviewId   Int      @id @default(autoincrement()) @map("review_id")
   userId     String   @map("user_id")
-  training      Training @relation(fields: [trainingId], references: [trainingId], onDelete: Cascade, onUpdate: Cascade)
+  training   Training @relation(fields: [trainingId], references: [trainingId], onDelete: Cascade, onUpdate: Cascade)
   trainingId Int      @map("training_id")
   raiting    Int      @default(0)
   message    String   @default("")
   createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("reviews")
 }
 
 model Order {
@@ -56,15 +58,4 @@ model Order {
   createdAt     DateTime @default(now()) @map("created_at")
 
   @@map("orders")
-}
-
-model Application {
-  applicationId Int @id @default(autoincrement()) @map("application_id")
-  status String
-  createdAt       DateTime @default(now()) @map("created_at")
-  publishAt       DateTime @updatedAt @map("publish_at")
-  userId String   @map("user_id")
-  initiatorId String @map("initiator_id")
-
-  @@map("applications")
 }

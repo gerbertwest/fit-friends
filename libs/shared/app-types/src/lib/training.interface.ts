@@ -1,9 +1,12 @@
+import { Order } from "./order.interface";
+import { Review } from "./reviews.interface";
+
 export interface Training {
   id?: number;
   title: string;
   backgroundImage: string;
   level: string;
-  trainingType: string[];
+  trainingType: string;
   trainingTime: string;
   price: number;
   caloriesCount: number;
@@ -15,4 +18,6 @@ export interface Training {
   special: boolean;
   createdAt?: Date;
   publishAt?: Date;
+  orders?: Order[];
+  reviews?: Review[]
 }
