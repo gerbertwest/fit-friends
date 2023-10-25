@@ -30,6 +30,10 @@ export class TrainingService {
     return this.trainingRepository.find(query);
   }
 
+  async getTrainingsByTrainerId(trainerId: string, query: TrainingQuery): Promise<Training[]> {
+    return this.trainingRepository.findByTrainerId(trainerId, query);
+  }
+
   async updateTraining(id: number, dto: UpdateTrainingDto): Promise<Training> {
     return this.trainingRepository.update(id, new TrainingEntity({...dto }))
   }

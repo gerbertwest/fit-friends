@@ -48,6 +48,38 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
     });
   }
 
+  public async findByTrainerId(trainerId: string, {limit, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount,
+    minRaiting, maxRaiting, trainingTypes, sortDirection, page}: TrainingQuery): Promise<Training[]> {
+      return this.prisma.training.findMany({
+        where: {
+          trainerId: trainerId,
+          price: {
+              gte: minPrice,
+              lte: maxPrice
+          },
+          caloriesCount: {
+            gte: minCaloriesCount,
+            lte: maxCaloriesCount
+          },
+          raiting: {
+            gte: minRaiting,
+            lte: maxRaiting
+          },
+          trainingType: {
+            in: trainingTypes
+          },
+        },
+        take: page > 0 ? (limit * page) : limit,
+        include: {
+          orders: true,
+          reviews: true,
+        },
+        orderBy: [
+          { price: sortDirection }
+        ],
+      });
+    }
+
   public find({limit, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount,
     minRaiting, maxRaiting, trainingTypes, sortDirection, page}: TrainingQuery): Promise<Training[]> {
 
@@ -69,7 +101,7 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
           in: trainingTypes
         },
       },
-      take: limit,
+      take: page > 0 ? (limit * page) : limit,
       include: {
         orders: true,
         reviews: true,
@@ -77,7 +109,6 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
       orderBy: [
         { price: sortDirection }
       ],
-      skip: page > 0 ? limit * page : undefined,
     });
   }
 
