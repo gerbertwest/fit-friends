@@ -9,4 +9,5 @@ export * from './lib/training.interface';
 export * from './lib/reviews.interface';
 export * from './lib/application.interface';
 export * from './lib/order.interface';
+export * from './lib/training.enum';
 

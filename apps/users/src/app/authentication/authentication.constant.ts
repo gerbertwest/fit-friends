@@ -10,14 +10,11 @@ export enum Length {
   MaxArrayLength = 3,
 }
 
-export const MIN_USER_AGE = 18;
-
 export enum AuthUserError {
   Exists = 'User with this email exists',
   NotFound = 'User not found',
   PasswordWrong = 'User password is wrong',
   EmailNotValid = 'The email is not valid',
-  DateBirthNotValid = 'The user date birth is not valid',
   RoleNotValid = 'The role is not valid',
   SexNotValid = 'The sex is not valid',
   MinPasswordLength = `Minimum password length must be ${Length.MinPassword}`,

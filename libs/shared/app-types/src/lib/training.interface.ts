@@ -13,7 +13,7 @@ export interface Training {
   description: string;
   sex: string;
   video: string;
-  raiting: number;
+  raiting?: number;
   trainerId: string;
   special: boolean;
   createdAt?: Date;
