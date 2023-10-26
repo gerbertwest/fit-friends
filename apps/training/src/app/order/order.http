@@ -1,0 +1,17 @@
+# Create a new order
+POST http://localhost:4000/api/orders HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "абонемент",
+  "trainingId": 1,
+  "price": 100,
+  "count": 1,
+  "trainingTime": "50-80 мин",
+  "orderPrice": 100,
+  "paymentMethod": "visa",
+  "description": "описание 1",
+  "userId": "1"
+}
+
+###

@@ -1,5 +1,5 @@
 export interface Order {
-  orderId: number;
+  orderId?: number;
   type: string;
   trainingId?: number;
   price: number;
@@ -7,4 +7,5 @@ export interface Order {
   orderPrice: number;
   paymentMethod: string;
   createdAt?: Date;
+  userId: string;
 }

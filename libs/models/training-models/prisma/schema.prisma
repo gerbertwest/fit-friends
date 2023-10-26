@@ -56,6 +56,7 @@ model Order {
   orderPrice    Int
   paymentMethod String
   createdAt     DateTime @default(now()) @map("created_at")
+  userId        String   @map("user_id")
 
   @@map("orders")
 }
