@@ -50,13 +50,15 @@ model Order {
   orderId       Int      @id @default(autoincrement()) @map("order_id")
   type          String
   training      Training @relation(fields: [trainingId], references: [trainingId], onDelete: Cascade, onUpdate: Cascade)
-  trainingId    Int      @unique @map("training_id")
+  trainingId    Int      @map("training_id")
   price         Int
   count         Int
   orderPrice    Int
   paymentMethod String
   createdAt     DateTime @default(now()) @map("created_at")
   userId        String   @map("user_id")
+  idCount       Int      @default(0)
+  totalPrice    Int      @default(0)
 
   @@map("orders")
 }

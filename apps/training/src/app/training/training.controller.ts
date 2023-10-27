@@ -62,7 +62,7 @@ export class TrainingController {
     description: 'Training has been updeted.'
   })
   @Patch('/:id')
-  async changeTask(@Param('id') id: number, @Body() dto: UpdateTrainingDto) {
+  async changeTraining(@Param('id') id: number, @Body() dto: UpdateTrainingDto) {
     const updateTraining = await this.trainingService.updateTraining(id, {...dto});
     return fillObject(TrainingRdo, updateTraining)
   }
@@ -73,8 +73,8 @@ export class TrainingController {
     description: 'training by trainer found'
   })
   @Get('trainer/:id')
-  async showTaskByUser(@Param('id') userId: string, @Query() query: TrainingQuery) {
-    const posts = await this.trainingService.getTrainingsByTrainerId(userId, query);
-    return fillObject(TrainingRdo, posts);
+  async showTrainingsByUser(@Param('id') userId: string, @Query() query: TrainingQuery) {
+    const trainings = await this.trainingService.getTrainingsByTrainerId(userId, query);
+    return fillObject(TrainingRdo, trainings);
   }
 }

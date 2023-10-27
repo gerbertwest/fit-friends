@@ -4,14 +4,22 @@ Content-Type: application/json
 
 {
   "type": "абонемент",
-  "trainingId": 1,
-  "price": 100,
-  "count": 1,
+  "trainingId": 3,
+  "count": 3,
   "trainingTime": "50-80 мин",
-  "orderPrice": 100,
   "paymentMethod": "visa",
-  "description": "описание 1",
-  "userId": "1"
+  "description": "описание 2",
+  "userId": "3"
 }
+
+###
+
+# Get orders by userId
+GET http://localhost:4000/api/orders/user/2 HTTP/1.1
+
+###
+
+# Get orders by trainerId
+GET http://localhost:4000/api/orders/trainer/2 HTTP/1.1
 
 ###
