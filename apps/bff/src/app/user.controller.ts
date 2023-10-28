@@ -72,6 +72,7 @@ export class UsersController {
   @UseGuards(CheckAuthGuard)
   @Patch('update')
   public async update(@Body() UpdateUserDto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
+    console.log(payload)
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, UpdateUserDto, {
       headers: {
         'Authorization': req.headers['authorization']
