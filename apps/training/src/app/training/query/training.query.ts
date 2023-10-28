@@ -51,4 +51,7 @@ export class TrainingQuery {
   @IsOptional()
   public page: number;
 
+  @IsOptional()
+  public sortField: string;
+
 }

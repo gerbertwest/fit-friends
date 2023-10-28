@@ -3,3 +3,9 @@ export enum TrainingUserSex {
   female = 'для женщин',
   another = 'для всех'
 }
+
+export enum OrderPaymentMethod {
+  visa = 'visa',
+  mir = 'mir',
+  umoney = 'umoney'
+}

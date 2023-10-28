@@ -3,6 +3,8 @@ import { CRUDRepository } from "@fit-friends/util/util-types";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { OrderEntity } from "./order.entity";
+import { TrainingQuery } from "../training/query/training.query";
+import { DEFAULT_SORT_DIRECTION, DEFAULT_SORT_FIELD } from "./order.constant";
 
 @Injectable()
 export class OrderRepository implements CRUDRepository<OrderEntity, number, Order> {
@@ -34,16 +36,20 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     });
   }
 
-  public async findByUserId(userId: string): Promise<Order[]> {
+  public async findByUserId(userId: string, {limit, page}: TrainingQuery): Promise<Order[]> {
     return this.prisma.order.findMany({
       where: {
         userId
       },
-      include: { training: true }
+      include: { training: true },
+      take: page > 0 ? (limit * page) : limit,
+      orderBy: [
+        {createdAt: DEFAULT_SORT_DIRECTION}
+      ]
     });
   }
 
-  public async findByTrainerId(trainerId: string): Promise<Order[]> {
+  public async findByTrainerId(trainerId: string, {sortDirection, sortField, limit, page}: TrainingQuery): Promise<Order[]> {
     const result = await this.prisma.order.findMany({
       where: {
         training: {
@@ -53,6 +59,10 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
         }
       },
       include: { training: true },
+      take: page > 0 ? (limit * page) : limit,
+      orderBy: [
+        sortField === DEFAULT_SORT_FIELD ? {idCount: sortDirection} : {totalPrice: sortDirection}
+      ]
     });
 
     const trainings = [];
@@ -101,6 +111,5 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
       include: { training: true }
     })
   }
-
 
 }

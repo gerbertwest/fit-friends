@@ -1,7 +1,7 @@
 import { UserLevel, trainingsType, trainingTime, TrainingUserSex } from "@fit-friends/shared/app-types";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsEnum, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength } from "class-validator";
-import { AuthUserError, Length } from "../training.constant";
+import { TrainingError, Length } from "../training.constant";
 
 export class UpdateTrainingDto {
   @ApiProperty({
@@ -10,8 +10,8 @@ export class UpdateTrainingDto {
   })
   @IsOptional()
   @IsString()
-  @MinLength(Length.MinTitle, {message: AuthUserError.MinTitleLength})
-  @MaxLength(Length.MaxTitle, {message: AuthUserError.MaxTitleLength})
+  @MinLength(Length.MinTitle, {message: TrainingError.MinTitleLength})
+  @MaxLength(Length.MaxTitle, {message: TrainingError.MaxTitleLength})
   public title: string;
 
   @ApiProperty({
@@ -27,7 +27,7 @@ export class UpdateTrainingDto {
   })
   @IsOptional()
   @IsEnum(UserLevel)
-  public level: string;
+  public level: UserLevel;
 
   @ApiProperty({
     description: 'training type',
@@ -54,7 +54,7 @@ export class UpdateTrainingDto {
   @IsOptional()
   @IsNumber()
   @IsInt()
-  @Min(Length.MinPrice, {message: AuthUserError.MinPrice})
+  @Min(Length.MinPrice, {message: TrainingError.MinPrice})
   public price: number;
 
   @ApiProperty({
@@ -64,8 +64,8 @@ export class UpdateTrainingDto {
   @IsOptional()
   @IsNumber()
   @IsInt()
-  @Min(Length.MinCalories, {message: AuthUserError.MinCalories})
-  @Max(Length.MaxCalories, {message: AuthUserError.MaxCalories})
+  @Min(Length.MinCalories, {message: TrainingError.MinCalories})
+  @Max(Length.MaxCalories, {message: TrainingError.MaxCalories})
   public caloriesCount: number;
 
   @ApiProperty({
@@ -74,8 +74,8 @@ export class UpdateTrainingDto {
   })
   @IsOptional()
   @IsString()
-  @MinLength(Length.MinDescriprion, {message: AuthUserError.MinDescriprionLength})
-  @MaxLength(Length.MaxDescription, {message: AuthUserError.MaxDescriprionLength})
+  @MinLength(Length.MinDescriprion, {message: TrainingError.MinDescriprionLength})
+  @MaxLength(Length.MaxDescription, {message: TrainingError.MaxDescriprionLength})
   public description: string;
 
   @ApiProperty({
@@ -83,7 +83,7 @@ export class UpdateTrainingDto {
     example: 'для женщин'
   })
   @IsOptional()
-  @IsEnum(TrainingUserSex, { message: AuthUserError.SexNotValid })
+  @IsEnum(TrainingUserSex, { message: TrainingError.SexNotValid })
   public sex: string;
 
   @ApiProperty({

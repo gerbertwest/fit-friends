@@ -11,7 +11,7 @@ export enum Length {
   MinPrice = 0,
 }
 
-export enum AuthUserError {
+export enum TrainingError {
   MinTitleLength = `Minimum title length must be ${Length.MinTitle}`,
   MaxTitleLength = `Maximum title length must be ${Length.MaxTitle}`,
   MinPrice = `Minimum price must be ${Length.MinPrice}`,

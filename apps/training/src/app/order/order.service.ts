@@ -4,6 +4,7 @@ import { Order } from "@fit-friends/shared/app-types";
 import { OrderEntity } from "./order.entity";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { TrainingRepository } from "../training/training.repository";
+import { TrainingQuery } from "../training/query/training.query";
 
 @Injectable()
 export class OrderService {
@@ -21,12 +22,12 @@ export class OrderService {
     return this.orderRepository.create(orderEntity);
   }
 
-  async getUserOrders(userId: string): Promise<Order[]> {
-    return this.orderRepository.findByUserId(userId);
+  async getUserOrders(userId: string, query: TrainingQuery): Promise<Order[]> {
+    return this.orderRepository.findByUserId(userId,  query);
   }
 
-  async getTrainerOrders(trainerId: string): Promise<Order[]> {
-    return this.orderRepository.findByTrainerId(trainerId);
+  async getTrainerOrders(trainerId: string, query: TrainingQuery): Promise<Order[]> {
+    return this.orderRepository.findByTrainerId(trainerId, query);
   }
 
 }

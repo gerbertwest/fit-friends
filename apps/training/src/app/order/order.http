@@ -15,11 +15,11 @@ Content-Type: application/json
 ###
 
 # Get orders by userId
-GET http://localhost:4000/api/orders/user/2 HTTP/1.1
+GET http://localhost:4000/api/orders/user/3?limit=1&page=2 HTTP/1.1
 
 ###
 
 # Get orders by trainerId
-GET http://localhost:4000/api/orders/trainer/2 HTTP/1.1
+GET http://localhost:4000/api/orders/trainer/1?sortField=idCount&sortDirection=asc&limit=1&page=2 HTTP/1.1
 
 ###
