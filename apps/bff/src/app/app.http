@@ -25,7 +25,7 @@ POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user12@notfound.local",
+  "email": "Kaylin_Hermann49@yahoo.com",
   "password": "123456"
 }
 
@@ -129,5 +129,46 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlM
   "title": "Тренировка 4.1",
   "price": 110
 }
+
+###
+
+# Get all tainings (catalog)
+GET http://localhost:4000/api/training?limit=4&page=2&minPrice=100&maxPrice=300 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODU3ODUxMiwiZXhwIjoxNjk4NTc5NDEyfQ.5BTjxpelv9JzRmp0xrC3qBZSOICnb3YH1XL_VuUu11c
+
+###
+
+
+
+#####################################################
+
+# Create a new order
+POST http://localhost:4000/api/order HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODU3NDI5MSwiZXhwIjoxNjk4NTc1MTkxfQ.yTAAFP1ZQYLV69aM6okBSfQmedCJSxj3HL9Jm-9jCbk
+
+{
+  "type": "абонемент",
+  "trainingId": 11,
+  "count": 2,
+  "trainingTime": "50-80 мин",
+  "paymentMethod": "mir",
+  "description": "описание 112"
+}
+
+###
+
+# Get orders by trainerId
+GET http://localhost:4000/api/order/trainer?limit=2&sortDirection=desc HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlMWRiODE4NmZlYzEwMmQ4OGMiLCJlbWFpbCI6InVzZXIxMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY5ODU3NTIzOCwiZXhwIjoxNjk4NTc2MTM4fQ.i63bYtUO3u1ucezmEuiBfCSIm1zdTe5dcy3N3ubkqWc
+
+###
+
+# Get orders by userId
+GET http://localhost:4000/api/order/user?limit=2&sortDirection=desc HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODU3NTk1OSwiZXhwIjoxNjk4NTc2ODU5fQ.ocvaNuvrSwc-lPmnPr7gCCl7NMMlAeJ0VgyEbHbY1zk
 
 ###

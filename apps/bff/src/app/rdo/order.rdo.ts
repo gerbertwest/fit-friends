@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
+import { UserRdo } from "./user.rdo";
 
 export class OrderRdo {
   @ApiProperty({
@@ -63,5 +64,5 @@ export class OrderRdo {
     example: '13'
   })
   @Expose()
-  public userId: string;
+  public user: UserRdo;
 }

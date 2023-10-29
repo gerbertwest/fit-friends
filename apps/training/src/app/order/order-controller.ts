@@ -31,18 +31,20 @@ export class OrderController {
   })
   @Get('user/:id')
   async showOrdersByUser(@Param('id') userId: string, @Query() query: TrainingQuery) {
-    const trainings = await this.orderService.getUserOrders(userId, query);
-    return trainings;
+    const orders = await this.orderService.getUserOrders(userId, query);
+    //return orders;
+    return fillObject(TrainerOrderRdo, orders);
   }
 
   @ApiResponse({
     type: TrainerOrderRdo,
     status: HttpStatus.OK,
-    description: 'order found'
+    description: 'orders of treiner found'
   })
   @Get('trainer/:id')
   async showOrdersByTrainer(@Param('id') trainerId: string, @Query() query: TrainingQuery) {
-    const trainings = await this.orderService.getTrainerOrders(trainerId, query);
-    return fillObject(TrainerOrderRdo, trainings);
+    const orders = await this.orderService.getTrainerOrders(trainerId, query);
+    return fillObject(TrainerOrderRdo, orders);
   }
+
 }

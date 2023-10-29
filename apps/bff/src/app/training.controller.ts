@@ -41,7 +41,7 @@ export class TrainingController {
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'All trainings found'
+    description: 'All trainings of trainer found'
   })
   @UseGuards(CheckAuthGuard, CheckAdminRoleGuard)
   @Get('/trainer')
@@ -88,6 +88,17 @@ export class TrainingController {
     })).data;
 
     return fillObject(TrainingRdo, {...data, user: user});
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'All trainings found'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Get('/')
+  public async indexTrainings(@Query() query: TrainingQuery) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Training}`, {params: query});
+    return data;
   }
 
 }
