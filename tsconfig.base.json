@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fit-friends/config/config-notify": [
+        "libs/config/config-notify/src/index.ts"
+      ],
       "@fit-friends/config/config-training": [
         "libs/config/config-training/src/index.ts"
       ],

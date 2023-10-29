@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  fitFriends.notify.fakesmtp:
+    image: gessnerfl/fake-smtp-server
+    container_name: "fitFriends.notify.fakesmtp"
+    hostname: "fakesmtp"
+    ports:
+      - "8025:8025"
+      - "1083:8080"
+
+  fitFriends.notify.rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: fitFriends.notify.rabbitmq
+    ports:
+      - '1088:15672'
+      - '5672:5672'
+    env_file:
+      - '.notify.env'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fitFriends.notify.mongodb:
+    image: mongo
+    container_name: fitFriends.notify.mongodb
+    env_file:
+      - '.notify.env'
+    ports:
+      - 27020:27017
+    volumes:
+      - fitFriends.notify.mongodb:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/fitFriends-notify --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  fitFriends.notify.mongodb.ui:
+    image: mongo-express
+    restart: always
+    container_name: fitFriends.notify.mongodb.ui
+    ports:
+      - 8084:8081
+    env_file:
+      - '.notify.env'
+
+volumes:
+  fitFriends.notify.mongodb:

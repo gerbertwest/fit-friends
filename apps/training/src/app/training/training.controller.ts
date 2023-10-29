@@ -6,12 +6,14 @@ import { fillObject } from "@fit-friends/util/util-core";
 import { TrainingQuery } from "./query/training.query";
 import { UpdateTrainingDto } from "./dto/update-training.dto";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import { NotifyService } from "../notify/notify.service";
 
 @ApiTags('training')
 @Controller('trainings')
 export class TrainingController {
   constructor(
     private readonly trainingService: TrainingService,
+    private readonly notifyService: NotifyService,
   ) {}
 
   @ApiResponse({
@@ -21,6 +23,8 @@ export class TrainingController {
   @Post('/')
   async create(@Body() dto: CreateTrainingDto) {
     const newTraining = await this.trainingService.createTraining(dto);
+    const {title, trainerId} = newTraining;
+    await this.notifyService.registerSubscriber({title, trainerId})
     return fillObject(TrainingRdo, newTraining);
   }
 

@@ -25,7 +25,7 @@ POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Kaylin_Hermann49@yahoo.com",
+  "email": "user12@notfound.local",
   "password": "123456"
 }
 
@@ -88,10 +88,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1N
 # Create a new training
 POST http://localhost:4000/api/training HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlMWRiODE4NmZlYzEwMmQ4OGMiLCJlbWFpbCI6InVzZXIxMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY5ODUyMDE4MCwiZXhwIjoxNjk4NTIxMDgwfQ.xkt-wOIYUVXwaKfugSBasoklF3XRLI_ZdEvf3cbRqGw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlMWRiODE4NmZlYzEwMmQ4OGMiLCJlbWFpbCI6InVzZXIxMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY5ODU4NzA0MiwiZXhwIjoxNjk4NTg3OTQyfQ.KbKVLI4obQAHgLy4KZxRAdLniuPeCobSSGYwaDlcVQ4
 
 {
-  "title": "Тренировка 37",
+  "title": "Тренировка 39",
   "backgroundImage": "image2.jpg",
   "level": "любитель",
   "trainingType": "кроссфит",
