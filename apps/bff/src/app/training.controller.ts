@@ -35,7 +35,22 @@ export class TrainingController {
         'Authorization': req.headers['authorization']
       }
       })).data
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Training}/`, dto);
+
+    const subscribers = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/subscription/${dto.trainerId}`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+      })).data
+
+    let subscriber = false;
+
+    if (subscribers.length > 0) {
+      subscriber = true
+    }
+
+    console.log(subscriber)
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Training}/`, {...dto, subscriber: subscriber});
     return fillObject(TrainingRdo, {...data, user: trainer});
   }
 

@@ -24,6 +24,6 @@ export class EmailSubscriberService {
   }
 
   public async getSubscribers(dto: CreateEmailDto) {
-    return this.emailSubscriberRepository.find(dto.requestDate)
+    return this.emailSubscriberRepository.find(dto.requestDate, dto.trainers)
   }
 }

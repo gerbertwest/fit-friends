@@ -3,7 +3,7 @@ POST http://localhost:3000/api/trainings HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Тренировка 4",
+  "title": "Тренировка 6",
   "backgroundImage": "image2.jpg",
   "level": "любитель",
   "trainingType": "кроссфит",
@@ -14,7 +14,8 @@ Content-Type: application/json
   "sex": "для мужчин",
   "video": "example.avi",
   "trainerId": "2",
-  "special": false
+  "special": false,
+  "subscriber": false
 }
 
 ###

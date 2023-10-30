@@ -1,11 +1,12 @@
 # Get all users
-GET http://localhost:3333/api/user?limit=2&page=3 HTTP/1.1
+GET http://localhost:3333/api/user?limit=20&page=3 HTTP/1.1
 ###
 
 # Add friend
-PATCH http://localhost:3333/api/user/65316f8cb0e8b7063fd9df88 HTTP/1.1
+PATCH http://localhost:3333/api/user/6537ed54daf7a45404e304bc HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0ZDQ2YTk3Yzc1YmI4ZjkyMDAiLCJlbWFpbCI6InVzZXIzQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk3OTkzODgyLCJleHAiOjE2OTc5OTQ3ODJ9.xJzXdSFqaOssp3Ltxy5FaQKPG7FRJ0KmrXKG_Iont4A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODY5MDU3NSwiZXhwIjoxNjk4NjkxNDc1fQ.rIylCB860vzHlvelT2v5OkxbNy0rAeoLmsfCgIvXXd8
+
 ###
 
 # Delete friend
@@ -19,5 +20,32 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNmQ0Z
 GET http://localhost:3333/api/user/friends?limit=1&page=2 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNjhiNTJiYjZmYmViYjJmMDYzNTMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MiLCJpYXQiOjE2OTgwNzczMTUsImV4cCI6MTY5ODA3ODIxNX0.Jnwa9NlVPXYY6NCMeWPZMKy0cNqf7cOEqk12PI_kVvY
+
+###
+
+# Add subscription
+PATCH http://localhost:3333/api/user/subscription/6537ed54daf7a45404e304bc HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODY5MDU3NSwiZXhwIjoxNjk4NjkxNDc1fQ.rIylCB860vzHlvelT2v5OkxbNy0rAeoLmsfCgIvXXd8
+###
+
+# Delete subscription
+DELETE http://localhost:3333/api/user/subscription/6537ed54daf7a45404e304bb HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODY4Njc5NiwiZXhwIjoxNjk4Njg3Njk2fQ.oF2MNbHSbY6OcruFMutLT2_nVhj1dU7GPERfa7TQUwI
+
+###
+
+# Get user subscriptions
+GET http://localhost:3333/api/user/subscriptions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODY5Mjk2MiwiZXhwIjoxNjk4NjkzODYyfQ.Tg4vL60Fi0xxmw_tqkhh0ncFOuNj4TKFjk4nn3isCuI
+
+###
+
+# Get trainer in subscriptions
+GET http://localhost:3333/api/user/subscription/6537ed54daf7a45404e304bc HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODY5Mjk2MiwiZXhwIjoxNjk4NjkzODYyfQ.Tg4vL60Fi0xxmw_tqkhh0ncFOuNj4TKFjk4nn3isCuI
 
 ###

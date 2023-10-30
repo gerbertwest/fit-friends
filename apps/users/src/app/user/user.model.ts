@@ -114,6 +114,9 @@ export class UserModel extends Document implements User {
 
   @Prop()
   public friends?: string[]
+
+  @Prop()
+  public subscriptions?: string[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

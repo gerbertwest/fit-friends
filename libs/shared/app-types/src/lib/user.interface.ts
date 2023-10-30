@@ -25,4 +25,6 @@ export interface User {
   personalTrainings?: boolean;
 
   friends?: string[];
+
+  subscriptions?: string[]
 }

@@ -49,11 +49,23 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
       .exec();
   }
 
-  public async findFriends({limit, page, sortDirection}: UserQuery, friends: string[]) {
+  public async findFriends({limit, page, sortDirection}: UserQuery, friends: string[]): Promise<User[] | null> {
     return this.userModel
     .find({_id: friends})
     .sort({role: sortDirection})
     .limit(page > 0 ? limit*page : limit)
+    .exec();
+  }
+
+  public async findSubscriptions(subscriptions: string[]): Promise<User[] | null> {
+    return this.userModel
+    .find({_id: {$in: subscriptions}})
+    .exec();
+  }
+
+  public async findSubscription(trainerId: string): Promise<User[] | null> {
+    return this.userModel
+    .find({subscriptions: trainerId})
     .exec();
   }
 }

@@ -31,8 +31,8 @@ export class EmailSubscriberController {
   @Post()
   public async show(@Body() dto: CreateEmailDto) {
     const subscribers = await this.subscriberService.getSubscribers(dto)
-    this.mailService.sendNotifyNewSubscriber(subscribers, dto.email);
-    this.mailService.createMailing(dto.email)
+    this.mailService.sendNotifyNewSubscriber(subscribers, dto.email, dto.trainerNames);
+    this.mailService.createMailing(dto.email, dto.trainerNames)
   }
 
   @ApiResponse({

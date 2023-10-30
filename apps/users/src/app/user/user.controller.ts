@@ -54,13 +54,63 @@ export class UserController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'delete friend'
+    description: 'friends founfd'
   })
   @UseGuards(JwtAuthGuard)
   @Get('/friends')
   async getUserFriends(@Query() query: UserQuery, @Req() { user: payload }: RequestWithTokenPayload) {
     const userFriends = await this.userService.findUserFriends(payload.sub, query)
     return fillObject(UserRdo, userFriends);
+  }
+
+  ////////////////////////////
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'add friend'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch('subscription/:id')
+  async addSubscription(@Param('id', MongoidValidationPipe) trainerId: string, @Body() dto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload) {
+    const updateSubscriptions = await this.userService.addSubscription(payload.sub, {...dto}, trainerId);
+    return fillObject(UserRdo, updateSubscriptions);
+  }
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'delete friend'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Delete('subscription/:id')
+  async deleteSubscription(@Param('id', MongoidValidationPipe) trainerId: string, @Body() dto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload) {
+    const updateSubscriptions = await this.userService.deleteSubscription(payload.sub, {...dto}, trainerId);
+    return fillObject(UserRdo, updateSubscriptions);
+  }
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'friends founfd'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/subscriptions')
+  async getSubscriptions(@Req() { user: payload }: RequestWithTokenPayload) {
+    const userSubscriptions = await this.userService.findUserSubscriptions(payload.sub)
+    return fillObject(UserRdo, userSubscriptions);
+  }
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'add friend'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('subscription/:id')
+  async getSubscription(@Param('id', MongoidValidationPipe) trainerId: string) {
+    const userSubscription = await this.userService.findUserSubscription(trainerId);
+    return fillObject(UserRdo, userSubscription);
   }
 
 }

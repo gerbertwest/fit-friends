@@ -170,4 +170,49 @@ export class UsersController {
     return data;
   }
 
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The email has been sended.'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Post('/email')
+  public async sendEmail(@Body() dto, @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
+
+    const mails = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Email}/${payload.email}`)).data;
+
+    console.log(mails)
+
+    let requestDate: Date;
+
+    if (mails.length === 0) {
+      requestDate = new Date()
+    }
+    else {requestDate = new Date(mails[0].createdAt)}
+
+    // const user = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${payload.sub}`, {
+    //   headers: {
+    //     'Authorization': req.headers['authorization']
+    //   }
+    // })).data;
+
+    //console.log(user)
+
+    const subscriptions = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/subscriptions`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })).data;
+
+    console.log(subscriptions.map((sub) => sub.name))
+    console.log(subscriptions.map((sub) => sub.id))
+
+    const trainerNames = subscriptions.map((sub) => sub.name)
+    const trainers = subscriptions.map((sub) => sub.id)
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Email}`, {email: payload.email, requestDate: requestDate, trainers: trainers, trainerNames: trainerNames})
+    return data
+  }
+
 }

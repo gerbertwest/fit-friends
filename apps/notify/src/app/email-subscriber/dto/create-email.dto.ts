@@ -16,4 +16,16 @@ export class CreateEmailDto {
   })
   @IsDate({message: EmailSubscriberError.DateNotValid})
   public requestDate: Date;
+
+  @ApiProperty({
+    description: 'Trainer name',
+    example: 'Keks',
+  })
+  public trainerNames: string[];
+
+  @ApiProperty({
+    description: 'Trainer ids',
+    example: ['1'],
+  })
+  public trainers: string[];
 }

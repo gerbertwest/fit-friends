@@ -45,4 +45,40 @@ public async deleteFriend(userId: string, dto: UpdateUserDto, friendId: string):
   return this.userRepository.update(userId, {...dto, friends: userFriends})
 }
 
+public async addSubscription(userId: string, dto: UpdateUserDto, trainerId: string): Promise<User> {
+  const user = await this.userRepository.findById(userId);
+  const userSubscriptions = user.subscriptions;
+  const index = userSubscriptions.indexOf(trainerId);
+
+  if (index === -1) {
+    userSubscriptions.push(trainerId);
+  }
+
+  return this.userRepository.update(userId, {...dto, subscriptions: userSubscriptions})
+}
+
+public async deleteSubscription(userId: string, dto: UpdateUserDto, trainerId: string): Promise<User> {
+  const user = await this.userRepository.findById(userId);
+  const userSubscriptions = user.subscriptions;
+  const index = userSubscriptions.indexOf(trainerId);
+
+  if (index !== -1) {
+    userSubscriptions.splice(index, 1);
+  }
+
+  return this.userRepository.update(userId, {...dto, subscriptions: userSubscriptions})
+}
+
+public async findUserSubscriptions(userId: string) {
+  const user = await this.userRepository.findById(userId);
+
+  const userSubscriptions = user.subscriptions;
+
+  return this.userRepository.findSubscriptions(userSubscriptions)
+}
+
+public async findUserSubscription(trainerId: string) {
+  return this.userRepository.findSubscription(trainerId)
+}
+
 }

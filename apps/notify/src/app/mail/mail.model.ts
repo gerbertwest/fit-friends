@@ -14,6 +14,9 @@ export class MailModel extends Document implements  Mail {
   @Prop()
   public requestDate: Date;
 
+  @Prop()
+  public trainerName: string;
+
 }
 
 export const MailSchema = SchemaFactory.createForClass(MailModel);

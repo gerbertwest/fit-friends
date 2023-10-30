@@ -6,5 +6,4 @@ export class CreateTrainingSubscriberDto {
   public title: string;
 
   public trainerId: string;
-
 }

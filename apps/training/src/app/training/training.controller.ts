@@ -24,7 +24,13 @@ export class TrainingController {
   async create(@Body() dto: CreateTrainingDto) {
     const newTraining = await this.trainingService.createTraining(dto);
     const {title, trainerId} = newTraining;
-    await this.notifyService.registerSubscriber({title, trainerId})
+
+    console.log(dto.subscriber)
+
+    if (dto.subscriber === true) {
+      await this.notifyService.registerSubscriber({title, trainerId})
+    }
+
     return fillObject(TrainingRdo, newTraining);
   }
 

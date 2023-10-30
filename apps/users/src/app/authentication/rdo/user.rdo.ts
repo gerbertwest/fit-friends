@@ -132,6 +132,14 @@ export class UserRdo {
   @Expose()
   public friends?: string[];
 
+  @ApiProperty({
+    description: 'my subscriptions',
+    example: ['1'],
+  })
+  @ValidateIf(o => o.role === UserRole.User)
+  @Expose()
+  public subscriptions?: string[];
+
   // поля для роли Тренер
 
   @ApiProperty({

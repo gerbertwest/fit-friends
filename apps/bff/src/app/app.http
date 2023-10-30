@@ -25,7 +25,7 @@ POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user12@notfound.local",
+  "email": "Elyssa_Batz80@hotmail.com",
   "password": "123456"
 }
 
@@ -88,10 +88,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1N
 # Create a new training
 POST http://localhost:4000/api/training HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlMWRiODE4NmZlYzEwMmQ4OGMiLCJlbWFpbCI6InVzZXIxMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY5ODU4NzA0MiwiZXhwIjoxNjk4NTg3OTQyfQ.KbKVLI4obQAHgLy4KZxRAdLniuPeCobSSGYwaDlcVQ4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjkiLCJlbWFpbCI6IkVseXNzYV9CYXR6ODBAaG90bWFpbC5jb20iLCJyb2xlIjoi0KLRgNC10L3QtdGAIiwibmFtZSI6Ik1zLiBNZWxiYSBXaXphIiwiaWF0IjoxNjk4Njk0NDUyLCJleHAiOjE2OTg2OTUzNTJ9.RGDcAL0aAVHNNZofV9fuc_bG5UB5vAwDDpI1LpoS3EE
 
 {
-  "title": "Тренировка 39",
+  "title": "Тренировка 49",
   "backgroundImage": "image2.jpg",
   "level": "любитель",
   "trainingType": "кроссфит",
@@ -170,5 +170,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlM
 GET http://localhost:4000/api/order/user?limit=2&sortDirection=desc HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODU3NTk1OSwiZXhwIjoxNjk4NTc2ODU5fQ.ocvaNuvrSwc-lPmnPr7gCCl7NMMlAeJ0VgyEbHbY1zk
+
+###
+
+
+##########################################
+
+# Send Email
+POST http://localhost:4000/api/users/email/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjgiLCJlbWFpbCI6IktheWxpbl9IZXJtYW5uNDlAeWFob28uY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJMZXJveSBTbWl0aCIsImlhdCI6MTY5ODY5MzY1MSwiZXhwIjoxNjk4Njk0NTUxfQ.SA7NkqtKTayDdb41Yr1kBgF6AYk2FRJucMxADxPsUtA
 
 ###

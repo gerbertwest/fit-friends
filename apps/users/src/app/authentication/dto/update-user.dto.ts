@@ -133,6 +133,10 @@ export class UpdateUserDto {
   @ValidateIf(o => o.role === UserRole.User)
   public friends?: string[];
 
+  @IsOptional()
+  @ValidateIf(o => o.role === UserRole.User)
+  public subscriptions?: string[];
+
   // поля для роли Тренер
 
   @ApiProperty({

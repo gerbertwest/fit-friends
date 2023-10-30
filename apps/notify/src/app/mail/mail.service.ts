@@ -16,9 +16,11 @@ export class MailService {
     private readonly mailRepository: MailRepository,
     ) {}
 
-  public sendNotifyNewSubscriber(subscribers: Subscriber[], email: string) {
+  public sendNotifyNewSubscriber(subscribers: Subscriber[], email: string, trainerNames: string[]) {
 
     const title = subscribers.map((subscriber) => subscriber.title)
+    console.log(subscribers)
+    const trainerName = trainerNames.map((subscriber) => subscriber)
 
       this.mailerService.sendMail({
       from: this.serviceConfig.mail.from,
@@ -26,13 +28,14 @@ export class MailService {
       subject: EMAIL_ADD_SUBSCRIBER_SUBJECT,
       template: './add-subscriber',
       context: {
-        title: title
+        title: title,
+        trainerName: ` ${trainerName} `
       }
     })
   }
 
-  public async createMailing(email: string) {
-    const mail = new MailEntity({email})
+  public async createMailing(email: string, trainerNames: string[]) {
+    const mail = new MailEntity({email, trainerNames})
     return this.mailRepository.create(mail);
   }
 

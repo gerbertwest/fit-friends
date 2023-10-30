@@ -98,4 +98,7 @@ export class CreateTrainingDto {
   })
   @IsBoolean()
   public special: boolean;
+
+  @IsBoolean()
+  public subscriber: boolean;
 }
