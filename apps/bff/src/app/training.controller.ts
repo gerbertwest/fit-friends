@@ -48,8 +48,6 @@ export class TrainingController {
       subscriber = true
     }
 
-    console.log(subscriber)
-
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Training}/`, {...dto, subscriber: subscriber});
     return fillObject(TrainingRdo, {...data, user: trainer});
   }

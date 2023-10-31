@@ -69,7 +69,7 @@ public async deleteSubscription(userId: string, dto: UpdateUserDto, trainerId: s
   return this.userRepository.update(userId, {...dto, subscriptions: userSubscriptions})
 }
 
-public async findUserSubscriptions(userId: string) {
+public async findUserSubscriptions(userId: string): Promise<User[]> {
   const user = await this.userRepository.findById(userId);
 
   const userSubscriptions = user.subscriptions;
@@ -77,7 +77,7 @@ public async findUserSubscriptions(userId: string) {
   return this.userRepository.findSubscriptions(userSubscriptions)
 }
 
-public async findUserSubscription(trainerId: string) {
+public async findUserSubscription(trainerId: string): Promise<User[]> {
   return this.userRepository.findSubscription(trainerId)
 }
 

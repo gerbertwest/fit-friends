@@ -182,8 +182,6 @@ export class UsersController {
 
     const mails = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Email}/${payload.email}`)).data;
 
-    console.log(mails)
-
     let requestDate: Date;
 
     if (mails.length === 0) {
@@ -191,28 +189,51 @@ export class UsersController {
     }
     else {requestDate = new Date(mails[0].createdAt)}
 
-    // const user = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${payload.sub}`, {
-    //   headers: {
-    //     'Authorization': req.headers['authorization']
-    //   }
-    // })).data;
-
-    //console.log(user)
-
     const subscriptions = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/subscriptions`, {
       headers: {
         'Authorization': req.headers['authorization']
       }
     })).data;
 
-    console.log(subscriptions.map((sub) => sub.name))
-    console.log(subscriptions.map((sub) => sub.id))
-
     const trainerNames = subscriptions.map((sub) => sub.name)
     const trainers = subscriptions.map((sub) => sub.id)
 
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Email}`, {email: payload.email, requestDate: requestDate, trainers: trainers, trainerNames: trainerNames})
     return data
+  }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'add friend'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Patch('subscriptions/:trainerId')
+  public async addSubscription(@Param('trainerId') trainerId: string, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.User}/subscription/${trainerId}`, {}, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    return data;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'delete friend'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Delete('subscriptions/:trainerId')
+  public async deleteSubscription(@Param('trainerId') trainerId: string, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.User}/subscription/${trainerId}`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    return data;
   }
 
 }
