@@ -8,12 +8,14 @@ import { UpdateUserDto } from "../authentication/dto/update-user.dto";
 import { JwtAuthGuard } from "../authentication/guards/jwt-auth.guard";
 import { RequestWithTokenPayload } from "@fit-friends/shared/app-types";
 import { MongoidValidationPipe } from "@fit-friends/shared/shared-pipes";
+import { NotifyService } from "../notify/notify.service";
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly notifyService: NotifyService,
   ) {}
 
   @ApiResponse({
@@ -36,6 +38,7 @@ export class UserController {
   @Patch('/:id')
   async addFriend(@Param('id', MongoidValidationPipe) friendId: string, @Body() dto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload) {
     const updateFriends = await this.userService.addFriend(payload.sub, {...dto}, friendId);
+    await this.notifyService.registerSubscriber({title: `Пользователь ${payload.name} добавил Вас в друзья`, userId: friendId})
     return fillObject(UserRdo, updateFriends);
   }
 
