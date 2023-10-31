@@ -13,4 +13,7 @@ export class TrainerOrderRdo {
 
   @Expose()
   public training: Training;
+
+  @Expose()
+  public active: boolean;
 }

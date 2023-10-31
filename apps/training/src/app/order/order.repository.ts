@@ -5,6 +5,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { OrderEntity } from "./order.entity";
 import { TrainingQuery } from "../training/query/training.query";
 import { DEFAULT_SORT_DIRECTION, DEFAULT_SORT_FIELD } from "./order.constant";
+import { UpdateOrderDto } from "./dto/update-order.dto";
 
 @Injectable()
 export class OrderRepository implements CRUDRepository<OrderEntity, number, Order> {
@@ -36,10 +37,12 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     });
   }
 
-  public async findByUserId(userId: string, {limit, page}: TrainingQuery): Promise<Order[]> {
+  public async findByUserId(userId: string, {limit, page, active}: TrainingQuery): Promise<Order[]> {
+    console.log(active)
     return this.prisma.order.findMany({
       where: {
-        userId
+        userId,
+        active: active === 'true' ? true : undefined
       },
       include: { training: true },
       take: page > 0 ? (limit * page) : limit,
@@ -100,13 +103,13 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
   }
 
 
-  public async update(orderId: number, item: OrderEntity): Promise<Order> {
+  public async update(orderId: number, dto: UpdateOrderDto): Promise<Order> {
     return this.prisma.order.update({
       where: {
         orderId,
       },
       data: {
-        ...item.toObject(),
+        ...dto,
       },
       include: { training: true }
     })

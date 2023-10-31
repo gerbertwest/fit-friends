@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Query, Req, UseFilters, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, Patch, Post, Query, Req, UseFilters, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AxiosExceptionFilter } from "./filters/axios-exception.filter";
 import { HttpService } from "@nestjs/axios";
@@ -12,6 +12,8 @@ import { CheckUserRoleGuard } from "./guards/check-user-role.guard";
 import { CheckAdminRoleGuard } from "./guards/check-admin-role.guard";
 import { TrainingQuery } from "./query/training.query";
 import { RequestWithTokenPayload } from "@fit-friends/shared/app-types";
+import { UpdateOrderDto } from "./dto/update-order.dto";
+import { UserError } from "./app.constant";
 
 @ApiTags('Order')
 @Controller('order')
@@ -51,17 +53,41 @@ export class OrderController {
     return data;
   }
 
-    ///////
+  ///////
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: 'All orders of user found'
-    })
-    @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
-    @Get('/user')
-    public async indexTrainingsByUser(@Query() query: TrainingQuery, @Req() { user: payload }: RequestWithTokenPayload) {
-      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Order}/user/${payload.sub}`, {params: query});
-      return data;
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'All orders of user found'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Get('/user')
+  public async indexTrainingsByUser(@Query() query: TrainingQuery, @Req() { user: payload }: RequestWithTokenPayload) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Order}/user/${payload.sub}`, {params: query});
+    return data;
     }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The training has been updated.'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Patch('/:orderId')
+  public async update(@Param('orderId') orderId: number, @Body() UpdateOrderDto: UpdateOrderDto, @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Order}/${orderId}`, UpdateOrderDto);
+
+    if (data.userId !== payload.sub) {
+      throw new ForbiddenException(UserError.UpdateOrder);
+    }
+
+    const user = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${data.userId}`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })).data;
+
+    return fillObject(OrderRdo, {...data, user: user});
+  }
 
 }

@@ -12,6 +12,7 @@ export class OrderEntity implements Entity<OrderEntity>, Order {
   public paymentMethod: string;
   public createdAt: Date;
   public userId: string;
+  public active: boolean;
 
 constructor(order: Order) {
   this.fillEntity(order)
@@ -26,6 +27,7 @@ public fillEntity(entity: Order) {
   this.paymentMethod = entity.paymentMethod;
   this.createdAt = entity.createdAt;
   this.userId = entity.userId;
+  this.active = entity.active;
 }
 
 public toObject(): OrderEntity {

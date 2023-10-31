@@ -59,6 +59,7 @@ model Order {
   userId        String   @map("user_id")
   idCount       Int      @default(0)
   totalPrice    Int      @default(0)
+  active        Boolean  @default(true)
 
   @@map("orders")
 }

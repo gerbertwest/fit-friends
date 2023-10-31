@@ -8,4 +8,5 @@ export interface Order {
   paymentMethod: string;
   createdAt?: Date;
   userId: string;
+  active: boolean;
 }

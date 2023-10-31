@@ -54,4 +54,7 @@ export class TrainingQuery {
   @IsOptional()
   public sortField: string;
 
+  @IsOptional()
+  public active: string
+
 }

@@ -64,4 +64,11 @@ export class OrderRdo {
   })
   @Expose()
   public userId: string;
+
+  @ApiProperty({
+    description: 'active',
+    example: true,
+  })
+  @Expose()
+  public active: boolean;
 }
