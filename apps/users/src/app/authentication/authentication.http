@@ -58,4 +58,7 @@ POST http://localhost:3333/api/auth/check HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkMjI3YTQ5Y2MwZDc4MzY2ZjY3MzgiLCJlbWFpbCI6InVzZXIxMEBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY5ODUwNTM1MCwiZXhwIjoxNjk4NTA2MjUwfQ.WwXj-FP8Z1PXuPh4jWYrQb-4myC5scownVxy9yMA_gY
 ###
 
+# Delete user's refresh tockens by userID
+DELETE http://localhost:3333/api/auth/65316d4d46a97c75bb8f9200 HTTP/1.1
 
+###

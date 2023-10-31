@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -86,6 +86,16 @@ export class AuthenticationController {
   public async update(@Body() dto: UpdateUserDto, @Param('id', MongoidValidationPipe) id: string) {
     const updateUser = await this.authService.updateUser(id, {...dto});
     return fillObject(UserRdo, updateUser);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'User refresh tocken has been deleted.'
+  })
+  @Delete('/:userId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async destroyTockens(@Param('userId') userId: string) {
+    this.authService.deleteUserTokens(userId);
   }
 
 }

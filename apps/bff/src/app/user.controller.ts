@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Req, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ApplicationServiceURL } from './app.config';
@@ -60,6 +60,19 @@ export class UsersController {
   @Post('register')
   public async register(@Body() createUserDto: CreateUserDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/register`, createUserDto);
+    return data;
+  }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'User refresh tocken has been deleted.'
+  })
+  @Delete('/:userId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async destroyTockens(@Param('userId') userId: string) {
+    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Auth}/${userId}`);
     return data;
   }
 

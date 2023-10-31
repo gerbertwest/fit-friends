@@ -98,4 +98,8 @@ export class AuthenticationService {
     }
   }
 
+  public async deleteUserTokens(userId: string) {
+    return this.refreshTokenService.deleteUserRefreshSessions(userId);
+  }
+
 }
