@@ -191,7 +191,7 @@ export class UsersController {
   })
   @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
   @Post('/email')
-  public async sendEmail(@Body() dto, @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
+  public async sendEmail(@Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
 
     const mails = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Email}/${payload.email}`)).data;
 

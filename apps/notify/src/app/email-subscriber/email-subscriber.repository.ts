@@ -44,7 +44,7 @@ export class EmailSubscriberRepository implements CRUDRepository<EmailSubscriber
     return this.emailSubscriberModel
       .find({
         createdAt: {
-          $lte: requestDate
+          $gte: requestDate
         },
         trainerId: { $in: trainers}
       })

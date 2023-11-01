@@ -19,7 +19,6 @@ export class MailService {
   public sendNotifyNewSubscriber(subscribers: Subscriber[], email: string, trainerNames: string[]) {
 
     const title = subscribers.map((subscriber) => subscriber.title)
-    console.log(subscribers)
     const trainerName = trainerNames.map((subscriber) => subscriber)
 
       this.mailerService.sendMail({
@@ -29,7 +28,7 @@ export class MailService {
       template: './add-subscriber',
       context: {
         title: title,
-        trainerName: ` ${trainerName} `
+        trainerName: trainerName
       }
     })
   }
