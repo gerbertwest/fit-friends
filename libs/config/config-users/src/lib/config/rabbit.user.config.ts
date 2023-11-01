@@ -12,13 +12,13 @@ export interface RabbitUserConfig {
   port: number;
 }
 
-export default registerAs('rabbit2', (): RabbitUserConfig => {
+export default registerAs('rabbit', (): RabbitUserConfig => {
   const  config: RabbitUserConfig = {
     host: process.env.RABBIT_HOST,
     password: process.env.RABBIT_PASSWORD,
     port: parseInt(process.env.RABBIT_PORT ?? DEFAULT_RABBIT_PORT.toString(), 10),
     user: process.env.RABBIT_USER,
-    queue: process.env.RABBIT_QUEUE,
+    queue: process.env.RABBIT_QUEUE_2,
     exchange: process.env.RABBIT_EXCHANGE,
   };
 

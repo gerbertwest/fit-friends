@@ -14,7 +14,7 @@ import { AlertService } from "./alert.service";
     ]),
     RabbitMQModule.forRootAsync(
       RabbitMQModule,
-      getRabbitMQOptions('application.rabbit2')
+      getRabbitMQOptions('application.rabbit')
     ),
   ],
   controllers: [AlertController],

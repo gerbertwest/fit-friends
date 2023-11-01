@@ -25,8 +25,6 @@ export class TrainingController {
     const newTraining = await this.trainingService.createTraining(dto);
     const {title, trainerId} = newTraining;
 
-    console.log(dto.subscriber)
-
     if (dto.subscriber === true) {
       await this.notifyService.registerSubscriber({title, trainerId})
     }
