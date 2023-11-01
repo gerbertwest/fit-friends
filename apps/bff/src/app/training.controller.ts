@@ -71,7 +71,6 @@ export class TrainingController {
   @Get('/:trainingId')
   public async showTask(@Param('trainingId') trainingId: number, @Req() req: Request) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Training}/${trainingId}`);
-    console.log(data.trainerId.toString())
 
     const user = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${data.trainerId}`, {
       headers: {

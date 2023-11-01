@@ -19,7 +19,8 @@ export class AlertRepository implements CRUDRepository<AlertEntity, string, Aler
 
   public async destroy(id: string): Promise<void> {
     this.alertModel
-      .deleteOne({ _id: id });
+      .deleteOne({ _id: id })
+      .exec();
   }
 
   public async findById(id: string): Promise<Alert | null> {
@@ -28,9 +29,23 @@ export class AlertRepository implements CRUDRepository<AlertEntity, string, Aler
       .exec();
   }
 
+  public async findByTitleAndUser(title: string, userId: string): Promise<Alert | null> {
+    return this.alertModel
+      .findOne({ title: title, userId: userId })
+      .exec()
+  }
+
   public async update(id: string, item: AlertEntity): Promise<Alert> {
     return this.alertModel
       .findByIdAndUpdate(id, item.toObject(), { new: true })
+      .exec();
+  }
+
+  public async find(userId: string): Promise<Alert[] | null> {
+    return this.alertModel
+      .find({
+        userId: userId
+      })
       .exec();
   }
 }

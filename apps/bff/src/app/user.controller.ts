@@ -85,7 +85,7 @@ export class UsersController {
   @UseGuards(CheckAuthGuard)
   @Patch('update')
   public async update(@Body() UpdateUserDto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
-    console.log(payload)
+
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, UpdateUserDto, {
       headers: {
         'Authorization': req.headers['authorization']
@@ -219,7 +219,7 @@ export class UsersController {
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'add friend'
+    description: 'add subscription'
   })
   @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
   @Patch('subscriptions/:trainerId')
@@ -233,9 +233,11 @@ export class UsersController {
     return data;
   }
 
+  ///////
+
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'delete friend'
+    description: 'delete subscription'
   })
   @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
   @Delete('subscriptions/:trainerId')
@@ -246,6 +248,32 @@ export class UsersController {
       }
     });
 
+    return data;
+  }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'All alerts by userId found'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Post('alerts')
+  public async getAlerts(@Req() { user: payload }: RequestWithTokenPayload) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Alert}/${payload.sub}`)
+    return data;
+  }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Alert has been deleted.'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Delete('alerts/:id')
+  public async deleteAlert(@Param('id') id: string) {
+    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Alert}/${id}`)
     return data;
   }
 

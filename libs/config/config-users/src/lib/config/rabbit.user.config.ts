@@ -19,7 +19,7 @@ export default registerAs('rabbit', (): RabbitUserConfig => {
     port: parseInt(process.env.RABBIT_PORT ?? DEFAULT_RABBIT_PORT.toString(), 10),
     user: process.env.RABBIT_USER,
     queue: process.env.RABBIT_QUEUE_2,
-    exchange: process.env.RABBIT_EXCHANGE,
+    exchange: process.env.RABBIT_EXCHANGE_2,
   };
 
   const validationSchema = Joi.object<RabbitUserConfig>({

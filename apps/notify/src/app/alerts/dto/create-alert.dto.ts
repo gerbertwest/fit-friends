@@ -1,8 +1,10 @@
-import { IsNotEmpty } from 'class-validator';
-import { AlertError } from '../alert.constant';
+import { IsString, MaxLength, MinLength } from 'class-validator';
+import { AlertError, Length } from '../alert.constant';
 
 export class CreateAlertDto {
-  @IsNotEmpty({ message: AlertError.Title })
+  @IsString()
+  @MinLength(Length.MinTitle, {message: AlertError.MinTitleLength})
+  @MaxLength(Length.MaxTitle, {message: AlertError.MaxTitleLength})
   public title: string;
 
   public userId: string;

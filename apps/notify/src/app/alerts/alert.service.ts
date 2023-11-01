@@ -9,16 +9,24 @@ export class AlertService {
     private readonly alertRepository: AlertRepository
   ) {}
 
-  public async addSubscriber(alert: CreateAlertDto) {
-    // const { title } = subscriber;
-    // const existsSubscriber = await this.alertRepository.findByTitle(title);
+  public async addAlert(alert: CreateAlertDto) {
+    const { title, userId } = alert;
+    const existsAlert = await this.alertRepository.findByTitleAndUser(title, userId);
 
-    // if (existsSubscriber) {
-    //   return existsSubscriber;
-    // }
+    if (existsAlert) {
+      return existsAlert;
+    }
 
     return this.alertRepository
       .create(new AlertEntity(alert));
+  }
+
+  public async getAlerts(userId: string) {
+    return this.alertRepository.find(userId)
+  }
+
+  public async deleteAlert(id: string) {
+    return this.alertRepository.destroy(id)
   }
 
 }

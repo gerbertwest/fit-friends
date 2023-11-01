@@ -4,6 +4,7 @@ export enum ApplicationServiceURL {
   Training = 'http://localhost:3000/api/trainings',
   Order = 'http://localhost:3000/api/orders',
   Email = 'http://localhost:3335/api/email',
+  Alert = 'http://localhost:3335/api/alert',
 }
 
 export const HTTP_CLIENT_MAX_REDIRECTS = 5;

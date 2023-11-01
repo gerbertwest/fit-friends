@@ -57,7 +57,7 @@ export class UserController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'friends founfd'
+    description: 'friends found'
   })
   @UseGuards(JwtAuthGuard)
   @Get('/friends')
@@ -71,7 +71,7 @@ export class UserController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'add friend'
+    description: 'add subscription'
   })
   @UseGuards(JwtAuthGuard)
   @Patch('subscription/:id')
@@ -83,7 +83,7 @@ export class UserController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'delete friend'
+    description: 'delete subscription'
   })
   @UseGuards(JwtAuthGuard)
   @Delete('subscription/:id')
@@ -95,7 +95,7 @@ export class UserController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'friends founfd'
+    description: 'subscriptions found'
   })
   @UseGuards(JwtAuthGuard)
   @Get('/subscriptions')
@@ -107,7 +107,7 @@ export class UserController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'add friend'
+    description: 'subscription found'
   })
   @UseGuards(JwtAuthGuard)
   @Get('subscription/:id')
