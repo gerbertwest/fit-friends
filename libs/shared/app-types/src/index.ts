@@ -14,3 +14,4 @@ export * from './lib/subscriber.interface';
 export * from './lib/rabbit-routing.enum';
 export * from './lib/mail.interface';
 export * from './lib/alert.interface';
+export * from './lib/request.interface';

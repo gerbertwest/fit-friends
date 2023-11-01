@@ -25,8 +25,8 @@ export class UserEntity implements User {
   public personalTrainings?: boolean;
 
 
-  constructor(taskUser: User) {
-    this.fillEntity(taskUser);
+  constructor(user: User) {
+    this.fillEntity(user);
   }
 
   public toObject() {

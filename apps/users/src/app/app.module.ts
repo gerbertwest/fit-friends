@@ -4,6 +4,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { ConfigUsersModule, getMongooseOptions } from '@fit-friends/config/config-users';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotifyModule } from './notify/notify.module';
+import { RequestModule } from './request/request.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { NotifyModule } from './notify/notify.module';
     AuthenticationModule,
     ConfigUsersModule,
     NotifyModule,
+    RequestModule,
     MongooseModule.forRootAsync(
       getMongooseOptions(),
 )],
