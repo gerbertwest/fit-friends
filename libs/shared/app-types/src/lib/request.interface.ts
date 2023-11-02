@@ -1,7 +1,7 @@
 export interface Request {
   requestId?: string;
+  initiatorId: string;
   userId: string;
-  trainerId: string;
   createdAt?: Date;
   updatedAt?: Date;
   status: string;

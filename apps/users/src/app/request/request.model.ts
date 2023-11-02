@@ -13,7 +13,7 @@ export class RequestModel extends Document implements Request {
   public userId: string;
 
   @Prop()
-  public trainerId: string;
+  public initiatorId: string;
 
   @Prop()
   public status: string;

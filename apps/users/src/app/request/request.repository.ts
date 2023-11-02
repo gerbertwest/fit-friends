@@ -5,9 +5,10 @@ import { RequestEntity } from "./request.entity";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { RequestModel } from "./request.model";
+import { UpdateRequestDto } from "./dto/update-request.dto";
 
 @Injectable()
-export class RequestRepository implements CRUDRepository<RequestEntity, string, Request> {
+export class RequestRepository implements CRUDRepository<RequestEntity | UpdateRequestDto, string, Request> {
   constructor(
     @InjectModel(RequestModel.name) private readonly requestModel: Model<RequestModel>
   ) {}
@@ -29,9 +30,26 @@ export class RequestRepository implements CRUDRepository<RequestEntity, string, 
       .exec();
   }
 
-  public async update(id: string, item: RequestEntity): Promise<Request> {
+  public async update(id: string, {status}: UpdateRequestDto): Promise<Request> {
     return this.requestModel
-      .findByIdAndUpdate(id, item.toObject(), { new: true })
+      .findByIdAndUpdate(id, {status: status}, { new: true })
       .exec();
+  }
+
+  public async findByUsers(userId: string, initiatorId: string): Promise<Request | null> {
+    return this.requestModel
+    .findOne({
+      userId: userId,
+      initiatorId: initiatorId
+    })
+    .exec();
+  }
+
+  public async findByUserId(userId: string): Promise<Request[] | null> {
+    return this.requestModel
+    .find({
+      userId: userId
+    })
+    .exec();
   }
 }
