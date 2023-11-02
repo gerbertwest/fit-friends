@@ -22,4 +22,18 @@ export class RequestRdo {
   })
   @Expose()
   status: string;
+
+  @ApiProperty({
+    description: 'Request create date',
+    example: "2023-09-03T19:43:02.250Z",
+  })
+  @Expose({ name: 'createdAt' })
+  public createDate: Date;
+
+  @ApiProperty({
+    description: 'Request create date',
+    example: "2023-09-03T19:43:02.250Z",
+  })
+  @Expose({ name: 'updatedAt' })
+  public updateDate: Date;
 }

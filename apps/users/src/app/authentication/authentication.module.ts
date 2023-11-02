@@ -27,5 +27,6 @@ import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
     LocalStrategy,
     JwtRefreshStrategy,
   ],
+  exports: [AuthenticationService]
 })
 export class AuthenticationModule {}

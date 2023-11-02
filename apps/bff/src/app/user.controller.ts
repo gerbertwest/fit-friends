@@ -277,4 +277,62 @@ export class UsersController {
     return data;
   }
 
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The new request has been successfully created.'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Post('request/:userId')
+  public async createRequest(@Param('userId') userId: string, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Request}/${userId}`, {}, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    return data;
+  }
+
+  ////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The request has been updeted.'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Patch('request/:id')
+  public async changeRequestStatus(@Param('id') id: string, @Req() req: Request, @Body() status: string) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Request}/${id}`,
+    status,
+    {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })
+    return data;
+  }
+
+
+  ////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'requests of user found'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Get('request/:userId')
+  public async showRequestsByUser(@Param('userId') userId: string, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Request}/${userId}`,
+    {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })
+    return data;
+  }
+
+
 }
