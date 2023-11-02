@@ -20,6 +20,21 @@ Content-Type: application/json
 
 ###
 
+# Upload avatar for user by id
+POST http://localhost:4000/api/users/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YmQiLCJlbWFpbCI6IkVsbWVyX1JlaWxseTY1QGhvdG1haWwuY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJNYXJrIFN0ZWhyIiwiaWF0IjoxNjk4OTUwMjU2LCJleHAiOjE2OTg5NTExNTZ9.IdVO3pFz-W1q57CjxGf24j8SWZm6rzdN6SSHtY1nfMI
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="0056.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\gerbe\Pictures\0056.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+
 # Login user by email and password
 POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json

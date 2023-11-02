@@ -21,6 +21,9 @@
       "@fit-friends/config/config-training": [
         "libs/config/config-training/src/index.ts"
       ],
+      "@fit-friends/config/config-uploader": [
+        "libs/config/config-uploader/src/index.ts"
+      ],
       "@fit-friends/config/config-users": [
         "libs/config/config-users/src/index.ts"
       ],

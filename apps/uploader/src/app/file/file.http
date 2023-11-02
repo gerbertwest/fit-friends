@@ -1,0 +1,17 @@
+# Upload some file
+POST http://localhost:3334/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="0056.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\gerbe\Pictures\0056.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Get file by ID
+GET http://localhost:3334/api/files/6543e4bfe01ec25cbb5ace04 HTTP/1.1
+
+###

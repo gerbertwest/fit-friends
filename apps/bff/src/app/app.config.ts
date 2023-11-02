@@ -6,6 +6,7 @@ export enum ApplicationServiceURL {
   Email = 'http://localhost:3335/api/email',
   Alert = 'http://localhost:3335/api/alert',
   Request = 'http://localhost:3333/api/request',
+  Upload = 'http://localhost:3334/api/files',
 }
 
 export const HTTP_CLIENT_MAX_REDIRECTS = 5;

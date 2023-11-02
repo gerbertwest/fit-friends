@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ApplicationServiceURL } from './app.config';
@@ -10,6 +10,9 @@ import { RequestWithTokenPayload } from '@fit-friends/shared/app-types';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserQuery } from './query/user.query';
 import { CheckUserRoleGuard } from './guards/check-user-role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import 'multer';
+import FormData from 'form-data';
 
 @ApiTags('User')
 @Controller('users')
@@ -333,6 +336,35 @@ export class UsersController {
     })
     return data;
   }
+
+  @UseGuards(CheckAuthGuard)
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  public async avatarUpload(@UploadedFile() file: Express.Multer.File,
+  @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
+
+    const formData = new FormData();
+    formData.append('file', file.buffer, { filename: file.originalname });
+    const headers = {
+      ...formData.getHeaders(),
+      'Content-Length': formData.getLengthSync(),
+    };
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Upload}/upload`, formData, { headers });
+
+    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {avatar: data.path}, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+
+    return data;
+  }
+
+
+  /////////
+
+
 
 
 }
