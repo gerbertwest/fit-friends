@@ -84,8 +84,6 @@ export class CreateTrainingDto {
   })
   public video: string;
 
-  //public raiting: number;
-
   @ApiProperty({
     description: 'Trainer id',
     example: '1',
