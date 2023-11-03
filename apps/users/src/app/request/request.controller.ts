@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { NotifyService } from "../notify/notify.service";
 import { RequestService } from "./request.servise";
@@ -9,6 +9,7 @@ import { JwtAuthGuard } from "../authentication/guards/jwt-auth.guard";
 import { RequestWithTokenPayload, UserRequest, UserRole } from "@fit-friends/shared/app-types";
 import { AuthenticationService } from "../authentication/authentication.service";
 import { MongoidValidationPipe } from "@fit-friends/shared/shared-pipes";
+import { RequestError } from "./request.constant";
 
 @ApiTags('request')
 @Controller('request')
@@ -28,6 +29,14 @@ export class RequestController {
   async create(@Param('userId', MongoidValidationPipe) userId: string, @Req() { user: payload }: RequestWithTokenPayload) {
     const newRequest = await this.requestService.addRequest({userId: userId, initiatorId: payload.sub});
     const user = await this.authenticationService.getUser(userId);
+
+    if (user.role === UserRole.User && user.readyToTraining !== true) {
+      throw new BadRequestException(RequestError.ReadyToTraining);
+    }
+    else if (user.role === UserRole.Admin && user.personalTrainings !== true) {
+      throw new BadRequestException(RequestError.ReadyToTraining);
+    }
+
     const title = user.role === UserRole.User ? `Пользователь ${payload.name} пригласил Вас на совмествую тренировку` : `Пользователь ${payload.name} оставил заявку на персональную тренировку`
     await this.notifyService.registerSubscriber({title: title, userId: userId})
     return fillObject(RequestRdo, newRequest);

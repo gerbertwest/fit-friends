@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ApplicationServiceURL } from './app.config';
@@ -13,6 +13,8 @@ import { CheckUserRoleGuard } from './guards/check-user-role.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import 'multer';
 import FormData from 'form-data';
+import { FileSize, UserError } from './app.constant';
+import { CheckAdminRoleGuard } from './guards/check-admin-role.guard';
 
 @ApiTags('User')
 @Controller('users')
@@ -337,11 +339,25 @@ export class UsersController {
     return data;
   }
 
+  ////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Avatar has been updated'
+  })
   @UseGuards(CheckAuthGuard)
   @Post('avatar')
   @UseInterceptors(FileInterceptor('file'))
   public async avatarUpload(@UploadedFile() file: Express.Multer.File,
   @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
+
+    if (file.size > FileSize.MaxAvatar) {
+      throw new BadRequestException(UserError.FileSize);
+    }
+
+    if (file.mimetype !== 'image/jpg' && file.mimetype !=='image/png') {
+      throw new BadRequestException(UserError.FileFormat);
+    }
 
     const formData = new FormData();
     formData.append('file', file.buffer, { filename: file.originalname });
@@ -352,7 +368,7 @@ export class UsersController {
 
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Upload}/upload`, formData, { headers });
 
-    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {avatar: data.path}, {
+    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {avatar: data.path, backgroundImage: data.path}, {
         headers: {
           'Authorization': req.headers['authorization']
         }
@@ -364,7 +380,37 @@ export class UsersController {
 
   /////////
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Certificate has been updated'
+  })
+  @UseGuards(CheckAuthGuard, CheckAdminRoleGuard)
+  @Post('certificate')
+  @UseInterceptors(FileInterceptor('file'))
+  public async certificateUpload(@UploadedFile() file: Express.Multer.File,
+  @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
 
+    if (file.mimetype !== 'application/pdf') {
+      throw new BadRequestException(UserError.FileFormat);
+    }
+
+    const formData = new FormData();
+    formData.append('file', file.buffer, { filename: file.originalname });
+    const headers = {
+      ...formData.getHeaders(),
+      'Content-Length': formData.getLengthSync(),
+    };
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Upload}/upload`, formData, { headers });
+
+    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {certificates: data.path}, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+
+    return data;
+  }
 
 
 }

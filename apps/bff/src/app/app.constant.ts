@@ -9,7 +9,8 @@ export enum TrainingError {
 }
 
 export enum UserError {
-  //FileSize = 'Размер файла превышает допустимый',
+  FileSize = 'Размер файла превышает допустимый',
+  FileFormat = 'Недопустимый формат файла',
   //UserReview = 'Заказчики могут оставить отзыв только по тем исполнителям, которые выполняли его задания',
   AdminRole = `Только пользователь с ролью ${UserRole.Admin} может создавать тренировки`,
   RoleUser = `Только пользователь с ролью ${UserRole.User} может запрашивать каталог друзей и добавлять/удалять друзей`,
@@ -18,7 +19,7 @@ export enum UserError {
   UpdateOrder = 'Пользователь может редактировать только свои заказы'
 }
 
-// export enum FileSize {
-//   MaxAvatar = 500000,
-//   MaxTask = 1000000,
-// }
+export enum FileSize {
+  MaxAvatar = 1024000,
+  //MaxTask = 1000000,
+}

@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Inject, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Inject, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import 'multer';
@@ -8,8 +8,6 @@ import { UploadedFileRdo } from './rdo/uploaded-file.rdo';
 import { uploaderConfig } from '@fit-friends/config/config-uploader';
 import { ConfigType } from '@nestjs/config';
 import { MongoidValidationPipe } from '@fit-friends/shared/shared-pipes';
-
-const FILE_FORMAT_ERROR = 'Недопустимый формат файла'
 
 @Controller('files')
 export class FileController {
@@ -24,10 +22,6 @@ export class FileController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   public async uploadFile(@UploadedFile() file: Express.Multer.File) {
-
-    if (file.mimetype !== 'image/jpeg' && file.mimetype !=='image/png') {
-      throw new BadRequestException(FILE_FORMAT_ERROR);
-    }
 
     const newFile = await this.fileService.saveFile(file);
     const path = `${this.applicationConfig.serveRoot}${newFile.path}`;

@@ -28,13 +28,13 @@ export class AuthenticationService {
   public async register(dto: CreateUserDto) {
     const {email, name, password, dateBirth, role, sex,
       description, location,  level, trainingType, trainingTime,
-      caloriesToBurn, caloriesToLose, certificates, readyToTraining, merits, personalTrainings} = dto;
+      caloriesToBurn, caloriesToLose, readyToTraining, merits, personalTrainings} = dto;
 
     const user = {
       email, name, role, dateBirth, sex, description, location, level, trainingType,
-      trainingTime, caloriesToBurn, caloriesToLose, certificates,
+      trainingTime, caloriesToBurn, caloriesToLose, certificates: '',
       readyToTraining, merits, personalTrainings,
-      avatar: '', passwordHash: ''
+      avatar: '', passwordHash: '', backgroundImage: '',
     };
 
     const existUser = await this.userRepository

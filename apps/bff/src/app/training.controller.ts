@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, Patch, Post, Query, Req, UseFilters, UseGuards, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, ForbiddenException, Get, HttpStatus, Param, Patch, Post, Query, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AxiosExceptionFilter } from "./filters/axios-exception.filter";
 import { HttpService } from "@nestjs/axios";
@@ -13,6 +13,9 @@ import { TrainingQuery } from "./query/training.query";
 import { RequestWithTokenPayload } from "@fit-friends/shared/app-types";
 import { UpdateTrainingDto } from "./dto/update-training.dto";
 import { UserError } from "./app.constant";
+import { FileInterceptor } from "@nestjs/platform-express";
+import 'multer';
+import FormData from 'form-data';
 
 @ApiTags('Training')
 @Controller('training')
@@ -110,6 +113,40 @@ export class TrainingController {
   @Get('/')
   public async indexTrainings(@Query() query: TrainingQuery) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Training}`, {params: query});
+    return data;
+  }
+
+  /////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Training video has been updated'
+  })
+  @UseGuards(CheckAuthGuard, CheckAdminRoleGuard)
+  @Post('video/:trainingId')
+  @UseInterceptors(FileInterceptor('file'))
+  public async certificateUpload(@UploadedFile() file: Express.Multer.File,
+  @Req() req: Request, @Param('trainingId') trainingId: number) {
+
+    if (file.mimetype !== 'video/x-msvideo' && file.mimetype !== 'application/mp4' && file.mimetype !== 'video/quicktime') {
+      throw new BadRequestException(UserError.FileFormat);
+    }
+
+    const formData = new FormData();
+    formData.append('file', file.buffer, { filename: file.originalname });
+    const headers = {
+      ...formData.getHeaders(),
+      'Content-Length': formData.getLengthSync(),
+    };
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Upload}/upload`, formData, { headers });
+
+    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Training}/${trainingId}`, {video: data.path}, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+
     return data;
   }
 

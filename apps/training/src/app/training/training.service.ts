@@ -5,6 +5,8 @@ import { Training } from "@fit-friends/shared/app-types";
 import { TrainingEntity } from "./training.entity";
 import { TrainingQuery } from "./query/training.query";
 import { UpdateTrainingDto } from "./dto/update-training.dto";
+import { getRandomItem } from "@fit-friends/util/util-core";
+import { DEFAULT_STATIC_IMAGES } from "./training.constant";
 
 @Injectable()
 export class TrainingService {
@@ -14,7 +16,7 @@ export class TrainingService {
   ) {}
 
   async createTraining(dto: CreateTrainingDto): Promise<Training> {
-    const trainingEntity = new TrainingEntity({ ...dto });
+    const trainingEntity = new TrainingEntity({ ...dto, backgroundImage: getRandomItem(DEFAULT_STATIC_IMAGES) });
     return this.trainingRepository.create(trainingEntity);
   }
 

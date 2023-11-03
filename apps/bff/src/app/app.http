@@ -3,7 +3,7 @@ POST http://localhost:4000/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user12@notfound.local",
+  "email": "user9@notfound.local",
   "dateBirth": "2004-09-21",
   "name": "Keks",
   "password": "123456",
@@ -14,22 +14,35 @@ Content-Type: application/json
   "description": "описание 1",
   "trainingType": ["аэробика", "бег"],
   "merits": "Заслуга 11111",
-  "personalTrainings": false,
-  "certificates": "example.pdf"
+  "personalTrainings": true
 }
 
 ###
 
 # Upload avatar for user by id
 POST http://localhost:4000/api/users/avatar HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YmQiLCJlbWFpbCI6IkVsbWVyX1JlaWxseTY1QGhvdG1haWwuY29tIiwicm9sZSI6ItCf0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCIsIm5hbWUiOiJNYXJrIFN0ZWhyIiwiaWF0IjoxNjk4OTUwMjU2LCJleHAiOjE2OTg5NTExNTZ9.IdVO3pFz-W1q57CjxGf24j8SWZm6rzdN6SSHtY1nfMI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ1MGE4N2VlZDE4MTQ2NDkwOWU5NGYiLCJlbWFpbCI6InVzZXI4QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk5MDIzNTExLCJleHAiOjE2OTkwMjQ0MTF9.nwwrdUMu7f2Hc25I-JnjT4l24r3N2vxdk9g1k5GephA
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="0056.jpg"
-Content-Type: image/jpeg
+Content-Disposition: form-data; name="file"; filename="Визуализация.png"
+Content-Type: image/png
 
-< C:\Users\gerbe\Pictures\0056.jpg
+< C:\Users\gerbe\Pictures\Визуализация.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Upload certificate for user by id
+POST http://localhost:4000/api/users/certificate HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ1MGE4N2VlZDE4MTQ2NDkwOWU5NGYiLCJlbWFpbCI6InVzZXI4QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk5MDIzNTExLCJleHAiOjE2OTkwMjQ0MTF9.nwwrdUMu7f2Hc25I-JnjT4l24r3N2vxdk9g1k5GephA
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="Кассовый чек.pdf"
+Content-Type: application/pdf
+
+< C:\Users\gerbe\Documents\Доки на возврат денег\Кассовый чек.pdf
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
@@ -40,7 +53,7 @@ POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Elmer_Reilly65@hotmail.com",
+  "email": "Elyssa_Batz80@hotmail.com",
   "password": "123456"
 }
 
@@ -122,11 +135,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1N
 # Create a new training
 POST http://localhost:4000/api/training HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YmMiLCJlbWFpbCI6IlNoYWluYTQ3QHlhaG9vLmNvbSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoiQ2hlc3RlciBCcmF1biIsImlhdCI6MTY5ODg2MTE0MCwiZXhwIjoxNjk4ODYyMDQwfQ.y-nab3kRtqISoS0JX2Ui4DMtlB1AWv60NjK4Y9xDi1s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjkiLCJlbWFpbCI6IkVseXNzYV9CYXR6ODBAaG90bWFpbC5jb20iLCJyb2xlIjoi0KLRgNC10L3QtdGAIiwibmFtZSI6Ik1zLiBNZWxiYSBXaXphIiwiaWF0IjoxNjk5MDM1MjUyLCJleHAiOjE2OTkwMzYxNTJ9.-y5GT2KsLu2k91XU9EPNmpKKkuiklPISCMu8bpjEGfE
 
 {
-  "title": "Тренировка 71",
-  "backgroundImage": "image2.jpg",
+  "title": "Тренировка 74",
   "level": "любитель",
   "trainingType": "бокс",
   "trainingTime": "50-80 мин",
@@ -163,6 +175,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTNkNGNlM
   "title": "Тренировка 4.1",
   "price": 110
 }
+
+###
+
+# Upload video for training by id
+POST http://localhost:4000/api/training/video/47 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1NGRhZjdhNDU0MDRlMzA0YjkiLCJlbWFpbCI6IkVseXNzYV9CYXR6ODBAaG90bWFpbC5jb20iLCJyb2xlIjoi0KLRgNC10L3QtdGAIiwibmFtZSI6Ik1zLiBNZWxiYSBXaXphIiwiaWF0IjoxNjk5MDI1OTE1LCJleHAiOjE2OTkwMjY4MTV9.MHRs75TWBAbm8_XCAkcFRM5yRmsy9CPd86LGxZ9A7c0
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="Кассовый чек.avi"
+Content-Type: video/x-msvideo
+
+< C:\Users\gerbe\Documents\Доки на возврат денег\Кассовый чек.avi
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { ArrayMaxSize, IsBoolean, IsDefined, IsEmail, IsEnum, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateIf } from "class-validator";
+import { ArrayMaxSize, IsBoolean, IsEmail, IsEnum, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateIf } from "class-validator";
 import { AuthUserError, Length } from "../authentication.constant";
 import { Transform } from "class-transformer";
 import { UserLevel, UserLocation, UserRole, UserSex, trainingTime, trainingsType } from "@fit-friends/shared/app-types";
@@ -82,7 +82,6 @@ export class CreateUserDto {
     description: 'User background Image',
     example: 'example.jpg'
   })
-  @IsOptional()
   public backgroundImage: string;
 
   @ApiProperty({
@@ -149,7 +148,7 @@ export class CreateUserDto {
     example: 'example.pdf'
   })
   @ValidateIf(o => o.role === UserRole.Admin)
-  @IsDefined({message: AuthUserError.Сertificates})
+  @IsOptional()
   public certificates?: string;
 
   @ApiProperty({

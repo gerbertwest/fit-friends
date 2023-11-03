@@ -21,3 +21,9 @@ export enum TrainingError {
   MaxDescriprionLength = `Maximum description length must be ${Length.MaxDescription}`,
   SexNotValid = 'The sex is not valid',
 }
+
+export const DEFAULT_STATIC_IMAGES = [
+  '/static/promo-1.png',
+  '/static/promo-2.png',
+  '/static/promo-3.png',
+]

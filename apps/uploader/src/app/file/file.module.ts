@@ -12,8 +12,8 @@ import { FileRepository } from './file.repository';
     ServeStaticModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const rootPath = configService.get<string>('application.uploadDirectory');
-        const serveRoot = configService.get<string>('application.serveRoot');
+        const rootPath = configService.get<string>('upload.uploadDirectory');
+        const serveRoot = configService.get<string>('upload.serveRoot');
         return [{
           rootPath,
           serveRoot,
