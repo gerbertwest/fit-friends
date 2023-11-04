@@ -6,9 +6,7 @@ Content-Type: application/json
   "type": "абонемент",
   "trainingId": 3,
   "count": 3,
-  "trainingTime": "50-80 мин",
   "paymentMethod": "visa",
-  "description": "описание 2",
   "userId": "3"
 }
 

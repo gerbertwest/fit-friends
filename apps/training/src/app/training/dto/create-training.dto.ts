@@ -29,7 +29,7 @@ export class CreateTrainingDto {
 
   @ApiProperty({
     description: 'training type',
-    example: ['йога', 'бег'],
+    example: 'йога',
   })
   @IsIn(trainingsType, {
     each: true,
