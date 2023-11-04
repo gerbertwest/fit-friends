@@ -20,6 +20,7 @@ export class ReviewController {
   @Post('/')
   async create(@Body() dto: CreateReviewDto) {
     const newReview = await this.reviewService.createReview(dto);
+    await this.reviewService.calculateRating(dto.trainingId);
     return fillObject(ReviewRdo, newReview);
   }
 
@@ -29,7 +30,7 @@ export class ReviewController {
     description: 'reviews of trainings found'
   })
   @Get('/:trainingId')
-  async showOrdersByTrainer(@Param('trainingId') trainingId: number, @Query() query: TrainingQuery) {
+  async showRewievsByTrainer(@Param('trainingId') trainingId: number, @Query() query: TrainingQuery) {
     const reviews = await this.reviewService.getTreaningReviews(trainingId, query);
     return fillObject(ReviewRdo, reviews);
   }

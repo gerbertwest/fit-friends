@@ -5,6 +5,7 @@ import { HTTP_CLIENT_TIMEOUT, HTTP_CLIENT_MAX_REDIRECTS } from './app.config';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { TrainingController } from './training.controller';
 import { OrderController } from './order.controller';
+import { ReviewController } from './review.controller';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { OrderController } from './order.controller';
     UsersController,
     TrainingController,
     OrderController,
+    ReviewController,
   ],
   providers: [
     CheckAuthGuard

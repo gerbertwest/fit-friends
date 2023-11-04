@@ -12,7 +12,6 @@ export class UseridInterceptor implements NestInterceptor {
     else {
       request.body['userId'] = request.user.sub;
     }
-    //request.body['trainerId'] = request.user.sub;
 
     return next.handle();
   }

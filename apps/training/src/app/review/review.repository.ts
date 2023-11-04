@@ -36,8 +36,7 @@ export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Re
       });
     }
 
-    public async findByTrainingId(trainingId: number, {limit, page, active}: TrainingQuery): Promise<Review[]> {
-      console.log(active)
+    public async findByTrainingId(trainingId: number, {limit, page}: TrainingQuery): Promise<Review[]> {
       return this.prisma.review.findMany({
         where: {
           trainingId,
@@ -59,6 +58,29 @@ export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Re
           ...item.toObject(),
         },
         include: { training: true }
+      })
+    }
+
+    async calculateRating(trainingId: number) {
+      const result = await this.prisma.review
+      .aggregate({
+        where: {
+          trainingId,
+        },
+        _avg: {
+          raiting: true
+        }
+      })
+
+      const raiting = result._avg.raiting;
+
+      return await this.prisma.training.updateMany({
+        where: {
+          trainingId,
+        },
+        data: {
+          raiting: raiting,
+        }
       })
     }
 }

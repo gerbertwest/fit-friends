@@ -7,6 +7,7 @@ export enum ApplicationServiceURL {
   Alert = 'http://localhost:3335/api/alert',
   Request = 'http://localhost:3333/api/request',
   Upload = 'http://localhost:3334/api/files',
+  Review = 'http://localhost:3000/api/reviews',
 }
 
 export const HTTP_CLIENT_MAX_REDIRECTS = 5;

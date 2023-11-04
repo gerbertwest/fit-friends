@@ -93,10 +93,6 @@ export class UpdateTrainingDto {
   @IsOptional()
   public video: string;
 
-
-  // @IsOptional()
-  // public raiting: number;
-
   @ApiProperty({
     description: 'Trainer id',
     example: '1',

@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
+import { UserRdo } from "./user.rdo";
 
 export class ReviewRdo {
   @ApiProperty({
@@ -24,11 +25,11 @@ export class ReviewRdo {
   public message: string;
 
   @ApiProperty({
-    description: 'user id',
+    description: 'User id',
     example: '1',
   })
-  @Expose()
-  public userId: string;
+  @Expose({name: 'user'})
+  public user: UserRdo;
 
   @ApiProperty({
     description: 'training rating',

@@ -38,7 +38,6 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
   }
 
   public async findByUserId(userId: string, {limit, page, active}: TrainingQuery): Promise<Order[]> {
-    console.log(active)
     return this.prisma.order.findMany({
       where: {
         userId,
