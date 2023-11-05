@@ -42,7 +42,7 @@ nx run <projectName>:lint
 
 **Обратите внимание**, при запуске данной команды, ошибки выводятся в терминал.
 
-### Сценарии для проекта "Trenings"
+### Сценарии для проекта "Trainings"
 
 #### Проверка линтером Prisma схемы БД PostgreSQL
 
@@ -94,10 +94,10 @@ localhost:<PORT>/spec
 ```
 ### Порты для сервисов по умолчанию
 
-Users: 3333
-Training: 3000
-Notify: 3335
-Uploader: 3334
+Users: 3333\
+Training: 3000\
+Notify: 3335\
+Uploader: 3334\
 BFF: 4000
 
 ### Остальное
