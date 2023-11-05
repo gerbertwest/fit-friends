@@ -74,7 +74,7 @@ export class UsersController {
     status: HttpStatus.NO_CONTENT,
     description: 'User refresh tocken has been deleted.'
   })
-  @Delete('/:userId')
+  @Delete('tocken/:userId')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async destroyTockens(@Param('userId') userId: string) {
     const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Auth}/${userId}`);

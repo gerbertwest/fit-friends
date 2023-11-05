@@ -9,7 +9,7 @@ import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 const globalPrefix = 'api';
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3335;
 const config = new DocumentBuilder()
 .setTitle('The «Subscription» service')
 .setDescription('Subscription service API')
