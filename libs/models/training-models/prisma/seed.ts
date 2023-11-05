@@ -3,26 +3,26 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function fillDb() {
-  // await prisma.training.upsert({
-  //   where: { trainingId: 1 },
-  //   update: {},
-  //     create:
-  //      {
-  //        title: "Тренировка",
-  //        backgroundImage: "image2.jpg",
-  //        level: "любитель",
-  //        trainingType: "кроссфит",
-  //        trainingTime: "50-80 мин",
-  //        price: 300,
-  //        caloriesCount: 1200,
-  //        description: "описание 1",
-  //        sex: "для мужчин",
-  //        video: "example.avi",
-  //        trainerId: "2",
-  //        special: false,
-  //      },
+  await prisma.training.upsert({
+    where: { trainingId: 1 },
+    update: {},
+      create:
+       {
+         title: "Тренировка",
+         backgroundImage: "image2.jpg",
+         level: "любитель",
+         trainingType: "кроссфит",
+         trainingTime: "50-80 мин",
+         price: 300,
+         caloriesCount: 1200,
+         description: "описание 1",
+         sex: "для мужчин",
+         video: "example.avi",
+         trainerId: "2",
+         special: false,
+       },
 
-  // });
+  });
 
   await prisma.order.upsert({
     where: { orderId: 1 },

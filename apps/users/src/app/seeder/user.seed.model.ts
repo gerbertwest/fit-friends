@@ -26,7 +26,7 @@ export class UserSeedModel extends Document implements User {
   @Factory(UserRole.User)
   public role: UserRole;
 
-  @Factory('описание 1')
+  @Factory((faker) => faker.lorem.sentence({min: 2, max: 6}))
   public description: string;
 
   @Factory((faker) => faker.helpers.enumValue(UserLocation))
@@ -44,10 +44,10 @@ export class UserSeedModel extends Document implements User {
   @Factory((faker) => faker.helpers.arrayElement(trainingTime))
   public trainingTime?: string;
 
-  @Factory(1000)
+  @Factory((faker) => faker.helpers.rangeToNumber({min: 1000, max: 5000}))
   public caloriesToLose?: number;
 
-  @Factory(1000)
+  @Factory((faker) => faker.helpers.rangeToNumber({min: 1000, max: 5000}))
   public caloriesToBurn?: number;
 
   @Factory((faker) => faker.helpers.arrayElement([true, false]))

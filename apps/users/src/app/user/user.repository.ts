@@ -14,6 +14,10 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
     @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>) {
   }
 
+  public async seed(data) {
+    return this.userModel.insertMany(data)
+  }
+
   public async create(item: UserEntity): Promise<User> {
     const newTaskUser = new this.userModel(item);
     return newTaskUser.save();
@@ -67,5 +71,9 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
     return this.userModel
     .find({subscriptions: trainerId})
     .exec();
+  }
+
+  public async findAll(): Promise<User[] | null> {
+    return this.userModel.find().exec()
   }
 }

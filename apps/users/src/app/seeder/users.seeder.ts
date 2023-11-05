@@ -6,7 +6,7 @@ import { UserModel } from "../user/user.model";
 import { UserSeedModel } from "./user.seed.model";
 import { TrainerSeedModel } from "./trainer.seed.model";
 
-const USERS_COUNT = 5;
+const USERS_COUNT = 3;
 
 @Injectable()
 export class UsersSeeder implements Seeder {
@@ -14,13 +14,10 @@ export class UsersSeeder implements Seeder {
     @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>) {}
 
   async seed(): Promise<unknown> {
-    // Generate users.
     const users = DataFactory.createForClass(UserSeedModel).generate(USERS_COUNT);
     const trainers = DataFactory.createForClass(TrainerSeedModel).generate(USERS_COUNT);
     const data = [...users, ...trainers]
-
-    // Insert into the database.
-    return this.userModel.insertMany(data);
+    return data;
   }
 
   async drop(): Promise<unknown> {

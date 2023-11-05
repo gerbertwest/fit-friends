@@ -5,6 +5,7 @@ import { UserModel, UserSchema } from './user.model';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { NotifyModule } from '../notify/notify.module';
+import { UsersSeeder } from '../seeder/users.seeder';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { NotifyModule } from '../notify/notify.module';
   NotifyModule
 ],
   controllers: [UserController],
-  providers: [UserRepository, UserService],
+  providers: [UserRepository, UserService, UsersSeeder],
   exports: [UserRepository, UserService]
 })
 export class UserModule {}

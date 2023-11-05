@@ -26,7 +26,7 @@ export class TrainerSeedModel extends Document implements User {
   @Factory(UserRole.Admin)
   public role: UserRole;
 
-  @Factory('описание 1')
+  @Factory((faker) => faker.lorem.sentence({min: 2, max: 6}))
   public description: string;
 
   @Factory((faker) => faker.helpers.enumValue(UserLocation))
@@ -44,7 +44,7 @@ export class TrainerSeedModel extends Document implements User {
   @Factory('example.pdf')
   public certificates?: string;
 
-  @Factory('Заслуга 11111')
+  @Factory((faker) => faker.lorem.sentence({min: 2, max: 6}))
   public merits?: string;
 
   @Factory((faker) => faker.helpers.arrayElement([true, false]))

@@ -1,14 +1,24 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import { User } from "@fit-friends/shared/app-types";
 import { UserQuery } from "./query/user.query";
 import { UpdateUserDto } from "../authentication/dto/update-user.dto";
+import { UsersSeeder } from "../seeder/users.seeder";
 
 @Injectable()
-export class UserService {
+export class UserService implements OnModuleInit {
   constructor(
     private readonly userRepository: UserRepository,
+    private readonly userSeeder: UsersSeeder,
   ) {}
+
+public async onModuleInit() {
+  const res = await this.userRepository.findAll();
+  if (res.length === 0) {
+    const users = await this.userSeeder.seed()
+    await this.userRepository.seed(users)
+  }
+}
 
 public async getUsers(query: UserQuery): Promise<User[]> {
   return this.userRepository.find(query)
