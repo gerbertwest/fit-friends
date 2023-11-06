@@ -1,20 +1,23 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import { User } from "@fit-friends/shared/app-types";
 import { UserQuery } from "./query/user.query";
 import { UpdateUserDto } from "../authentication/dto/update-user.dto";
 import { UsersSeeder } from "../seeder/users.seeder";
+import { appConfig } from "@fit-friends/config/config-users";
+import { ConfigType } from "@nestjs/config";
 
 @Injectable()
 export class UserService implements OnModuleInit {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly userSeeder: UsersSeeder,
+    @Inject (appConfig.KEY) private readonly appOptions: ConfigType<typeof appConfig>,
   ) {}
 
 public async onModuleInit() {
   const res = await this.userRepository.findAll();
-  if (res.length === 0) {
+  if (res.length === 0 && this.appOptions.environment === 'development') {
     const users = await this.userSeeder.seed()
     await this.userRepository.seed(users)
   }
