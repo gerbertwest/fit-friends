@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { OrderRepository } from "./order.repository";
 import { Order } from "@fit-friends/shared/app-types";
 import { OrderEntity } from "./order.entity";
@@ -6,6 +6,8 @@ import { CreateOrderDto } from "./dto/create-order.dto";
 import { TrainingRepository } from "../training/training.repository";
 import { TrainingQuery } from "../training/query/training.query";
 import { UpdateOrderDto } from "./dto/update-order.dto";
+import { OrderError } from "./order.constant";
+import { TrainingError } from "../training/training.constant";
 
 @Injectable()
 export class OrderService {
@@ -16,6 +18,12 @@ export class OrderService {
   ) {}
 
   async createOrder(dto: CreateOrderDto): Promise<Order> {
+    const existTraining = await this.trainingRepository.findById(dto.trainingId)
+
+    if (!existTraining) {
+      throw new NotFoundException(TrainingError.NotExistTraining);
+    }
+
     const training = await this.trainingRepository.findById(dto.trainingId);
     const price = training.price;
     const orderEntity = new OrderEntity({ ...dto, price: price, orderPrice: price*dto.count, active: true});
@@ -32,6 +40,13 @@ export class OrderService {
   }
 
   async updateOrder(orderId: number, dto: UpdateOrderDto) {
+
+    const existOrder = await this.orderRepository.findById(orderId)
+
+    if (!existOrder) {
+      throw new NotFoundException(OrderError.NotExistOrder);
+    }
+
     return this.orderRepository.update(orderId, dto)
   }
 

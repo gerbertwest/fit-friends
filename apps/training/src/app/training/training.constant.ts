@@ -20,6 +20,7 @@ export enum TrainingError {
   MinDescriprionLength = `Minimum description length must be ${Length.MinDescriprion}`,
   MaxDescriprionLength = `Maximum description length must be ${Length.MaxDescription}`,
   SexNotValid = 'The sex is not valid',
+  NotExistTraining = 'Training Id not found',
 }
 
 export const DEFAULT_STATIC_IMAGES = [

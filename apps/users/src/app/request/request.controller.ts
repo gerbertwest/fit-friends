@@ -27,15 +27,17 @@ export class RequestController {
   @UseGuards(JwtAuthGuard)
   @Post('/:userId')
   async create(@Param('userId', MongoidValidationPipe) userId: string, @Req() { user: payload }: RequestWithTokenPayload) {
-    const newRequest = await this.requestService.addRequest({userId: userId, initiatorId: payload.sub});
+
     const user = await this.authenticationService.getUser(userId);
 
     if (user.role === UserRole.User && user.readyToTraining !== true) {
       throw new BadRequestException(RequestError.ReadyToTraining);
     }
-    else if (user.role === UserRole.Admin && user.personalTrainings !== true) {
+    if (user.role === UserRole.Admin && user.personalTrainings !== true) {
       throw new BadRequestException(RequestError.ReadyToTraining);
     }
+
+    const newRequest = await this.requestService.addRequest({userId: userId, initiatorId: payload.sub});
 
     const title = user.role === UserRole.User ? `Пользователь ${payload.name} пригласил Вас на совмествую тренировку` : `Пользователь ${payload.name} оставил заявку на персональную тренировку`
     await this.notifyService.registerSubscriber({title: title, userId: userId})

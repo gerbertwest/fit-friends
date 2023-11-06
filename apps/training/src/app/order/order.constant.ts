@@ -10,6 +10,7 @@ export enum Length {
 export enum OrderError {
   MinCount = `Minimum calories to lose must be ${Length.MinCount}`,
   MaxCount = `Maximum calories to lose must be ${Length.MinCount}`,
+  NotExistOrder = 'Order Id not found',
 }
 
 

@@ -92,6 +92,8 @@ export class TrainingController {
   public async update(@Param('trainingId') trainingId: number, @Body() UpdateTrainingDto: UpdateTrainingDto, @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Training}/${trainingId}`, UpdateTrainingDto);
 
+    console.log(data)
+
     if (data.trainerId !== payload.sub) {
       throw new ForbiddenException(UserError.UpdateTraining);
     }
