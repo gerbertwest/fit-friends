@@ -34,8 +34,6 @@ export function parseTime(time: string): TimeAndUnit {
   return { value, unit }
 }
 
-// export const makeUniq = (arr: string[]) => [...new Set(arr)]
-
 export function generateRandomValue(min:number, max: number, numAfterDigit = 0) {
   return +((Math.random() * (max - min)) + min).toFixed(numAfterDigit);
 }
