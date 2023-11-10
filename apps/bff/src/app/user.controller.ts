@@ -44,6 +44,22 @@ export class UsersController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'Check your token'
+  })
+  @Get('check')
+  public async checkToken(@Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/check`, null, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+    return data;
+  }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'Get a new access/refresh tokens'
   })
   @Post('refresh')

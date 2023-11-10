@@ -65,6 +65,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNjhiN
 
 ###
 
+# Check user token
+GET http://localhost:4000/api/users/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE2OTk2Mzg1OTcsImV4cCI6MTY5OTYzOTQ5N30.wtSC9_qWiVLSj4Rv_RAklFrPGPj4bB4wV2eJksZdtws
+
+###
+
 # Delete user's refresh tockens by userID
 DELETE http://localhost:4000/api/users/tocken/6548ca9f94e2dde23970f9c1 HTTP/1.1
 
