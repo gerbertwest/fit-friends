@@ -10,6 +10,8 @@ import CoachAccount from "../pages/coach-account-screen/coach-account-screen";
 import PrivateRoute from "../components/private-route/private-route";
 import { useAppSelector } from "../hooks/index";
 import { getAuthorizationStatus } from "../store/user/selectors";
+import QuestionaireCoach from "../pages/questionaire-coach/questionaire-coach";
+import QuestionaireUser from "../pages/questionaire-user/questionaire-user";
 
 export function App(): JSX.Element {
 
@@ -53,6 +55,26 @@ export function App(): JSX.Element {
           authorizationStatus={authorizationStatus}
         >
           <CoachAccount/>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={AppRoute.QuestionaireCoach}
+        element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <QuestionaireCoach/>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={AppRoute.QuestionaireUser}
+        element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <QuestionaireUser/>
           </PrivateRoute>
         }
       />

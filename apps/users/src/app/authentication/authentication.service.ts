@@ -27,13 +27,10 @@ export class AuthenticationService {
 
   public async register(dto: CreateUserDto) {
     const {email, name, password, dateBirth, role, sex,
-      description, location,  level, trainingType, trainingTime,
-      caloriesToBurn, caloriesToLose, readyToTraining, merits, personalTrainings} = dto;
+      description, location} = dto;
 
     const user = {
-      email, name, role, dateBirth, sex, description, location, level, trainingType,
-      trainingTime, caloriesToBurn, caloriesToLose, certificates: '',
-      readyToTraining, merits, personalTrainings,
+      email, name, role, dateBirth, sex, description, location, certificates: '',
       avatar: '', passwordHash: '', backgroundImage: '',
     };
 

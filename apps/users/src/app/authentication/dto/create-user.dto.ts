@@ -88,6 +88,7 @@ export class CreateUserDto {
     description: 'User level',
     example: 'новичок',
   })
+  @IsOptional()
   @IsEnum(UserLevel)
   public level: UserLevel;
 
@@ -95,6 +96,7 @@ export class CreateUserDto {
     description: 'training type',
     example: ['йога', 'бег'],
   })
+  @IsOptional()
   @IsIn(trainingsType, {
     each: true,
   })
@@ -107,6 +109,7 @@ export class CreateUserDto {
     description: 'training time',
     example: '10-30 мин',
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsIn(trainingTime)
   public trainingTime?: string;
@@ -115,6 +118,7 @@ export class CreateUserDto {
     description: 'calories to lose',
     example: 1000,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsNumber()
   @IsInt()
@@ -126,6 +130,7 @@ export class CreateUserDto {
     description: 'calories to burn per day',
     example: 1000,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsNumber()
   @IsInt()
@@ -137,6 +142,7 @@ export class CreateUserDto {
     description: 'ready to training',
     example: true,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.User)
   @IsBoolean()
   public readyToTraining?: boolean;
@@ -147,6 +153,7 @@ export class CreateUserDto {
     description: 'certificates',
     example: 'example.pdf'
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.Admin)
   @IsOptional()
   public certificates?: string;
@@ -155,6 +162,7 @@ export class CreateUserDto {
     description: 'merits of treiner',
     example: 'merit',
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.Admin)
   @IsString()
   @MinLength(Length.MinDescriprion, {message: AuthUserError.MinDescriprionLength})
@@ -165,6 +173,7 @@ export class CreateUserDto {
     description: 'ready to personal training',
     example: true,
   })
+  @IsOptional()
   @ValidateIf(o => o.role === UserRole.Admin)
   @IsBoolean()
   public personalTrainings?: boolean;

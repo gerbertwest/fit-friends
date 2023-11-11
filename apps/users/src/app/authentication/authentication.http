@@ -8,14 +8,9 @@ Content-Type: application/json
   "name": "Keks",
   "password": "123456",
   "role": "Тренер",
-  "level": "новичок",
   "sex": "мужской",
   "location": "Спортивная",
-  "description": "описание 1",
-  "trainingType": ["аэробика", "бег"],
-  "merits": "Заслуга 11111",
-  "personalTrainings": false,
-  "certificates": "example.pdf"
+  "description": "описание 1"
 }
 
 ###
@@ -25,19 +20,19 @@ POST http://localhost:3333/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Elmer_Reilly65@hotmail.com",
+  "email": "user4@notfound.local",
   "password": "123456"
 }
 
 ###
 
 # Update user
-PATCH http://localhost:3333/api/auth/update/653168b52bb6fbebb2f06353 HTTP/1.1
+PATCH http://localhost:3333/api/auth/update/654f2153aa47fb600ac36c45 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMwMmY3OWJjY2Y1NmE4NTEwYmNjZDkiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoi0KLRgNC10L3QtdGAIiwibmFtZSI6Iktla3MiLCJpYXQiOjE2OTc3MzUxODgsImV4cCI6MTY5NzczNTc4OH0.XnWxp6WqDQ4muc9Po6uOJ3iTPgeE4cZXvonsHjWbML0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTRmMjE1M2FhNDdmYjYwMGFjMzZjNDUiLCJlbWFpbCI6InVzZXI0QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNjk5Njg0NzUwLCJleHAiOjE2OTk2ODU2NTB9.FEZKJBgbzXUhHz4y5Uglcu6kThtCfiM4Lh7ohN9G89c
 
 {
-  "name": "Keks11"
+  "merits": "Навык навык навык"
 }
 
 ###

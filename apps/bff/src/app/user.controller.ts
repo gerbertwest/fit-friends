@@ -371,7 +371,7 @@ export class UsersController {
       throw new BadRequestException(UserError.FileSize);
     }
 
-    if (file.mimetype !== 'image/jpg' && file.mimetype !=='image/png') {
+    if (file.mimetype !== 'image/jpeg' && file.mimetype !=='image/png') {
       throw new BadRequestException(UserError.FileFormat);
     }
 

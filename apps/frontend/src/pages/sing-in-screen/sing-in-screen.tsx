@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { getAuthorizationStatus } from "../../store/user/selectors";
 import { AppRoute, AuthorizationStatus } from "../../const";
 import { useNavigate } from "react-router-dom";
+import BackgroungLogo from "../../components/background-logo/background-logo";
 
 function SignIn(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  console.log(authorizationStatus)
+
   //const redirect = useNavigate();
 
   // useEffect(() => {
@@ -40,14 +41,7 @@ function SignIn(): JSX.Element {
   return (
     <div className="wrapper">
       <main>
-        <div className="background-logo">
-          <svg className="background-logo__logo" width="750" height="284" aria-hidden="true">
-            <use xlinkHref="#logo-big"></use>
-          </svg>
-          <svg className="background-logo__icon" width="343" height="343" aria-hidden="true">
-            <use xlinkHref="#icon-logotype"></use>
-          </svg>
-        </div>
+        <BackgroungLogo/>
         <div className="popup-form popup-form--sign-in">
           <div className="popup-form__wrapper">
             <div className="popup-form__content">
