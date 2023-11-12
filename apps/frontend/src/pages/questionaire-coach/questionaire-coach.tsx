@@ -1,6 +1,64 @@
+import { ChangeEvent, FormEvent, useState } from "react";
 import BackgroungLogo from "../../components/background-logo/background-logo";
+import { useAppDispatch } from "../../hooks/index";
+import { UpdateUser } from "../../types/update-user";
+import { updateUser } from "../../store/api-actions";
+import SpecializationCheckbox from "../../components/specialization-checkbox/specialization-checkbox";
+import LevelCheckbox from "../../components/level-checkbox/level-checkbox";
 
 function QuestionaireCoach(): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  const [registryData, setRegistryData] = useState({
+    level: '',
+    merits: '',
+  });
+
+  const [certificates, setCertificate] = useState<File | undefined>();
+  const [checkbox, setCheckbox] = useState(false);
+
+  const DEFAULT_TYPE: string[] = [];
+  const [trainingType, addTrainingType] = useState(DEFAULT_TYPE)
+
+  const changeType = (value: string) => {
+    const ind = trainingType.indexOf(value);
+    if (ind === -1) {
+      addTrainingType([...trainingType, value]);
+    }
+    else {
+      addTrainingType(() => trainingType.filter((val) => val !== value));
+    }
+  };
+
+  const onChangeType = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+    changeType(target.value);
+  };
+
+  const onChange = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+    setRegistryData({...registryData, [target.name]: target.value});
+  };
+
+  const handleCertificateUpload = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setCertificate(evt.target.files[0]);
+  };
+
+  const handleSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
+    const formData: UpdateUser = {
+      level: registryData.level,
+      trainingType: trainingType,
+      merits: registryData.merits,
+      certificates,
+      personalTrainings: checkbox,
+    };
+
+    dispatch(updateUser(formData));
+  };
+
   return (
     <div className="wrapper">
       <main>
@@ -9,107 +67,41 @@ function QuestionaireCoach(): JSX.Element {
           <div className="popup-form__wrapper">
             <div className="popup-form__content">
               <div className="popup-form__form">
-                <form method="get">
+                <form method="get" onSubmit={handleSubmit}>
                   <div className="questionnaire-coach">
                     <h1 className="visually-hidden">Опросник</h1>
                     <div className="questionnaire-coach__wrapper">
                       <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Ваша специализация (тип) тренировок</span>
                         <div className="specialization-checkbox questionnaire-coach__specializations">
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="yoga"/>
-                                <span className="btn-checkbox__btn">Йога</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="running"/>
-                                <span className="btn-checkbox__btn">Бег</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="power" checked/>
-                                <span className="btn-checkbox__btn">Силовые</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="aerobics"/>
-                                <span className="btn-checkbox__btn">Аэробика</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="crossfit" checked/>
-                                <span className="btn-checkbox__btn">Кроссфит</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="boxing" checked/>
-                                <span className="btn-checkbox__btn">Бокс</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="pilates"/>
-                                <span className="btn-checkbox__btn">Пилатес</span>
-                            </label>
-                          </div>
-                          <div className="btn-checkbox">
-                            <label>
-                              <input className="visually-hidden" type="checkbox" name="specialisation" value="stretching"/>
-                                <span className="btn-checkbox__btn">Стрейчинг</span>
-                            </label>
-                          </div>
+                        <SpecializationCheckbox onChangeType={onChangeType}/>
                         </div>
                       </div>
                       <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Ваш уровень</span>
                         <div className="custom-toggle-radio custom-toggle-radio--big questionnaire-coach__radio">
-                          <div className="custom-toggle-radio__block">
-                            <label>
-                              <input type="radio" name="level"/>
-                                <span className="custom-toggle-radio__icon"></span>
-                                <span className="custom-toggle-radio__label">Новичок</span>
-                            </label>
-                          </div>
-                          <div className="custom-toggle-radio__block">
-                            <label>
-                              <input type="radio" name="level" checked/>
-                                <span className="custom-toggle-radio__icon"></span>
-                                <span className="custom-toggle-radio__label">Любитель</span>
-                            </label>
-                          </div>
-                          <div className="custom-toggle-radio__block">
-                            <label>
-                              <input type="radio" name="level"/>
-                                <span className="custom-toggle-radio__icon"></span>
-                                <span className="custom-toggle-radio__label">Профессионал</span>
-                            </label>
-                          </div>
+                        <LevelCheckbox onChange={onChange}/>
                         </div>
                       </div>
                       <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Ваши дипломы и сертификаты</span>
                         <div className="drag-and-drop questionnaire-coach__drag-and-drop">
                           <label>
-                            <span className="drag-and-drop__label" tabIndex={0}>Загрузите сюда файлы формата PDF, JPG или PNG
+                            <span className="drag-and-drop__label" tabIndex={0}>{certificates ? certificates.name : 'Загрузите сюда файлы формата PDF, JPG или PNG'}
                               <svg width="20" height="20" aria-hidden="true">
                                 <use xlinkHref="#icon-import"></use>
                               </svg></span>
-                            <input type="file" name="import" tabIndex={-1} accept=".pdf, .jpg, .png"/>
+                            <input type="file" name="certificates" tabIndex={-1} accept=".pdf, .jpg, .png" onChange={handleCertificateUpload}/>
                           </label>
                         </div>
                       </div>
-                      <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Расскажите о своём опыте, который мы сможем проверить</span>
+                      <div className="questionnaire-coach__block">
+                        <span className="questionnaire-coach__legend">Расскажите о своём опыте, который мы сможем проверить</span>
                         <div className="custom-textarea questionnaire-coach__textarea">
                           <label>
-                            <textarea name="description" placeholder=" "></textarea>
+                            <textarea name="merits" placeholder=" " onChange={onChange} required minLength={10} maxLength={140}></textarea>
                           </label>
                         </div>
                         <div className="questionnaire-coach__checkbox">
                           <label>
-                            <input type="checkbox" value="individual-training" name="individual-training" checked/>
+                            <input type="checkbox" value="individual-training" name="personalTrainings" checked={checkbox} onChange={() => setCheckbox(!checkbox)}/>
                               <span className="questionnaire-coach__checkbox-icon">
                               <svg width="9" height="6" aria-hidden="true">
                                 <use xlinkHref="#arrow-check"></use>

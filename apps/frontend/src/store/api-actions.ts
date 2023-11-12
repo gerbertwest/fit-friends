@@ -7,6 +7,7 @@ import { AppDispatch, State } from '../types/state';
 import { Token } from '../types/token';
 import { TokenPayload } from '../types/token-payload';
 import { NewUser } from '../types/new-user';
+import { UpdateUser } from '../types/update-user';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -71,12 +72,13 @@ export const registerUser = createAsyncThunk<void, NewUser, {
       location
     });
 
-    if (postData.status === HTTP_CODE.CREATED && avatar) {
-
+    if (postData.status === HTTP_CODE.CREATED) {
       const {data} = await api.post<Token>(APIRoute.Login, {email, password});
       const {accessToken, refreshToken} = data
       saveToken(accessToken, refreshToken);
+    }
 
+    if (postData.status === HTTP_CODE.CREATED && avatar) {
       const payload = new FormData();
       payload.append('file', avatar);
       await api.post(APIRoute.Avatar, payload, {
@@ -89,6 +91,44 @@ export const registerUser = createAsyncThunk<void, NewUser, {
     }
     else if (postData.status === HTTP_CODE.CREATED && role === UserRole.User) {
       dispatch(redirectToRoute(AppRoute.QuestionaireUser))
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk<void, UpdateUser, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/update',
+  async ({description, level, trainingTime, trainingType,
+    caloriesToLose, caloriesToBurn, readyToTraining,
+    certificates, merits, personalTrainings}, { dispatch, extra: api }) => {
+    const postData = await api.patch(APIRoute.UpdateUser, {
+      description,
+      level,
+      trainingTime,
+      trainingType,
+      caloriesToBurn,
+      caloriesToLose,
+      readyToTraining,
+      merits,
+      personalTrainings,
+    });
+
+    if (postData.status === HTTP_CODE.OK && certificates) {
+      const payload = new FormData();
+      payload.append('file', certificates);
+      await api.post(APIRoute.Certificates, payload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+
+    if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.Admin) {
+      dispatch(redirectToRoute(AppRoute.CoachAccount))
+    }
+    else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
+      dispatch(redirectToRoute(AppRoute.Main))
     }
   }
 );

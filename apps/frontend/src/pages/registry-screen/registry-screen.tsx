@@ -17,7 +17,7 @@ function Registry(): JSX.Element {
     role: '',
     sex: '',
     description: 'описание 1',
-    location: ''
+    location: LOCATIONS[0]
   });
 
   const [avatar, setAvatar] = useState<File | undefined>();
@@ -69,9 +69,19 @@ function Registry(): JSX.Element {
                         <label>
                           <input className="visually-hidden" type="file" accept="image/png, image/jpeg" name="avatar" onChange={handleAvatarUpload}></input>
                             <span className="input-load-avatar__btn">
-                            <svg width="20" height="20" aria-hidden="true">
+                              {avatar ? (
+                                <img
+                                src={URL.createObjectURL(avatar)}
+                                alt="avatar"
+                                width="70" height="70" aria-hidden="true"
+                              />
+                              ) :
+                              (
+                              <svg width="20" height="20" aria-hidden="true">
                               <use xlinkHref="#icon-import"></use>
-                            </svg></span>
+                            </svg>
+                            )}
+                            </span>
                         </label>
                       </div>
                       <div className="sign-up__description">
@@ -81,19 +91,19 @@ function Registry(): JSX.Element {
                     <div className="sign-up__data">
                       <div className="custom-input">
                         <label><span className="custom-input__label">Имя</span><span className="custom-input__wrapper">
-                            <input type="text" name="name" value={registryData.name} onChange={onChange}></input>
+                            <input type="text" name="name" value={registryData.name} onChange={onChange} required minLength={1} maxLength={15}></input>
                             </span>
                         </label>
                       </div>
                       <div className="custom-input">
                         <label><span className="custom-input__label">E-mail</span><span className="custom-input__wrapper">
-                            <input type="email" name="email" value={registryData.email} onChange={onChange}></input>
+                            <input type="email" name="email" value={registryData.email} onChange={onChange} required></input>
                             </span>
                         </label>
                       </div>
                       <div className="custom-input">
                         <label><span className="custom-input__label">Дата рождения</span><span className="custom-input__wrapper">
-                            <input type="date" name="dateBirth" max="2099-12-31" value={registryData.dateBirth} onChange={onChange}></input>
+                            <input type="date" name="dateBirth" max="2099-12-31" value={registryData.dateBirth} onChange={onChange} required></input>
                             </span>
                         </label>
                       </div>
@@ -107,20 +117,10 @@ function Registry(): JSX.Element {
                         </select>
                         </span>
                       </label>
-                        {/* <button className="custom-select__button" type="button" aria-label="Выберите одну из опций">
-                          <span className="custom-select__text"></span>
-                          <span className="custom-select__icon">
-                            <svg width="15" height="6" aria-hidden="true">
-                              <use xlinkHref="#arrow-down"></use>
-                            </svg>
-                          </span>
-                        </button> */}
-                        <ul className="custom-select__list" role="listbox">
-                        </ul>
                       </div>
                       <div className="custom-input">
                         <label><span className="custom-input__label">Пароль</span><span className="custom-input__wrapper">
-                            <input type="password" name="password" autoComplete="off" value={registryData.password} onChange={onChange}></input>
+                            <input type="password" name="password" autoComplete="off" value={registryData.password} onChange={onChange} required minLength={6} maxLength={12}></input>
                             </span>
                         </label>
                       </div>
@@ -129,21 +129,21 @@ function Registry(): JSX.Element {
                         <div className="custom-toggle-radio custom-toggle-radio--big">
                           <div className="custom-toggle-radio__block">
                             <label>
-                              <input type="radio" name="sex" value='мужской' checked={registryData.sex === 'мужской' ? true : false} onChange={onChange}></input>
+                              <input type="radio" name="sex" value='мужской' checked={registryData.sex === 'мужской' ? true : false} onChange={onChange} required></input>
                                 <span className="custom-toggle-radio__icon"></span>
                                 <span className="custom-toggle-radio__label">Мужской</span>
                             </label>
                           </div>
                           <div className="custom-toggle-radio__block">
                             <label>
-                              <input type="radio" name="sex" value='женский' checked={registryData.sex === 'женский' ? true : false} onChange={onChange}></input>
+                              <input type="radio" name="sex" value='женский' checked={registryData.sex === 'женский' ? true : false} onChange={onChange} required></input>
                                 <span className="custom-toggle-radio__icon"></span>
                                 <span className="custom-toggle-radio__label">Женский</span>
                             </label>
                           </div>
                           <div className="custom-toggle-radio__block">
                             <label>
-                              <input type="radio" name="sex" value='неважно' checked={registryData.sex === 'неважно' ? true : false} onChange={onChange}></input>
+                              <input type="radio" name="sex" value='неважно' checked={registryData.sex === 'неважно' ? true : false} onChange={onChange} required></input>
                                 <span className="custom-toggle-radio__icon"></span>
                                 <span className="custom-toggle-radio__label">Неважно</span>
                             </label>
@@ -165,7 +165,7 @@ function Registry(): JSX.Element {
                         </div>
                         <div className="role-btn">
                           <label>
-                            <input className="visually-hidden" type="radio" name="role" value='Пользователь' checked={registryData.role === 'Пользователь' ? true : false} onChange={onChange}></input>
+                            <input className="visually-hidden" type="radio" name="role" value='Пользователь' checked={registryData.role === 'Пользователь' ? true : false} onChange={onChange} required></input>
                               <span className="role-btn__icon">
                               <svg width="12" height="13" aria-hidden="true">
                                 <use xlinkHref="#icon-weight"></use>

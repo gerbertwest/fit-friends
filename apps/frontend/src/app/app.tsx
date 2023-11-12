@@ -61,21 +61,21 @@ export function App(): JSX.Element {
       <Route
         path={AppRoute.QuestionaireCoach}
         element={
-          <PrivateRoute
-          authorizationStatus={authorizationStatus}
-        >
+        //   <PrivateRoute
+        //   authorizationStatus={authorizationStatus}
+        // >
           <QuestionaireCoach/>
-          </PrivateRoute>
+         // </PrivateRoute>
         }
       />
       <Route
         path={AppRoute.QuestionaireUser}
         element={
-          <PrivateRoute
-          authorizationStatus={authorizationStatus}
-        >
+        //   <PrivateRoute
+        //   authorizationStatus={authorizationStatus}
+        // >
           <QuestionaireUser/>
-          </PrivateRoute>
+         // </PrivateRoute>
         }
       />
     </Routes>
