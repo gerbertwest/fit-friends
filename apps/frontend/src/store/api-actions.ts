@@ -8,6 +8,7 @@ import { Token } from '../types/token';
 import { TokenPayload } from '../types/token-payload';
 import { NewUser } from '../types/new-user';
 import { UpdateUser } from '../types/update-user';
+import { User } from '../types/user';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -18,7 +19,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
-    await api.get(APIRoute.Login);
+    await api.get(APIRoute.Check);
   },
 );
 
@@ -32,14 +33,12 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {data} = await api.post<Token>(APIRoute.Login, {email, password});
     const {accessToken, refreshToken} = data
     saveToken(accessToken, refreshToken);
-    const {data: {role}} = (await api.get<TokenPayload>(APIRoute.Check))
-
-    console.log(role)
+    const {data: {role, sub}} = (await api.get<TokenPayload>(APIRoute.Check))
 
     if (role === UserRole.Admin) {
-      dispatch(redirectToRoute(AppRoute.CoachAccount));
+      dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${sub}`));
     }
-    else {dispatch(redirectToRoute(AppRoute.Main));}
+    else {dispatch(redirectToRoute(`${AppRoute.Main}/${sub}`));}
   },
 );
 
@@ -125,10 +124,22 @@ export const updateUser = createAsyncThunk<void, UpdateUser, {
     }
 
     if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.Admin) {
-      dispatch(redirectToRoute(AppRoute.CoachAccount))
+      dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${postData.data.id}`))
     }
     else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
-      dispatch(redirectToRoute(AppRoute.Main))
+      dispatch(redirectToRoute(`${AppRoute.Main}/${postData.data.id}`))
     }
   }
+);
+
+export const fetchUserByIdAction = createAsyncThunk<User, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchUserById',
+  async (userId, {extra: api}) => {
+    const {data} = await api.get<User>(`${APIRoute.Users}/${userId}`);
+    return data;
+  },
 );

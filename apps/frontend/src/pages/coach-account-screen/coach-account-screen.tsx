@@ -1,76 +1,116 @@
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import Header from "../../components/header/header";
+import { useAppDispatch, useAppSelector } from "../../hooks/index";
+import { userSelector } from "../../store/user/selectors";
+import { fetchUserByIdAction, updateUser } from "../../store/api-actions";
+import { useParams } from "react-router-dom";
+import LoadingScreen from "../loading-screen/loading-screen";
+import { LEVELS, LOCATIONS, SEX, STATIC_DIRECTORY } from "../../const";
+import { ucFirst } from "../../util";
+import SpecializationCheckbox from "../../components/specialization-checkbox/specialization-checkbox";
+import { UpdateUser } from "../../types/update-user";
+import { User } from "../../types/user";
+
 function CoachAccount(): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(userSelector);
+  const userData = user.data
+  const params = useParams();
+
+  useEffect(() => {
+    dispatch(fetchUserByIdAction(String(params.id)))
+  }, [dispatch, params.id])
+
+  const [editStatus, setEditStatus] = useState(false);
+
+  const DEFAULT_DATA: User = {
+    name: '',
+    sex: '',
+    description: '',
+    location: '',
+    personalTrainings: false,
+    level: '',
+  }
+
+  const [registryData, setRegistryData] = useState(DEFAULT_DATA);
+
+  const [avatar, setAvatar] = useState<File | undefined>();
+
+  const DEFAULT_TYPE: string[] = [];
+  const [trainingType, addTrainingType] = useState<string[] | undefined>(DEFAULT_TYPE)
+  const [personalTrainings, setPersonalTrainings] = useState<boolean | undefined>(false)
+
+  useEffect(() => {
+    if (userData) {
+      setRegistryData({
+        name: userData?.name,
+        sex: userData?.sex,
+        location: userData?.location,
+        personalTrainings: userData?.personalTrainings,
+        level: userData?.level,
+        description: userData.description,
+       }
+      );
+      addTrainingType(userData.trainingType);
+      setPersonalTrainings(userData.personalTrainings)
+    }
+  }, [user.data, userData, userData?.avatar, userData?.level, userData?.location, userData?.name, userData?.personalTrainings, userData?.sex])
+
+  const changeType = (value: string) => {
+    if (trainingType) {
+    const ind = trainingType.indexOf(value);
+    if (ind === -1) {
+      addTrainingType([...trainingType, value]);
+    }
+    else {
+      addTrainingType(() => trainingType.filter((val) => val !== value));
+    }
+   }
+  };
+
+  const onChangeType = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+    changeType(target.value);
+  };
+
+  const onChange = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+    setRegistryData({...registryData, [target.name]: target.value});
+  };
+
+  const handleAvatarUpload = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setAvatar(evt.target.files[0]);
+  };
+
+  const handleSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
+    const formData: UpdateUser = {
+      name: registryData.name,
+      sex: registryData.sex,
+      description: registryData.description,
+      location: registryData.location,
+      trainingType: trainingType,
+      avatar,
+      personalTrainings: personalTrainings,
+      level: registryData.level,
+    };
+
+    console.log(formData)
+
+    setEditStatus(false)
+    dispatch(updateUser(formData));
+  };
+
+  if (user.isLoading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
   return (
     <div className="wrapper">
-      <header className="header">
-        <div className="container"><a className="header__logo" href="index.html" aria-label="Переход на главную">
-            <svg width="187" height="70" aria-hidden="true">
-              <use xlinkHref="#logo"></use>
-            </svg></a>
-          <nav className="main-nav">
-            <ul className="main-nav__list">
-              <li className="main-nav__item"><a className="main-nav__link is-active" href="#" aria-label="На главную">
-                  <svg width="18" height="18" aria-hidden="true">
-                    <use xlinkHref="#icon-home"></use>
-                  </svg></a></li>
-              <li className="main-nav__item"><a className="main-nav__link" href="#" aria-label="Личный кабинет">
-                  <svg width="16" height="18" aria-hidden="true">
-                    <use xlinkHref="#icon-user"></use>
-                  </svg></a></li>
-              <li className="main-nav__item"><a className="main-nav__link" href="#" aria-label="Друзья">
-                  <svg width="22" height="16" aria-hidden="true">
-                    <use xlinkHref="#icon-friends"></use>
-                  </svg></a></li>
-              <li className="main-nav__item main-nav__item--notifications"><a className="main-nav__link" href="#" aria-label="Уведомления">
-                  <svg width="14" height="18" aria-hidden="true">
-                    <use xlinkHref="#icon-notification"></use>
-                  </svg></a>
-                <div className="main-nav__dropdown">
-                  <p className="main-nav__label">Оповещения</p>
-                  <ul className="main-nav__sublist">
-                    <li className="main-nav__subitem"><a className="notification is-active" href="#">
-                        <p className="notification__text">Катерина пригласила вас на&nbsp;тренировку</p>
-                        <time className="notification__time" dateTime="2023-12-23 12:35">23 декабря, 12:35</time></a>
-                    </li>
-                    <li className="main-nav__subitem"><a className="notification is-active" href="#">
-                        <p className="notification__text">Никита отклонил приглашение на&nbsp;совместную тренировку</p>
-                        <time className="notification__time" dateTime="2023-12-22 09:22">22 декабря, 09:22</time></a>
-                    </li>
-                    <li className="main-nav__subitem"><a className="notification is-active" href="#">
-                        <p className="notification__text">Татьяна добавила вас в&nbsp;друзья</p>
-                        <time className="notification__time" dateTime="2023-12-18 18:50">18 декабря, 18:50</time></a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </nav>
-          <div className="search">
-            <form action="#" method="get">
-              <label><span className="search__label">Поиск</span>
-                <input type="search" name="search"/>
-                <svg className="search__icon" width="20" height="20" aria-hidden="true">
-                  <use xlinkHref="#icon-search"></use>
-                </svg>
-              </label>
-              <ul className="search__list">
-                <li className="search__item"><a className="search__link" href="#">Бокс</a></li>
-                <li className="search__item"><a className="search__link is-active" href="#">Бег</a></li>
-                <li className="search__item"><a className="search__link" href="#">Аэробика</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-                <li className="search__item"><a className="search__link" href="#">Text</a></li>
-              </ul>
-            </form>
-          </div>
-        </div>
-      </header>
+      <Header/>
       <main>
         <section className="inner-page">
           <div className="container">
@@ -82,42 +122,47 @@ function CoachAccount(): JSX.Element {
                     <label>
                       <input className="visually-hidden" type="file" name="user-photo-1" accept="image/png, image/jpeg"/>
                         <span className="input-load-avatar__avatar">
-                          <img src="public/img/content/user-photo-1.png" srcSet="public/img/content/user-photo-1@2x.png 2x" width="98" height="98" alt="user photo"/>
+                          <img src={userData?.avatar ? `${STATIC_DIRECTORY}${userData.avatar}` : "public/img/content/user-photo-1.png"} srcSet="public/img/content/user-photo-1@2x.png 2x" width="98" height="98" alt="user avatar"/>
                         </span>
                     </label>
                   </div>
-                  <div className="user-info-edit__controls">
-                    <button className="user-info-edit__control-btn" aria-label="обновить">
+
+                  {editStatus === true ? <div className="user-info-edit__controls">
+                    <button className="user-info-edit__control-btn" aria-label="обновить" type="button" onClick={handleSubmit} >
                       <svg width="16" height="16" aria-hidden="true">
                         <use xlinkHref="#icon-change"></use>
                       </svg>
                     </button>
-                    <button className="user-info-edit__control-btn" aria-label="удалить">
+                    <button className="user-info-edit__control-btn" aria-label="удалить" onClick={() => setEditStatus(false)}>
                       <svg width="14" height="16" aria-hidden="true">
                         <use xlinkHref="#icon-trash"></use>
                       </svg>
                     </button>
-                  </div>
+                  </div> : ''}
+
                 </div>
                 <form className="user-info-edit__form" action="#" method="post">
-                  <button className="btn-flat btn-flat--underlined user-info-edit__save-button" type="submit" aria-label="Сохранить">
+                  {editStatus === false ? <button className="btn-flat btn-flat--underlined user-info__edit-button" type="button" aria-label="Редактировать" onClick={() => setEditStatus(true)}>
                     <svg width="12" height="12" aria-hidden="true">
                       <use xlinkHref="#icon-edit"></use>
-                    </svg><span>Сохранить</span>
-                  </button>
-                  <div className="user-info-edit__section">
+                    </svg><span>Редактировать</span>
+                </button> : ''}
+
+                  <div className="user-info__section">
                     <h2 className="user-info-edit__title">Обо мне</h2>
-                    <div className="custom-input user-info-edit__input">
+                    <div className={editStatus ? "custom-input user-info-edit__input" : "custom-input custom-input--readonly user-info-edit__input"}>
                       <label>
                         <span className="custom-input__label">Имя</span>
                         <span className="custom-input__wrapper">
-                          <input type="text" name="name" value="Валерия"/>
+                          <input type="text" name="name" value={registryData.name} disabled={!editStatus} onChange={onChange}/>
                         </span>
                       </label>
                     </div>
                     <div className="custom-textarea user-info-edit__textarea">
                       <label><span className="custom-textarea__label">Описание</span>
-                        <textarea name="description" placeholder=" ">Персональный тренер и инструктор групповых программ с опытом  более 4х лет. Специализация: коррекция фигуры и осанки, снижение веса, восстановление после травм, пилатес.</textarea>
+                        <textarea name="description" placeholder=" " value={registryData.description}
+                        onChange={onChange} readOnly={!editStatus}>{registryData.description}
+                        </textarea>
                       </label>
                     </div>
                   </div>
@@ -125,7 +170,7 @@ function CoachAccount(): JSX.Element {
                     <h2 className="user-info-edit__title user-info-edit__title--status">Статус</h2>
                     <div className="custom-toggle custom-toggle--switch user-info-edit__toggle">
                       <label>
-                        <input type="checkbox" name="ready-for-training" checked/>
+                        <input type="checkbox" name="personalTrainings" onChange={()=> setPersonalTrainings(!personalTrainings)} checked={personalTrainings}/>
                           <span className="custom-toggle__icon">
                           <svg width="9" height="6" aria-hidden="true">
                             <use xlinkHref="#arrow-check"></use>
@@ -138,82 +183,59 @@ function CoachAccount(): JSX.Element {
                   <div className="user-info-edit__section">
                     <h2 className="user-info-edit__title user-info-edit__title--specialization">Специализация</h2>
                     <div className="specialization-checkbox user-info-edit__specialization">
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="yoga" checked/>
-                            <span className="btn-checkbox__btn">Йога</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="running"/>
-                            <span className="btn-checkbox__btn">Бег</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="aerobics" checked/>
-                            <span className="btn-checkbox__btn">Аэробика</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="boxing"/>
-                            <span className="btn-checkbox__btn">Бокс</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="power"/>
-                            <span className="btn-checkbox__btn">Силовые</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="pilates" checked/>
-                            <span className="btn-checkbox__btn">Пилатес</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="stretching" checked/>
-                            <span className="btn-checkbox__btn">Стрейчинг</span>
-                        </label>
-                      </div>
-                      <div className="btn-checkbox">
-                        <label>
-                          <input className="visually-hidden" type="checkbox" name="specialization" value="crossfit"/>
-                            <span className="btn-checkbox__btn">Кроссфит</span>
-                        </label>
-                      </div>
+                      <SpecializationCheckbox onChangeType={onChangeType} trainingType={userData?.trainingType}/>
                     </div>
                   </div>
-                  <div className="custom-select user-info-edit__select"><span className="custom-select__label">Локация</span>
+                  <div className="user-info-edit__select">
+                    <span className="custom-select__label">Локация</span>
+                    <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.location}
+                      onChange={({target}) => setRegistryData({...registryData, [target.name]: target.value})}>
+                          {LOCATIONS.map((local) => (<option value={local}>{local}</option>))}
+                      </select>
+
+{/*
                     <div className="custom-select__placeholder">ст. м. Адмиралтейская</div>
-                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций"><span className="custom-select__text"></span><span className="custom-select__icon">
+                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций">
+                    <span className="custom-select__text"></span>
+                    <span className="custom-select__icon">
                         <svg width="15" height="6" aria-hidden="true">
                           <use xlinkHref="#arrow-down"></use>
-                        </svg></span></button>
+                        </svg>
+                        </span>
+                        </button>
                     <ul className="custom-select__list" role="listbox">
-                    </ul>
+                    </ul> */}
                   </div>
+
                   <div className="custom-select user-info-edit__select"><span className="custom-select__label">Пол</span>
-                    <div className="custom-select__placeholder">Женский</div>
-                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций"><span className="custom-select__text"></span><span className="custom-select__icon">
+                     <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.sex}>
+                          {SEX.map((sex) => (<option value={sex}>{ucFirst(sex)}</option>))}
+                     </select>
+
+                    {/* <div className="custom-select__placeholder">Женский</div>
+                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций">
+                      <span className="custom-select__text"></span>
+                      <span className="custom-select__icon">
                         <svg width="15" height="6" aria-hidden="true">
                           <use xlinkHref="#arrow-down"></use>
                         </svg></span></button>
                     <ul className="custom-select__list" role="listbox">
-                    </ul>
+                    </ul> */}
                   </div>
-                  <div className="custom-select user-info-edit__select"><span className="custom-select__label">Уровень</span>
-                    <div className="custom-select__placeholder">Профессионал</div>
+
+                  <div className="custom-select user-info-edit__select">
+                    <span className="custom-select__label">Уровень</span>
+                     <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.level}>
+                          {LEVELS.map((level) => (<option value={level}>{ucFirst(level)}</option>))}
+                     </select>
+
+                    {/* <div className="custom-select__placeholder">Профессионал</div>
                     <button className="custom-select__button" type="button" aria-label="Выберите одну из опций"><span className="custom-select__text"></span><span className="custom-select__icon">
                         <svg width="15" height="6" aria-hidden="true">
                           <use xlinkHref="#arrow-down"></use>
                         </svg></span></button>
                     <ul className="custom-select__list" role="listbox">
-                    </ul>
+                    </ul> */}
                   </div>
                 </form>
               </section>

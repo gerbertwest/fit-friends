@@ -2,8 +2,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { NewUser } from "../../types/new-user";
 import { useAppDispatch } from "../../hooks/index";
 import { registerUser } from "../../store/api-actions";
-import { LOCATIONS } from "../../const";
+import { LOCATIONS, SEX } from "../../const";
 import BackgroungLogo from "../../components/background-logo/background-logo";
+import { ucFirst } from "../../util";
 
 function Registry(): JSX.Element {
 
@@ -127,27 +128,15 @@ function Registry(): JSX.Element {
                       <div className="sign-up__radio">
                         <span className="sign-up__label">Пол</span>
                         <div className="custom-toggle-radio custom-toggle-radio--big">
-                          <div className="custom-toggle-radio__block">
+                          {SEX.map((sex) => (
+                            <div className="custom-toggle-radio__block">
                             <label>
-                              <input type="radio" name="sex" value='мужской' checked={registryData.sex === 'мужской' ? true : false} onChange={onChange} required></input>
+                              <input type="radio" name="sex" value={sex} checked={registryData.sex === sex ? true : false} onChange={onChange} required></input>
                                 <span className="custom-toggle-radio__icon"></span>
-                                <span className="custom-toggle-radio__label">Мужской</span>
+                                <span className="custom-toggle-radio__label">{ucFirst(sex)}</span>
                             </label>
                           </div>
-                          <div className="custom-toggle-radio__block">
-                            <label>
-                              <input type="radio" name="sex" value='женский' checked={registryData.sex === 'женский' ? true : false} onChange={onChange} required></input>
-                                <span className="custom-toggle-radio__icon"></span>
-                                <span className="custom-toggle-radio__label">Женский</span>
-                            </label>
-                          </div>
-                          <div className="custom-toggle-radio__block">
-                            <label>
-                              <input type="radio" name="sex" value='неважно' checked={registryData.sex === 'неважно' ? true : false} onChange={onChange} required></input>
-                                <span className="custom-toggle-radio__icon"></span>
-                                <span className="custom-toggle-radio__label">Неважно</span>
-                            </label>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     </div>
