@@ -20,7 +20,7 @@ export interface User {
   caloriesToBurn?: number;
   readyToTraining?: boolean;
 
-  certificates?: string;
+  certificates?: string[];
   merits?: string;
   personalTrainings?: boolean;
 

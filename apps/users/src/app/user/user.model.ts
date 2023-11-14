@@ -84,7 +84,7 @@ export class UserModel extends Document implements User {
   public readyToTraining?: boolean;
 
   @Prop()
-  public certificates?: string;
+  public certificates?: string[];
 
   @Prop()
   public merits?: string;

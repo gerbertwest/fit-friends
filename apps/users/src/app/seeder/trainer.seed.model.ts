@@ -41,8 +41,8 @@ export class TrainerSeedModel extends Document implements User {
   @Factory((faker) => faker.helpers.arrayElement(trainingsType))
   public trainingType?: string[];
 
-  @Factory('example.pdf')
-  public certificates?: string;
+  @Factory(['example.pdf'])
+  public certificates?: string[];
 
   @Factory((faker) => faker.lorem.sentence({min: 2, max: 6}))
   public merits?: string;

@@ -419,7 +419,17 @@ export class UsersController {
 
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Upload}/upload`, formData, { headers });
 
-    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {certificates: data.path}, {
+    const user = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${payload.sub}`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    const newCertificates = user.data.certificates
+    newCertificates.push(data.path)
+
+
+    await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {certificates: newCertificates}, {
         headers: {
           'Authorization': req.headers['authorization']
         }

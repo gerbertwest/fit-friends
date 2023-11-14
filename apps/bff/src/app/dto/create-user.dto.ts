@@ -130,10 +130,10 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'certificates',
-    example: 'example.pdf'
+    example: ['example.pdf']
   })
   @ValidateIf(o => o.role === UserRole.Admin)
-  public certificates?: string;
+  public certificates?: string[];
 
   @ApiProperty({
     description: 'merits of treiner',

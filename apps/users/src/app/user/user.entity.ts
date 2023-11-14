@@ -20,7 +20,7 @@ export class UserEntity implements User {
   public caloriesToLose?: number;
   public caloriesToBurn?: number;
   public readyToTraining?: boolean;
-  public certificates?: string;
+  public certificates?: string[];
   public merits?: string;
   public personalTrainings?: boolean;
 
