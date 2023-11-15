@@ -66,7 +66,7 @@ function QuestionaireUser(): JSX.Element {
                     <div className="questionnaire-user__wrapper">
                       <div className="questionnaire-user__block"><span className="questionnaire-user__legend">Ваша специализация (тип) тренировок</span>
                         <div className="specialization-checkbox questionnaire-user__specializations">
-                          <SpecializationCheckbox onChangeType={onChangeType}/>
+                          <SpecializationCheckbox onChangeType={onChangeType} trainingType={trainingType}/>
                         </div>
                       </div>
                       <div className="questionnaire-user__block"><span className="questionnaire-user__legend">Сколько времени вы готовы уделять на тренировку в день</span>

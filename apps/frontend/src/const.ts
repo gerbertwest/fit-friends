@@ -6,7 +6,11 @@ export enum AppRoute {
   CoachAccount = '/coachAccount',
   UserId = ':id',
   QuestionaireUser = '/questionaireUser',
-  QuestionaireCoach = '/questionaireCoach'
+  QuestionaireCoach = '/questionaireCoach',
+  MyTrainings = '/myTrainings',
+  CreateTraining = '/createTraining',
+  MyOrders = '/myOrders',
+  MyFriends = '/myFriends',
 }
 
 export enum AuthorizationStatus {

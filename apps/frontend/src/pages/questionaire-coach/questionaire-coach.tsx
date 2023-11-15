@@ -8,6 +8,7 @@ import LevelCheckbox from "../../components/level-checkbox/level-checkbox";
 
 function QuestionaireCoach(): JSX.Element {
 
+  const DEFAULT_TYPE: string[] = [];
   const dispatch = useAppDispatch();
 
   const [registryData, setRegistryData] = useState({
@@ -18,7 +19,6 @@ function QuestionaireCoach(): JSX.Element {
   const [certificates, setCertificate] = useState<File | undefined>();
   const [checkbox, setCheckbox] = useState(false);
 
-  const DEFAULT_TYPE: string[] = [];
   const [trainingType, addTrainingType] = useState(DEFAULT_TYPE)
 
   const changeType = (value: string) => {
@@ -73,7 +73,7 @@ function QuestionaireCoach(): JSX.Element {
                     <div className="questionnaire-coach__wrapper">
                       <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Ваша специализация (тип) тренировок</span>
                         <div className="specialization-checkbox questionnaire-coach__specializations">
-                        <SpecializationCheckbox onChangeType={onChangeType}/>
+                        <SpecializationCheckbox onChangeType={onChangeType} trainingType={trainingType}/>
                         </div>
                       </div>
                       <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Ваш уровень</span>

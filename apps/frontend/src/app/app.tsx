@@ -13,6 +13,10 @@ import { getAuthorizationStatus } from "../store/user/selectors";
 import QuestionaireCoach from "../pages/questionaire-coach/questionaire-coach";
 import QuestionaireUser from "../pages/questionaire-user/questionaire-user";
 import LoadingScreen from "../pages/loading-screen/loading-screen";
+import MyTrainings from "../pages/my-trainings/my-trainings";
+import MyOrders from "../pages/my-orders/my-orders";
+import CreateTraining from "../pages/create-training/create-training";
+import FriendsListCoach from "../pages/friends-list-coach/friends-list-coach";
 
 export function App(): JSX.Element {
 
@@ -91,6 +95,59 @@ export function App(): JSX.Element {
          </PrivateRoute>
         }
       />
+
+      <Route path={AppRoute.MyTrainings}>
+       <Route path={AppRoute.UserId}>
+        <Route index element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <MyTrainings/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+     </Route>
+
+     <Route path={AppRoute.MyOrders}>
+       <Route path={AppRoute.UserId}>
+        <Route index element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <MyOrders/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+     </Route>
+
+     <Route path={AppRoute.CreateTraining}>
+       <Route path={AppRoute.UserId}>
+        <Route index element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <CreateTraining/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+     </Route>
+
+     <Route path={AppRoute.MyFriends}>
+       <Route path={AppRoute.UserId}>
+        <Route index element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <FriendsListCoach/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+     </Route>
+
     </Routes>
     </HistoryRouter>
   );

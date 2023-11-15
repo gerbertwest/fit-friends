@@ -30,7 +30,7 @@ export class AuthenticationService {
       description, location} = dto;
 
     const user = {
-      email, name, role, dateBirth, sex, description, location, certificates: [''],
+      email, name, role, dateBirth, sex, description, location, certificates: [],
       avatar: '', passwordHash: '', backgroundImage: '',
     };
 
