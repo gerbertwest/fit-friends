@@ -1964,7 +1964,7 @@ input:active + .custom-textarea__text {
   color: rgba(51, 51, 51, 0.5);
 }
 
-.custom-select select {
+/* .custom-select select {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1976,7 +1976,7 @@ input:active + .custom-textarea__text {
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(100%);
   clip-path: inset(100%);
-}
+} */
 
 .custom-select__button {
   display: -webkit-box;

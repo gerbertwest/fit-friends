@@ -102,7 +102,7 @@ export const updateUser = createAsyncThunk<void, UpdateUser, {
   'user/update',
   async ({description, level, trainingTime, trainingType,
     caloriesToLose, caloriesToBurn, readyToTraining,
-    certificates, merits, personalTrainings}, { dispatch, extra: api }) => {
+    certificates, merits, personalTrainings, avatar}, { dispatch, extra: api }) => {
     const postData = await api.patch(APIRoute.UpdateUser, {
       description,
       level,
@@ -119,6 +119,14 @@ export const updateUser = createAsyncThunk<void, UpdateUser, {
       const payload = new FormData();
       payload.append('file', certificates);
       await api.post(APIRoute.Certificates, payload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+
+    if (postData.status === HTTP_CODE.OK && avatar) {
+      const payload = new FormData();
+      payload.append('file', avatar);
+      await api.post(APIRoute.Avatar, payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     }

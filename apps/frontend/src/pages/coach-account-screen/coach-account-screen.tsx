@@ -13,6 +13,17 @@ import { User } from "../../types/user";
 
 function CoachAccount(): JSX.Element {
 
+  const DEFAULT_DATA: User = {
+    name: '',
+    sex: '',
+    description: '',
+    location: '',
+    personalTrainings: false,
+    level: '',
+    avatar: ''
+  }
+  const DEFAULT_TYPE: string[] = [];
+
   const dispatch = useAppDispatch();
   const user = useAppSelector(userSelector);
   const userData = user.data
@@ -24,20 +35,8 @@ function CoachAccount(): JSX.Element {
 
   const [editStatus, setEditStatus] = useState(false);
 
-  const DEFAULT_DATA: User = {
-    name: '',
-    sex: '',
-    description: '',
-    location: '',
-    personalTrainings: false,
-    level: '',
-  }
-
   const [registryData, setRegistryData] = useState(DEFAULT_DATA);
-
   const [avatar, setAvatar] = useState<File | undefined>();
-
-  const DEFAULT_TYPE: string[] = [];
   const [trainingType, addTrainingType] = useState<string[] | undefined>(DEFAULT_TYPE)
   const [personalTrainings, setPersonalTrainings] = useState<boolean | undefined>(false)
 
@@ -50,12 +49,13 @@ function CoachAccount(): JSX.Element {
         personalTrainings: userData?.personalTrainings,
         level: userData?.level,
         description: userData.description,
+        avatar: userData?.avatar
        }
       );
       addTrainingType(userData.trainingType);
       setPersonalTrainings(userData.personalTrainings)
     }
-  }, [user.data, userData, userData?.avatar, userData?.level, userData?.location, userData?.name, userData?.personalTrainings, userData?.sex])
+  }, [userData])
 
   const changeType = (value: string) => {
     if (trainingType) {
@@ -97,8 +97,6 @@ function CoachAccount(): JSX.Element {
       level: registryData.level,
     };
 
-    console.log(formData)
-
     setEditStatus(false)
     dispatch(updateUser(formData));
   };
@@ -120,9 +118,24 @@ function CoachAccount(): JSX.Element {
                 <div className="user-info-edit__header">
                   <div className="input-load-avatar">
                     <label>
-                      <input className="visually-hidden" type="file" name="user-photo-1" accept="image/png, image/jpeg"/>
+                      <input className="visually-hidden" type="file" name="avatar" accept="image/png, image/jpeg" onChange={handleAvatarUpload} disabled={!editStatus}/>
                         <span className="input-load-avatar__avatar">
-                          <img src={userData?.avatar ? `${STATIC_DIRECTORY}${userData.avatar}` : "public/img/content/user-photo-1.png"} srcSet="public/img/content/user-photo-1@2x.png 2x" width="98" height="98" alt="user avatar"/>
+                        {avatar ? (
+                                <img
+                                src={URL.createObjectURL(avatar)}
+                                alt="avatar"
+                                width="70" height="70" aria-hidden="true"
+                              />
+                              ) :
+                              (
+                                <img
+                                src={`${STATIC_DIRECTORY}${registryData.avatar}`}
+                                alt="avatar"
+                                width="70" height="70" aria-hidden="true"
+                              />
+                            ) ||
+                            <img src="public/img/content/user-photo-1.png" srcSet="public/img/content/user-photo-1@2x.png 2x" width="98" height="98" alt="user avatar"/>
+                            }
                         </span>
                     </label>
                   </div>
@@ -170,7 +183,7 @@ function CoachAccount(): JSX.Element {
                     <h2 className="user-info-edit__title user-info-edit__title--status">Статус</h2>
                     <div className="custom-toggle custom-toggle--switch user-info-edit__toggle">
                       <label>
-                        <input type="checkbox" name="personalTrainings" onChange={()=> setPersonalTrainings(!personalTrainings)} checked={personalTrainings}/>
+                        <input type="checkbox" name="personalTrainings" disabled={!editStatus} onChange={()=> setPersonalTrainings(!personalTrainings)} checked={personalTrainings}/>
                           <span className="custom-toggle__icon">
                           <svg width="9" height="6" aria-hidden="true">
                             <use xlinkHref="#arrow-check"></use>
@@ -183,59 +196,31 @@ function CoachAccount(): JSX.Element {
                   <div className="user-info-edit__section">
                     <h2 className="user-info-edit__title user-info-edit__title--specialization">Специализация</h2>
                     <div className="specialization-checkbox user-info-edit__specialization">
-                      <SpecializationCheckbox onChangeType={onChangeType} trainingType={userData?.trainingType}/>
+                      <SpecializationCheckbox onChangeType={onChangeType} trainingType={trainingType} editStatus={editStatus}/>
                     </div>
                   </div>
-                  <div className="user-info-edit__select">
+                  <div className="custom-select user-info-edit__select">
                     <span className="custom-select__label">Локация</span>
                     <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.location}
-                      onChange={({target}) => setRegistryData({...registryData, [target.name]: target.value})}>
+                      onChange={({target}) => setRegistryData({...registryData, [target.name]: target.value})} disabled={!editStatus}>
                           {LOCATIONS.map((local) => (<option value={local}>{local}</option>))}
                       </select>
-
-{/*
-                    <div className="custom-select__placeholder">ст. м. Адмиралтейская</div>
-                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций">
-                    <span className="custom-select__text"></span>
-                    <span className="custom-select__icon">
-                        <svg width="15" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-down"></use>
-                        </svg>
-                        </span>
-                        </button>
-                    <ul className="custom-select__list" role="listbox">
-                    </ul> */}
                   </div>
 
-                  <div className="custom-select user-info-edit__select"><span className="custom-select__label">Пол</span>
-                     <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.sex}>
+                  <div className="custom-select user-info-edit__select">
+                    <span className="custom-select__label">Пол</span>
+                     <select className="custom-select__button" name='sex' aria-label="Выберите одну из опций" value={registryData.sex}
+                       onChange={({target}) => setRegistryData({...registryData, [target.name]: target.value})} disabled={!editStatus}>
                           {SEX.map((sex) => (<option value={sex}>{ucFirst(sex)}</option>))}
                      </select>
-
-                    {/* <div className="custom-select__placeholder">Женский</div>
-                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций">
-                      <span className="custom-select__text"></span>
-                      <span className="custom-select__icon">
-                        <svg width="15" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-down"></use>
-                        </svg></span></button>
-                    <ul className="custom-select__list" role="listbox">
-                    </ul> */}
                   </div>
 
                   <div className="custom-select user-info-edit__select">
                     <span className="custom-select__label">Уровень</span>
-                     <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.level}>
+                     <select className="custom-select__button" name='level' aria-label="Выберите одну из опций" value={registryData.level}
+                       onChange={({target}) => setRegistryData({...registryData, [target.name]: target.value})} disabled={!editStatus}>
                           {LEVELS.map((level) => (<option value={level}>{ucFirst(level)}</option>))}
                      </select>
-
-                    {/* <div className="custom-select__placeholder">Профессионал</div>
-                    <button className="custom-select__button" type="button" aria-label="Выберите одну из опций"><span className="custom-select__text"></span><span className="custom-select__icon">
-                        <svg width="15" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-down"></use>
-                        </svg></span></button>
-                    <ul className="custom-select__list" role="listbox">
-                    </ul> */}
                   </div>
                 </form>
               </section>
