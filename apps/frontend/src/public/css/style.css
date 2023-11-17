@@ -1068,7 +1068,7 @@ button,
 
 .btn-flat::before {
   position: absolute;
-  content: "";
+  /* content: ""; */
   top: -7px;
   left: -8px;
   width: calc(100% + 19px);

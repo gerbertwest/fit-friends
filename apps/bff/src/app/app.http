@@ -47,13 +47,24 @@ Content-Type: application/pdf
 
 ###
 
+# Delete user certificate
+POST http://localhost:4000/api/users/deleteCertificate HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDE0ODYxOCwiZXhwIjoxNzAwMTQ5NTE4fQ.zvKGV8cHRjQZ8H_zkzfNcIYHF8TtcSlsNrGd-QYwEgw
+
+{
+  "certificate": "/static/2023/11/9f0536f0-ca4d-45b2-8fac-b784c1a61969.pdf"
+}
+
+###
+
 
 # Login user by email and password
 POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Tyreek.Reynolds@gmail.com",
+  "email": "gerbert.west@gmail.ru",
   "password": "123456"
 }
 
@@ -67,7 +78,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNjhiN
 
 # Check user token
 GET http://localhost:4000/api/users/check HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE2OTk2Mzg1OTcsImV4cCI6MTY5OTYzOTQ5N30.wtSC9_qWiVLSj4Rv_RAklFrPGPj4bB4wV2eJksZdtws
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDE0NzU4NiwiZXhwIjoxNzAwMTQ4NDg2fQ.fZGMqWw-KW5tuksxHKH1Zhi7s-K5ZAZd9BJnLf0Scio
 
 ###
 

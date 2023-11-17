@@ -94,7 +94,7 @@ export const registerUser = createAsyncThunk<void, NewUser, {
   }
 );
 
-export const updateUser = createAsyncThunk<void, UpdateUser, {
+export const updateUser = createAsyncThunk<User, UpdateUser, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -102,7 +102,7 @@ export const updateUser = createAsyncThunk<void, UpdateUser, {
   'user/update',
   async ({description, level, trainingTime, trainingType,
     caloriesToLose, caloriesToBurn, readyToTraining,
-    certificates, merits, personalTrainings, avatar}, { dispatch, extra: api }) => {
+    certificate, merits, personalTrainings, avatar, certificates}, { dispatch, extra: api }) => {
     const postData = await api.patch(APIRoute.UpdateUser, {
       description,
       level,
@@ -113,14 +113,16 @@ export const updateUser = createAsyncThunk<void, UpdateUser, {
       readyToTraining,
       merits,
       personalTrainings,
+      certificates
     });
 
-    if (postData.status === HTTP_CODE.OK && certificates) {
+    if (postData.status === HTTP_CODE.OK && certificate) {
       const payload = new FormData();
-      payload.append('file', certificates);
-      await api.post(APIRoute.Certificates, payload, {
+      payload.append('file', certificate);
+      const {data} = await api.post(APIRoute.Certificates, payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+      return data
     }
 
     if (postData.status === HTTP_CODE.OK && avatar) {
@@ -131,12 +133,15 @@ export const updateUser = createAsyncThunk<void, UpdateUser, {
       });
     }
 
+
     if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.Admin) {
       dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${postData.data.id}`))
     }
     else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
       dispatch(redirectToRoute(`${AppRoute.Main}/${postData.data.id}`))
     }
+    console.log(postData.data)
+    return postData.data;
   }
 );
 
@@ -150,4 +155,19 @@ export const fetchUserByIdAction = createAsyncThunk<User, string, {
     const {data} = await api.get<User>(`${APIRoute.Users}/${userId}`);
     return data;
   },
+);
+
+export const deleteCertificate = createAsyncThunk<void, UpdateUser, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/update',
+  async ({certificate}, {dispatch, extra: api }) => {
+    const data = await api.post(APIRoute.DeleteCertificate, {
+      certificate
+    });
+  dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${data.data.id}`))
+  }
+
 );

@@ -10,6 +10,9 @@ export type UserProcess = {
     isLoading: boolean;
     isError: boolean;
   };
+  updateUserData: {
+    data: User | null
+  }
 };
 
 

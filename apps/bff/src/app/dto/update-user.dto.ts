@@ -147,4 +147,8 @@ export class UpdateUserDto {
   @IsBoolean()
   public personalTrainings?: boolean;
 
+  @IsOptional()
+  @ValidateIf(o => o.role === UserRole.Admin)
+  public certificate: string
+
 }

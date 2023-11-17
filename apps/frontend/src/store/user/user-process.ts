@@ -1,7 +1,7 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {NameSpace, AuthorizationStatus} from '../../const';
 import {UserProcess} from '../../types/state';
-import {checkAuthAction, fetchUserByIdAction, loginAction, logoutAction, registerUser} from '../api-actions';
+import {checkAuthAction, fetchUserByIdAction, loginAction, logoutAction, registerUser, updateUser} from '../api-actions';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -11,6 +11,9 @@ const initialState: UserProcess = {
     isError: false,
     isLoading: false,
   },
+  updateUserData: {
+    data: null
+  }
 };
 
 export const userProcess = createSlice({
@@ -55,6 +58,10 @@ export const userProcess = createSlice({
       })
       .addCase(fetchUserByIdAction.rejected, (state) => {
         state.user.isError = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.updateUserData.data = action.payload
       })
   }
 });

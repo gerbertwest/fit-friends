@@ -16,11 +16,12 @@ caloriesToLose?: number;
 caloriesToBurn?: number;
 readyToTraining?: boolean;
 
-certificates?: File | undefined;
+certificate?: File | undefined;
 merits?: string;
 personalTrainings?: boolean | undefined;
 
 friends?: string[];
 
 subscriptions?: string[]
+certificates?: string[]
 }

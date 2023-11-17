@@ -16,7 +16,7 @@ function QuestionaireCoach(): JSX.Element {
     merits: '',
   });
 
-  const [certificates, setCertificate] = useState<File | undefined>();
+  const [certificate, setCertificate] = useState<File | undefined>();
   const [checkbox, setCheckbox] = useState(false);
 
   const [trainingType, addTrainingType] = useState(DEFAULT_TYPE)
@@ -52,7 +52,7 @@ function QuestionaireCoach(): JSX.Element {
       level: registryData.level,
       trainingType: trainingType,
       merits: registryData.merits,
-      certificates,
+      certificate,
       personalTrainings: checkbox,
     };
 
@@ -84,7 +84,7 @@ function QuestionaireCoach(): JSX.Element {
                       <div className="questionnaire-coach__block"><span className="questionnaire-coach__legend">Ваши дипломы и сертификаты</span>
                         <div className="drag-and-drop questionnaire-coach__drag-and-drop">
                           <label>
-                            <span className="drag-and-drop__label" tabIndex={0}>{certificates ? certificates.name : 'Загрузите сюда файлы формата PDF, JPG или PNG'}
+                            <span className="drag-and-drop__label" tabIndex={0}>{certificate ? certificate.name : 'Загрузите сюда файлы формата PDF, JPG или PNG'}
                               <svg width="20" height="20" aria-hidden="true">
                                 <use xlinkHref="#icon-import"></use>
                               </svg></span>

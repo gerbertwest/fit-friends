@@ -33,6 +33,7 @@ export enum APIRoute {
   UpdateUser = '/users/update',
   Certificates = '/users/certificate',
   Users = '/users',
+  DeleteCertificate = '/users/deleteCertificate',
 
 }
 
