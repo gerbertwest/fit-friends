@@ -60,7 +60,6 @@ export const userProcess = createSlice({
         state.user.isError = true;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.updateUserData.data = action.payload
       })
   }

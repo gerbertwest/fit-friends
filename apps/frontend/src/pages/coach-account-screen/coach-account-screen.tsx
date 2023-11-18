@@ -36,7 +36,11 @@ function CoachAccount(): JSX.Element {
   }, [dispatch, params.id])
 
   const [editStatus, setEditStatus] = useState(false);
-  const [certEditStatus, setCertEditStatus] = useState(false);
+  const [certEditStatus, setCertEditStatus] = useState(
+    {
+      key: '',
+      status: false
+    });
   const [registryData, setRegistryData] = useState(DEFAULT_DATA);
   const [avatar, setAvatar] = useState<File | undefined>();
   const [trainingType, addTrainingType] = useState<string[] | undefined>(DEFAULT_TYPE)
@@ -93,11 +97,6 @@ function CoachAccount(): JSX.Element {
       return;
     }
     dispatch(updateUser({certificate: evt.target.files[0]}))
-
-    if (updateUserData?.certificates) {
-    evt.preventDefault();
-    setRegistryData({certificates: updateUserData.certificates})
-    }
   };
 
   const handleCertificateDelete = (certificate: string) => {
@@ -113,6 +112,23 @@ function CoachAccount(): JSX.Element {
     }
   }
   };
+
+  const handleChangeCertificate = (certificate: string, evt: ChangeEvent<HTMLInputElement>) => {
+    if (registryData?.certificates) {
+      const index = registryData?.certificates.indexOf(certificate);
+
+      if (index !== -1) {
+        const certificates = [...registryData.certificates]
+        certificates.splice(index, 1)
+        dispatch(updateUser({certificates: certificates}))
+      }
+    }
+    if (!evt.target.files) {
+      return;
+    }
+
+    dispatch(updateUser({certificate: evt.target.files[0]}))
+  }
 
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
@@ -143,8 +159,6 @@ function CoachAccount(): JSX.Element {
       <LoadingScreen/>
     );
   }
-
-  console.log(certEditStatus)
 
   return (
     <div className="wrapper">
@@ -317,7 +331,6 @@ function CoachAccount(): JSX.Element {
                         <svg width="14" height="14" aria-hidden="true">
                           <use xlinkHref="#icon-import"></use>
                         </svg>
-                        {/* <span>Загрузить</span> */}
                         <label htmlFor="certificate">Загрузить</label>
                       </form>
                       <input
@@ -345,7 +358,7 @@ function CoachAccount(): JSX.Element {
                     </div>
                     <ul className="personal-account-coach__list">
                       {registryData.certificates ? registryData?.certificates.map((cert) => (
-                        <li className="personal-account-coach__item">
+                        <li className="personal-account-coach__item" key={cert}>
                         <div className="certificate-card certificate-card--edit">
                           <div className="certificate-card__image">
                             <picture>
@@ -354,20 +367,32 @@ function CoachAccount(): JSX.Element {
                             </picture>
                           </div>
                           <div className="certificate-card__buttons">
-                            {certEditStatus === false ?
+                            {certEditStatus.status === true && certEditStatus.key === cert ?
                             <>
-                            <button className="btn-flat btn-flat--underlined certificate-card__button certificate-card__button--save" type="button" onClick={() => setCertEditStatus(true)}>
+                            <button className="btn-flat btn-flat--underlined certificate-card__button certificate-card__button--save" type="button"
+                            onClick={() => setCertEditStatus({key: cert, status: false})}>
                               <svg width="12" height="12" >
                                 <use xlinkHref="#icon-edit"></use>
                               </svg>
                               <span>Сохранить</span>
                             </button>
                             <div className="certificate-card__controls">
-                            <button className="btn-icon certificate-card__control" type="button" aria-label="next">
+                            <form className="btn-icon certificate-card__control" aria-label="next">
+                             <label htmlFor="cert">
                               <svg width="16" height="16" aria-hidden="true">
                                 <use xlinkHref="#icon-change"></use>
                               </svg>
-                            </button>
+                             </label>
+                            </form>
+                            <input
+                              type="file"
+                              name="cert"
+                              id="cert"
+                              accept=".pdf"
+                              hidden
+                              onChange={(evt) => handleChangeCertificate(cert, evt)}
+                             >
+                            </input>
                             <button className="btn-icon certificate-card__control" type="button" aria-label="next" onClick={() => handleCertificateDelete(cert)}>
                               <svg width="14" height="16" aria-hidden="true">
                                 <use xlinkHref="#icon-trash"></use>
@@ -376,7 +401,7 @@ function CoachAccount(): JSX.Element {
                            </div>
                            </>
                            :
-                            <button className="btn-flat btn-flat--underlined " type="button" onClick={() => setCertEditStatus(false)}>
+                            <button className="btn-flat btn-flat--underlined " type="button" onClick={() => setCertEditStatus({status: true, key: cert})}>
                               <svg width="12" height="12" >
                                 <use xlinkHref="#icon-edit"></use>
                               </svg>

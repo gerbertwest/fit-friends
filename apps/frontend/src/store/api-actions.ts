@@ -140,7 +140,6 @@ export const updateUser = createAsyncThunk<User, UpdateUser, {
     else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
       dispatch(redirectToRoute(`${AppRoute.Main}/${postData.data.id}`))
     }
-    console.log(postData.data)
     return postData.data;
   }
 );
