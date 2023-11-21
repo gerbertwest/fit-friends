@@ -1,5 +1,6 @@
 import { AuthorizationStatus } from '../const.js';
 import {store} from '../store/index.js';
+import { Training } from './training';
 import { User } from './user';
 
 export type UserProcess = {
@@ -14,6 +15,14 @@ export type UserProcess = {
     data: User | null
   }
 };
+
+export type TrainingProcess = {
+  myTrainings: {
+    data: Training[];
+    isLoading: boolean;
+    isError: boolean;
+  }
+}
 
 
 export type State = ReturnType<typeof store.getState>;

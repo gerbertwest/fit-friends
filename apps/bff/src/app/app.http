@@ -152,19 +152,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2N
 # Create a new training
 POST http://localhost:4000/api/training HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2FmMzk0ZTJkZGUyMzk3MGY5YzUiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzMiIsImlhdCI6MTY5OTI3MTI3NCwiZXhwIjoxNjk5MjcyMTc0fQ.3lDdcHs0Xa7T0lBNKvFBmmF0CUl8yM7_9Vhno3L_5L8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDU5MzkyMiwiZXhwIjoxNzAwNTk0ODIyfQ.ffDhAAINtiSx4oWpz7dK4rMyl7OR45EfbnqD0o0Qm-c
 
 {
-  "title": "Тренировка 6",
-  "level": "любитель",
-  "trainingType": "бокс",
+  "title": "Тренировка 13",
+  "level": "профессионал",
+  "trainingType": "стрейчинг",
   "trainingTime": "50-80 мин",
-  "price": 400,
-  "caloriesCount": 1000,
-  "description": "описание 4",
-  "sex": "для мужчин",
-  "video": "example.avi",
-  "special": true
+  "price": 600,
+  "caloriesCount": 1200,
+  "description": "описание 5",
+  "sex": "для женщин",
+  "special": false
 }
 
 ###
@@ -172,7 +171,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2FmM
 # Get my tainings
 GET http://localhost:4000/api/training/trainer HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2FmMzk0ZTJkZGUyMzk3MGY5YzUiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzMiIsImlhdCI6MTY5OTI2OTg4NywiZXhwIjoxNjk5MjcwNzg3fQ.DRqp9ij7ps4g2CrNIAbQoq-lx5vsESPRj_nvGZDNDIA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDU5MzkyMiwiZXhwIjoxNzAwNTk0ODIyfQ.ffDhAAINtiSx4oWpz7dK4rMyl7OR45EfbnqD0o0Qm-c
 
 ###
 

@@ -20,8 +20,7 @@ export enum AuthorizationStatus {
 }
 
 export enum NameSpace {
-  Data = 'DATA',
-  Main = 'MAIN',
+  Training = 'TRAINING',
   User = 'USER',
 }
 
@@ -34,6 +33,7 @@ export enum APIRoute {
   Certificates = '/users/certificate',
   Users = '/users',
   DeleteCertificate = '/users/deleteCertificate',
+  MyTrainings = '/training/trainer',
 
 }
 

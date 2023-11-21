@@ -9,6 +9,7 @@ import { TokenPayload } from '../types/token-payload';
 import { NewUser } from '../types/new-user';
 import { UpdateUser } from '../types/update-user';
 import { User } from '../types/user';
+import { Training } from '../types/training';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -156,17 +157,14 @@ export const fetchUserByIdAction = createAsyncThunk<User, string, {
   },
 );
 
-export const deleteCertificate = createAsyncThunk<void, UpdateUser, {
+export const fetchMyTrainingsAction = createAsyncThunk<Training[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/update',
-  async ({certificate}, {dispatch, extra: api }) => {
-    const data = await api.post(APIRoute.DeleteCertificate, {
-      certificate
-    });
-  dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${data.data.id}`))
-  }
-
+  'data/fetchMyTrainings',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Training[]>(APIRoute.MyTrainings);
+    return data;
+  },
 );

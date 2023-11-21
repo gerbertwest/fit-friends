@@ -153,7 +153,6 @@ function CoachAccount(): JSX.Element {
       }
   }, [updateUserData])
 
-
   if (user.isLoading) {
     return (
       <LoadingScreen/>
@@ -324,6 +323,8 @@ function CoachAccount(): JSX.Element {
                     </div>
                   </div>
                   </div>
+
+
                   <div className="personal-account-coach__additional-info">
                     <div className="personal-account-coach__label-wrapper">
                       <h2 className="personal-account-coach__label">Дипломы и сертификаты</h2>
@@ -356,8 +357,9 @@ function CoachAccount(): JSX.Element {
                         </button>
                       </div>
                     </div>
+
                     <ul className="personal-account-coach__list">
-                      {registryData.certificates ? registryData?.certificates.map((cert) => (
+                       {registryData.certificates ? registryData?.certificates.map((cert) => (
                         <li className="personal-account-coach__item" key={cert}>
                         <div className="certificate-card certificate-card--edit">
                           <div className="certificate-card__image">
@@ -413,8 +415,10 @@ function CoachAccount(): JSX.Element {
                           </div>
                         </div>
                       </li>
-                      )) : ''}
+                     )) : ''}
+
                     </ul>
+
                   </div>
                 </div>
               </div>
