@@ -49,7 +49,7 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
   }
 
   public async findByTrainerId(trainerId: string, {limit, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount,
-    minRaiting, maxRaiting, trainingTypes, sortDirection, page}: TrainingQuery): Promise<Training[]> {
+    minRaiting, maxRaiting, trainingTypes, sortDirection, page, trainingTime}: TrainingQuery): Promise<Training[]> {
       return this.prisma.training.findMany({
         where: {
           trainerId: trainerId,
@@ -68,6 +68,9 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
           trainingType: {
             in: trainingTypes
           },
+          trainingTime: {
+            in: trainingTime
+          }
         },
         take: page > 0 ? (limit * page) : limit,
         include: {

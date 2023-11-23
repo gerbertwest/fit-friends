@@ -5,12 +5,14 @@ import { myTrainingsSelector } from "../../store/training/selectors";
 import { fetchMyTrainingsAction } from "../../store/api-actions";
 import { AppRoute, STATIC_DIRECTORY, TRAINING_TIMES } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
+import FilterSlider from "../../components/filter-slider/filter-slider";
+import { getQueryString } from "../../util";
 
 function MyTrainings(): JSX.Element {
 
   const DEFAULT_FILTERS = {
     minPrice: 0,
-    maxPrice: 10000,
+    maxPrice: 1000,
     minCalories: 1000,
     maxCalories: 5000,
     minRating: 0,
@@ -18,23 +20,27 @@ function MyTrainings(): JSX.Element {
   }
 
   const DEFAULT_TIME: string[] = [];
+  const DEFAULT_PAGE = 1;
 
   const myTrainings = useAppSelector(myTrainingsSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
 
-  useEffect(() => {
-    dispatch(fetchMyTrainingsAction())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchMyTrainingsAction({}))
+  // }, [dispatch])
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
-  const [filterTime, addFilterTime] = useState<string[] | undefined>(DEFAULT_TIME)
-
-  console.log(filterTime)
+  const [filterTime, addFilterTime] = useState<string[]>(DEFAULT_TIME)
+  const [page, setPage] = useState<number>(DEFAULT_PAGE)
 
   const onChange = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setFilters({...filters, [target.name]: target.value});
+  };
+
+  const onFilterChange = (minName: string, maxName: string, count: number[]) => {
+    setFilters({...filters, [minName]: count[0], [maxName]: count[1]})
   };
 
   const changeFilterTime = (value: string) => {
@@ -49,10 +55,25 @@ function MyTrainings(): JSX.Element {
    }
   };
 
-
   const onChangeFilterTime = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     changeFilterTime(target.value);
   };
+
+  console.log(page)
+
+  useEffect(() => {
+    const queryString = getQueryString({
+      maxPrice: filters.maxPrice,
+      minPrice: filters.minPrice,
+      maxCaloriesCount: filters.maxCalories,
+      minCaloriesCount: filters.minCalories,
+      maxRaiting: filters.maxRating,
+      minRaiting: filters.minRating,
+      trainingTime: filterTime,
+      page: page,
+    })
+    dispatch(fetchMyTrainingsAction({queryString}))
+  }, [dispatch, filterTime, filters.maxCalories, filters.maxPrice, filters.maxRating, filters.minCalories, filters.minPrice, filters.minRating, page])
 
   return (
   <div className="wrapper">
@@ -84,15 +105,8 @@ function MyTrainings(): JSX.Element {
                       <label htmlFor="text-max">до</label>
                     </div>
                   </div>
-                  <div className="filter-range">
-                    <div className="filter-range__scale">
-                      <div className="filter-range__bar"><span className="visually-hidden">Полоса прокрутки</span></div>
-                    </div>
-                    <div className="filter-range__control">
-                      <button className="filter-range__min-toggle"><span className="visually-hidden">Минимальное значение</span></button>
-                      <button className="filter-range__max-toggle"><span className="visually-hidden">Максимальное значение</span></button>
-                    </div>
-                  </div>
+                    <FilterSlider minCountName='minPrice' maxCountName='maxPrice'
+                    minCount={DEFAULT_FILTERS.minPrice} maxCount={DEFAULT_FILTERS.maxPrice} onChange={onFilterChange}/>
                 </div>
                 <div className="my-training-form__block my-training-form__block--calories">
                   <h4 className="my-training-form__block-title">Калории</h4>
@@ -106,25 +120,20 @@ function MyTrainings(): JSX.Element {
                       <label htmlFor="text-max-cal">до</label>
                     </div>
                   </div>
-                  <div className="filter-range">
-                    <div className="filter-range__scale">
-                      <div className="filter-range__bar"><span className="visually-hidden">Полоса прокрутки</span></div>
-                    </div>
-                    <div className="filter-range__control">
-                      <button className="filter-range__min-toggle"><span className="visually-hidden">Минимальное значение</span></button>
-                      <button className="filter-range__max-toggle"><span className="visually-hidden">Максимальное значение</span></button>
-                    </div>
-                  </div>
+                    <FilterSlider maxCountName="maxCalories" minCountName="minCalories"
+                     minCount={DEFAULT_FILTERS.minCalories} maxCount={DEFAULT_FILTERS.maxCalories}
+                     onChange={onFilterChange}
+                    />
                 </div>
                 <div className="my-training-form__block my-training-form__block--raiting">
                   <h4 className="my-training-form__block-title">Рейтинг</h4>
                   <div className="filter-raiting">
-                    <div className="filter-raiting__scale">
-                      <div className="filter-raiting__bar"><span className="visually-hidden">Полоса прокрутки</span></div>
-                    </div>
+                    <FilterSlider maxCountName="maxRating" minCountName="minRating"
+                      maxCount={DEFAULT_FILTERS.maxRating} minCount={DEFAULT_FILTERS.minRating} onChange={onFilterChange}
+                    />
                     <div className="filter-raiting__control">
-                      <button className="filter-raiting__min-toggle"><span className="visually-hidden">Минимальное значение</span></button><span>0</span>
-                      <button className="filter-raiting__max-toggle"><span className="visually-hidden">Максимальное значение</span></button><span>5</span>
+                     <span>{filters.minRating}</span>
+                     <span>{filters.maxRating}</span>
                     </div>
                   </div>
                 </div>
@@ -196,7 +205,7 @@ function MyTrainings(): JSX.Element {
                 )}
               </ul>
               <div className="show-more my-trainings__show-more">
-                <button className="btn show-more__button show-more__button--more" type="button">Показать еще</button>
+                <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}>Показать еще</button>
                 <button className="btn show-more__button show-more__button--to-top" type="button">Вернуться в начало</button>
               </div>
             </div>

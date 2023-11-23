@@ -1,12 +1,12 @@
 import { IsArray, IsIn, IsNumber, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { DEFAULT_TASK_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from '../training.constant';
+import { DEFAULT_TRAININGS_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from '../training.constant';
 
 export class TrainingQuery {
-  @Transform(({ value } ) => +value || DEFAULT_TASK_COUNT_LIMIT)
+  @Transform(({ value } ) => +value || DEFAULT_TRAININGS_COUNT_LIMIT)
   @IsNumber()
   @IsOptional()
-  public limit = DEFAULT_TASK_COUNT_LIMIT;
+  public limit = DEFAULT_TRAININGS_COUNT_LIMIT;
 
   @Transform(({ value } ) => +value)
   @IsNumber()
@@ -42,6 +42,11 @@ export class TrainingQuery {
   @IsArray({})
   @IsOptional()
   public trainingTypes: string[];
+
+  @Transform(({ value }) => value.split(','))
+  @IsArray({})
+  @IsOptional()
+  public trainingTime: string[];
 
   @IsIn(['asc', 'desc'])
   @IsOptional()

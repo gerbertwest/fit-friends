@@ -157,14 +157,17 @@ export const fetchUserByIdAction = createAsyncThunk<User, string, {
   },
 );
 
-export const fetchMyTrainingsAction = createAsyncThunk<Training[], undefined, {
+export const fetchMyTrainingsAction = createAsyncThunk<Training[], {
+  queryString?: string
+},
+{
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchMyTrainings',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<Training[]>(APIRoute.MyTrainings);
-    return data;
+  async ({queryString}, {extra: api}) => {
+      const {data} = await api.get<Training[]>(`${APIRoute.MyTrainings}${queryString}`);
+      return data;
   },
 );

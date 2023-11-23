@@ -60,3 +60,5 @@ export const TRAINING_TIMES = ['10-30 мин', '30-50 мин', '50-80 мин', '
 export const SEX = ['мужской', 'женский', 'неважно']
 
 export const STATIC_DIRECTORY = 'http://localhost:3334'
+
+export const DEFAULT_TRAININGS_COUNT_LIMIT = 50;
