@@ -168,6 +168,23 @@ export class UsersController {
     return data;
   }
 
+    ///////
+
+    @ApiResponse({
+      status: HttpStatus.OK,
+      description: 'The friends of user found.'
+    })
+    @UseGuards(CheckAuthGuard)
+    @Post('trainer/friends')
+    public async getTrainerFriends(@Req() req: Request) {
+      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/trainer/friends`, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+      return data;
+    }
+
   ///////
 
   @ApiResponse({
@@ -344,9 +361,9 @@ export class UsersController {
     description: 'requests of user found'
   })
   @UseGuards(CheckAuthGuard)
-  @Get('request/:userId')
-  public async showRequestsByUser(@Param('userId') userId: string, @Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Request}/${userId}`,
+  @Post('request')
+  public async showRequestsByUser(@Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Request}`,
     {
       headers: {
         'Authorization': req.headers['authorization']

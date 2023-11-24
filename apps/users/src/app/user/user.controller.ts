@@ -66,6 +66,18 @@ export class UserController {
     return fillObject(UserRdo, userFriends);
   }
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'friends found'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/trainer/friends')
+  async getTrainerFriends(@Req() { user: payload }: RequestWithTokenPayload) {
+    const trainerFriends = await this.userService.findTrainerFriends(payload.sub)
+    return fillObject(UserRdo, trainerFriends);
+  }
+
   ////////////////////////////
 
   @ApiResponse({

@@ -1,5 +1,6 @@
 import { AuthorizationStatus } from '../const.js';
 import {store} from '../store/index.js';
+import { UserRequest } from './request';
 import { Training } from './training';
 import { User } from './user';
 
@@ -13,6 +14,14 @@ export type UserProcess = {
   };
   updateUserData: {
     data: User | null
+  };
+  users: {
+    data: User[];
+    isLoading: boolean;
+    isError: boolean;
+  };
+  requests: {
+    data: UserRequest[]
   }
 };
 

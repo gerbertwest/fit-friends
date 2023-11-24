@@ -27,10 +27,6 @@ function MyTrainings(): JSX.Element {
   const navigate = useNavigate();
   const params = useParams();
 
-  // useEffect(() => {
-  //   dispatch(fetchMyTrainingsAction({}))
-  // }, [dispatch])
-
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [filterTime, addFilterTime] = useState<string[]>(DEFAULT_TIME)
   const [page, setPage] = useState<number>(DEFAULT_PAGE)
@@ -58,8 +54,6 @@ function MyTrainings(): JSX.Element {
   const onChangeFilterTime = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     changeFilterTime(target.value);
   };
-
-  console.log(page)
 
   useEffect(() => {
     const queryString = getQueryString({

@@ -17,10 +17,10 @@ export const trainingProcess = createSlice({
   name: NameSpace.Training,
   initialState,
   reducers: {
-    // setTrainingInfoError: (state, action: PayloadAction<{isError: boolean}>) => {
-    //   const {isError} = action.payload;
-    //   state.myTrainings.isError = isError;
-    // },
+    setTrainingInfoError: (state, action: PayloadAction<{isError: boolean}>) => {
+      const {isError} = action.payload;
+      state.myTrainings.isError = isError;
+    },
   },
   extraReducers(builder) {
     builder
@@ -37,4 +37,4 @@ export const trainingProcess = createSlice({
   }
 });
 
-//export const {setTrainingInfoError} = trainingProcess.actions;
+export const {setTrainingInfoError} = trainingProcess.actions;

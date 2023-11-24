@@ -65,9 +65,9 @@ export class RequestController {
     description: 'requests of user found'
   })
   @UseGuards(JwtAuthGuard)
-  @Get('/:id')
-  async showRequestsByUser(@Param('id', MongoidValidationPipe) userId: string) {
-    const userRequests = await this.requestService.gerRequestsByUser(userId);
+  @Get('/')
+  async showRequestsByUser( @Req() { user: payload }: RequestWithTokenPayload) {
+    const userRequests = await this.requestService.gerRequestsByUser(payload.sub);
     return fillObject(RequestRdo, userRequests);
   }
 

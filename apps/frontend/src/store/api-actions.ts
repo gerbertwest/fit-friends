@@ -10,6 +10,7 @@ import { NewUser } from '../types/new-user';
 import { UpdateUser } from '../types/update-user';
 import { User } from '../types/user';
 import { Training } from '../types/training';
+import { UserRequest } from '../types/request';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -150,7 +151,7 @@ export const fetchUserByIdAction = createAsyncThunk<User, string, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchUserById',
+  'user/fetchUserById',
   async (userId, {extra: api}) => {
     const {data} = await api.get<User>(`${APIRoute.Users}/${userId}`);
     return data;
@@ -165,9 +166,33 @@ export const fetchMyTrainingsAction = createAsyncThunk<Training[], {
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchMyTrainings',
+  'training/fetchMyTrainings',
   async ({queryString}, {extra: api}) => {
       const {data} = await api.get<Training[]>(`${APIRoute.MyTrainings}${queryString}`);
       return data;
+  },
+);
+
+export const fetchMyFriends = createAsyncThunk<User[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchMyFriends',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.post<User[]>(`${APIRoute.MyFriends}`);
+    return data;
+  },
+);
+
+export const fetchRequestsByUser = createAsyncThunk<UserRequest[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchRequestsByUser',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.post<UserRequest[]>(`${APIRoute.Requests}`);
+    return data;
   },
 );

@@ -94,4 +94,8 @@ public async findUserSubscription(trainerId: string): Promise<User[]> {
   return this.userRepository.findSubscription(trainerId)
 }
 
+public async findTrainerFriends(trainerId: string): Promise<User[]> {
+  return this.userRepository.findTrainerFriends(trainerId)
+}
+
 }
