@@ -77,9 +77,10 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
     return this.userModel.find().exec()
   }
 
-  public async findTrainerFriends(trainerId: string): Promise<User[] | null> {
+  public async findTrainerFriends(trainerId: string, {limit, page}: UserQuery): Promise<User[] | null> {
     return this.userModel
     .find({friends: trainerId})
+    .limit(page > 0 ? limit*page : limit)
     .exec();
   }
 }

@@ -176,8 +176,8 @@ export class UsersController {
     })
     @UseGuards(CheckAuthGuard)
     @Post('trainer/friends')
-    public async getTrainerFriends(@Req() req: Request) {
-      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/trainer/friends`, {
+    public async getTrainerFriends(@Query() query: UserQuery, @Req() req: Request) {
+      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/trainer/friends`, {params: query,
         headers: {
           'Authorization': req.headers['authorization']
         }

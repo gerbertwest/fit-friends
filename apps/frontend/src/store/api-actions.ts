@@ -173,14 +173,14 @@ export const fetchMyTrainingsAction = createAsyncThunk<Training[], {
   },
 );
 
-export const fetchMyFriends = createAsyncThunk<User[], undefined, {
+export const fetchMyFriends = createAsyncThunk<User[], {queryString?: string}, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/fetchMyFriends',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.post<User[]>(`${APIRoute.MyFriends}`);
+  async ({queryString}, {extra: api}) => {
+    const {data} = await api.post<User[]>(`${APIRoute.MyFriends}${queryString}`);
     return data;
   },
 );

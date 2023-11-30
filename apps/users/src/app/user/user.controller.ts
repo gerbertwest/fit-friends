@@ -73,8 +73,8 @@ export class UserController {
   })
   @UseGuards(JwtAuthGuard)
   @Get('/trainer/friends')
-  async getTrainerFriends(@Req() { user: payload }: RequestWithTokenPayload) {
-    const trainerFriends = await this.userService.findTrainerFriends(payload.sub)
+  async getTrainerFriends(@Query() query: UserQuery, @Req() { user: payload }: RequestWithTokenPayload) {
+    const trainerFriends = await this.userService.findTrainerFriends(payload.sub, query)
     return fillObject(UserRdo, trainerFriends);
   }
 
