@@ -26,9 +26,20 @@ export class OrderService {
 
     const training = await this.trainingRepository.findById(dto.trainingId);
     const price = training.price;
-    const orderEntity = new OrderEntity({ ...dto, price: price, orderPrice: price*dto.count, active: true});
 
-    return this.orderRepository.create(orderEntity);
+    const ordersByTrainingId = await this.orderRepository.findByTrainingId(dto.trainingId);
+    const counts = ordersByTrainingId.map((item) => item.count)
+
+    const count = counts.reduce((acc, num) => acc + num, 0);
+    const idCount = count + dto.count;
+    const totalPrice = idCount*price
+
+    const orderEntity = new OrderEntity({ ...dto, price: price, orderPrice: price*dto.count, active: true, idCount: idCount, totalPrice: totalPrice});
+    const newOrder = this.orderRepository.create(orderEntity);
+
+    this.orderRepository.updateMany(dto.trainingId, {...dto, idCount: idCount, totalPrice: totalPrice} )
+
+    return newOrder
   }
 
   async getUserOrders(userId: string, query: TrainingQuery): Promise<Order[]> {

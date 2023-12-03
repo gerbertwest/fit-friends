@@ -9,5 +9,11 @@ export class UpdateOrderDto {
   })
   @IsOptional()
   @IsBoolean()
-  public active: boolean;
+  public active?: boolean;
+
+  @IsOptional()
+  public idCount: number;
+
+  @IsOptional()
+  public totalPrice: number;
 }

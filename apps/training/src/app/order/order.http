@@ -4,10 +4,10 @@ Content-Type: application/json
 
 {
   "type": "абонемент",
-  "trainingId": 3,
+  "trainingId": 8,
   "count": 3,
   "paymentMethod": "visa",
-  "userId": "3"
+  "userId": "6548ca6794e2dde23970f9ba"
 }
 
 ###
@@ -18,7 +18,7 @@ GET http://localhost:3000/api/orders/user/6537ed54daf7a45404e304b8?limit=3&page=
 ###
 
 # Get orders by trainerId
-GET http://localhost:3000/api/orders/trainer/1?sortField=idCount&sortDirection=asc&limit=1&page=2 HTTP/1.1
+GET http://localhost:3000/api/orders/trainer/6555111955b20bdc0afff541?sortField=idCount&sortDirection=asc&limit=10&page=3 HTTP/1.1
 
 ###
 

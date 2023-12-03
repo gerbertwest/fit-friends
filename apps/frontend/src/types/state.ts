@@ -1,6 +1,7 @@
 import { AuthorizationStatus } from '../const.js';
 import {store} from '../store/index.js';
 import { UserRequest } from './request';
+import { TrainerOrder } from './trainer-order';
 import { Training } from './training';
 import { User } from './user';
 
@@ -30,8 +31,12 @@ export type TrainingProcess = {
     data: Training[];
     isLoading: boolean;
     isError: boolean;
-  }
-}
+  };
+  trainerOrders: {
+    data: TrainerOrder[];
+    isError: boolean;
+  };
+};
 
 
 export type State = ReturnType<typeof store.getState>;

@@ -70,6 +70,17 @@ Content-Type: application/json
 
 ###
 
+# Login user by email and password
+POST http://localhost:4000/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "Emmy33@yahoo.com",
+  "password": "123456"
+}
+
+###
+
 # Get new JWT pair
 POST http://localhost:4000/api/users/refresh HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTMxNjhiNTJiYjZmYmViYjJmMDYzNTMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MiLCJ0b2tlbklkIjoiOGYzM2RkNTAtNmNlZS00MGYyLTkwYTUtM2ZiZmQ4MGU5ZGRjIiwiaWF0IjoxNjk3OTk2MjQwLCJleHAiOjE2OTg2MDEwNDB9.CVrU4bwUcdwjdu3vsvM3sAOqEwzu360dMeTec1zWSqc
@@ -176,9 +187,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExO
 ###
 
 # Get my tainings
-GET http://localhost:4000/api/training/trainer?limit=1&page=2&minPrice=100&maxPrice=1000&trainingTypes=бокс,бег,стрейчинг HTTP/1.1
+GET http://localhost:4000/api/training/trainer?limit=10&page=2&minPrice=100&maxPrice=1000&trainingTypes=бокс,бег,стрейчинг HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDc2NjU4MywiZXhwIjoxNzAwNzY3NDgzfQ.NbdE7kiuADHjQTrGn92oWD6v1_aGgTXOJWSddLT9tC8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMTM2MzQ3OSwiZXhwIjoxNzAxMzY0Mzc5fQ.4t8cLVfmTjtA8LPev8kf0vCOeqNZjSm-A7BpxemK_fM
 
 ###
 
@@ -216,9 +227,9 @@ Content-Type: video/x-msvideo
 ###
 
 # Get all tainings (catalog)
-GET http://localhost:4000/api/training?limit=4&page=2&minPrice=100&maxPrice=500 HTTP/1.1
+GET http://localhost:4000/api/training?limit=40&page=20&minPrice=100&maxPrice=500 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2FmMzk0ZTJkZGUyMzk3MGY5YzUiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzMiIsImlhdCI6MTY5OTI2OTg4NywiZXhwIjoxNjk5MjcwNzg3fQ.DRqp9ij7ps4g2CrNIAbQoq-lx5vsESPRj_nvGZDNDIA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMTM2MzQ3OSwiZXhwIjoxNzAxMzY0Mzc5fQ.4t8cLVfmTjtA8LPev8kf0vCOeqNZjSm-A7BpxemK_fM
 
 ###
 
@@ -229,15 +240,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2FmM
 # Create a new order
 POST http://localhost:4000/api/order HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE2OTkyNzk5NjgsImV4cCI6MTY5OTI4MDg2OH0.w6awvuCvZ996x0XLnq4kN647zKHHhZ9_F_z_VA9VOyI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE3MDEzNjQ4NDAsImV4cCI6MTcwMTM2NTc0MH0.8V54WPSmVgHtIMLPbVKJsTC48jYi4o-0T92aTkO4GjQ
 
 {
   "type": "абонемент",
-  "trainingId": 4,
-  "count": 2,
+  "trainingId": 8,
+  "count": 1,
   "trainingTime": "50-80 мин",
   "paymentMethod": "mir",
-  "description": "описание 112"
+  "description": "описание 1122"
 }
 
 ###
@@ -245,7 +256,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2N
 # Get orders by trainerId
 GET http://localhost:4000/api/order/trainer?limit=10&sortDirection=desc HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2FmMzk0ZTJkZGUyMzk3MGY5YzUiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6ItCi0YDQtdC90LXRgCIsIm5hbWUiOiJLZWtzMiIsImlhdCI6MTY5OTI4MTQ4NywiZXhwIjoxNjk5MjgyMzg3fQ.XIsZt6HI3x0SOmo9zbo88CToRzmNhIEmrJaG_2onDY4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMTM2NDg5NywiZXhwIjoxNzAxMzY1Nzk3fQ.B1QNE-1GuTm5Na1JvNU1a2MXK8gLsSJ5WaaZG5nG2LA
 
 ###
 

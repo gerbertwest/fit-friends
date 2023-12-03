@@ -9,4 +9,6 @@ export interface Order {
   createdAt?: Date;
   userId: string;
   active: boolean;
+  idCount?: number;
+  totalPrice?: number;
 }

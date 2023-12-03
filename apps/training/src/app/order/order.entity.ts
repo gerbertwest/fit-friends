@@ -13,6 +13,8 @@ export class OrderEntity implements Entity<OrderEntity>, Order {
   public createdAt: Date;
   public userId: string;
   public active: boolean;
+  public idCount: number;
+  public totalPrice: number;
 
 constructor(order: Order) {
   this.fillEntity(order)
@@ -28,6 +30,8 @@ public fillEntity(entity: Order) {
   this.createdAt = entity.createdAt;
   this.userId = entity.userId;
   this.active = entity.active;
+  this.idCount = entity.idCount;
+  this.totalPrice = entity.totalPrice;
 }
 
 public toObject(): OrderEntity {

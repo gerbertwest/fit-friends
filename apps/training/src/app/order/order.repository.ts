@@ -37,6 +37,15 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     });
   }
 
+  public async findByTrainingId(trainingId: number): Promise<Order[]> {
+    return this.prisma.order.findMany({
+      where: {
+        trainingId
+      },
+      include: { training: true },
+    });
+  }
+
   public async findByUserId(userId: string, {limit, page, active}: TrainingQuery): Promise<Order[]> {
     return this.prisma.order.findMany({
       where: {
@@ -64,41 +73,11 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
       take: page > 0 ? (limit * page) : limit,
       orderBy: [
         sortField === DEFAULT_SORT_FIELD ? {idCount: sortDirection} : {totalPrice: sortDirection}
-      ]
+      ],
+      distinct: ['trainingId']
     });
 
-    const trainings = [];
-    const ids = [];
-
-    for (let i= 0; i < result.length; i++ ) {
-      ids.push(result[i].training.trainingId);
-    }
-
-    for (let i= 0; i < result.length; i++ ) {
-      const id = result[i].training.trainingId;
-
-      const count = ids.filter((item) => item === id).length
-      const orderPrice = result[i].orderPrice
-
-      const training = await this.prisma.order.update({
-        where: {
-          orderId: result[i].orderId
-        },
-        data: {
-          training: {
-            connect: result[i].training
-          },
-          idCount: count,
-          totalPrice: orderPrice * count
-        },
-        include: {
-          training: true
-        }
-      })
-      trainings.push(training)
-    }
-
-    return trainings;
+    return result;
   }
 
 
@@ -111,6 +90,18 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
         ...dto,
       },
       include: { training: true }
+    })
+  }
+
+  public async updateMany(trainingId: number, {idCount, totalPrice}: UpdateOrderDto) {
+    return this.prisma.order.updateMany({
+      where: {
+        trainingId
+      },
+      data: {
+        idCount: idCount,
+        totalPrice: totalPrice
+      }
     })
   }
 

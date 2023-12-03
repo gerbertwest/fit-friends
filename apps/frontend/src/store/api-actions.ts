@@ -11,6 +11,7 @@ import { UpdateUser } from '../types/update-user';
 import { User } from '../types/user';
 import { Training } from '../types/training';
 import { UserRequest } from '../types/request';
+import { TrainerOrder } from '../types/trainer-order';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -194,5 +195,20 @@ export const fetchRequestsByUser = createAsyncThunk<UserRequest[], undefined, {
   async (_arg, {extra: api}) => {
     const {data} = await api.post<UserRequest[]>(`${APIRoute.Requests}`);
     return data;
+  },
+);
+
+export const fetchTrainerOrdersAction = createAsyncThunk<TrainerOrder[], {
+  queryString?: string
+},
+{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/fetchTrainerOrders',
+  async ({queryString}, {extra: api}) => {
+      const {data} = await api.get<TrainerOrder[]>(`${APIRoute.TrainerOrders}${queryString}`);
+      return data;
   },
 );
