@@ -112,4 +112,6 @@ export class TrainingRdo {
   public orders?: Order[];
   @Expose()
   public reviews?: Review[];
+  @Expose()
+  public totalPageNumber: number;
 }

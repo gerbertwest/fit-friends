@@ -61,6 +61,19 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
   }
 
   public async findByTrainerId(trainerId: string, {sortDirection, sortField, limit, page}: TrainingQuery): Promise<Order[]> {
+    const orders = await this.prisma.order.findMany({
+      where: {
+        training: {
+          is: {
+            trainerId: trainerId,
+          }
+        }
+      },
+      distinct: ['trainingId']
+    })
+
+    const count = orders.length
+
     const result = await this.prisma.order.findMany({
       where: {
         training: {
@@ -77,7 +90,9 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
       distinct: ['trainingId']
     });
 
-    return result;
+    const newResult = result.map((item) => ({...item, totalPageNumber: count}))
+
+    return newResult;
   }
 
 

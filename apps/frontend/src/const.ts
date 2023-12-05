@@ -64,4 +64,5 @@ export const SEX = ['мужской', 'женский', 'неважно']
 
 export const STATIC_DIRECTORY = 'http://localhost:3334'
 
-export const DEFAULT_TRAININGS_COUNT_LIMIT = 50;
+export const DEFAULT_TRAININGS_COUNT_LIMIT = 4;
+export const DEFAULT_ORDERS_COUNT_LIMIT = 1;

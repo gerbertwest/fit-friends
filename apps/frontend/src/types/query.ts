@@ -10,5 +10,5 @@ export type Query = {
   trainingTime?: string[],
   sortDirection?: string,
   page?: number,
-  sortField?: string
+  sortField?: string,
 }

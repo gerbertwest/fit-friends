@@ -3,7 +3,7 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector } from "../../store/training/selectors";
 import { fetchMyTrainingsAction } from "../../store/api-actions";
-import { AppRoute, STATIC_DIRECTORY, TRAINING_TIMES } from "../../const";
+import { AppRoute, DEFAULT_TRAININGS_COUNT_LIMIT, STATIC_DIRECTORY, TRAINING_TIMES } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
 import FilterSlider from "../../components/filter-slider/filter-slider";
 import { getQueryString } from "../../util";
@@ -68,6 +68,9 @@ function MyTrainings(): JSX.Element {
     })
     dispatch(fetchMyTrainingsAction({queryString}))
   }, [dispatch, filterTime, filters.maxCalories, filters.maxPrice, filters.maxRating, filters.minCalories, filters.minPrice, filters.minRating, page])
+
+  const backCondition = myTrainings.data.find((item) => item.totalPageNumber > page*DEFAULT_TRAININGS_COUNT_LIMIT)
+  const disabledCondition = myTrainings.data.find((item) => item.totalPageNumber <= DEFAULT_TRAININGS_COUNT_LIMIT)
 
   return (
   <div className="wrapper">
@@ -199,8 +202,12 @@ function MyTrainings(): JSX.Element {
                 )}
               </ul>
               <div className="show-more my-trainings__show-more">
-                <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}>Показать еще</button>
-                <button className="btn show-more__button show-more__button--to-top" type="button">Вернуться в начало</button>
+                {backCondition !== undefined || disabledCondition !== undefined ?
+                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
+                  disabled={disabledCondition !== undefined ? true : false}>Показать еще</button>
+                :
+                <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
+                }
               </div>
             </div>
           </div>

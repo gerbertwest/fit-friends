@@ -16,4 +16,7 @@ export class TrainerOrderRdo {
 
   @Expose()
   public active: boolean;
+
+  @Expose()
+  public totalPageNumber: number;
 }

@@ -6,4 +6,5 @@ idCount: number;
 totalPrice: number;
 training: Training;
 active: boolean;
+totalPageNumber: number;
 }

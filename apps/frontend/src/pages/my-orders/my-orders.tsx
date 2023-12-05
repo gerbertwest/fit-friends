@@ -1,35 +1,44 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppSelector, useAppDispatch } from "../../hooks/index";
 import { trainerOrdersSelector } from "../../store/training/selectors";
 import { fetchTrainerOrdersAction } from "../../store/api-actions";
-import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import { AppRoute, DEFAULT_ORDERS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
+import { getSortQueryString } from "../../util";
 
 function MyOrders(): JSX.Element {
-
-  const orders = useAppSelector(trainerOrdersSelector);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const params = useParams();
-
-  const queryString = '?page=1'
 
   const DEFAULT_SORT = {
     sortField: 'idCount',
     sortDirection: 'desc'
   }
 
+  const DEFAULT_PAGE = 1;
+
+  const orders = useAppSelector(trainerOrdersSelector);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
+
   const [sort, setSort] = useState(DEFAULT_SORT);
-  console.log(sort)
+  const [page, setPage] = useState<number>(DEFAULT_PAGE)
 
   const onChange = (value: string) => {
     sort.sortDirection === 'desc' ? setSort({...sort, sortField: value, sortDirection: 'asc'}) : setSort({...sort, sortField: value, sortDirection: 'desc'})
   };
 
   useEffect(() => {
+    const queryString = getSortQueryString({
+      sortDirection: sort.sortDirection,
+      sortField: sort.sortField,
+      page: page,
+    })
     dispatch(fetchTrainerOrdersAction({queryString}))
-  }, [dispatch])
+  }, [dispatch, page, sort.sortDirection, sort.sortField])
+
+  const backCondition = orders.data.find((item) => item.totalPageNumber > page*DEFAULT_ORDERS_COUNT_LIMIT)
+  const disabledCondition = orders.data.find((item) => item.totalPageNumber <= DEFAULT_ORDERS_COUNT_LIMIT)
 
   return (
     <div className="wrapper">
@@ -121,8 +130,12 @@ function MyOrders(): JSX.Element {
 
               </ul>
               <div className="show-more my-orders__show-more">
-                <button className="btn show-more__button show-more__button--more" type="button">Показать еще</button>
-                <button className="btn show-more__button show-more__button--to-top" type="button">Вернуться в начало</button>
+                {backCondition !== undefined || disabledCondition !== undefined ?
+                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
+                  disabled={disabledCondition !== undefined ? true : false}>Показать еще</button>
+                :
+                <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
+                }
               </div>
             </div>
           </div>

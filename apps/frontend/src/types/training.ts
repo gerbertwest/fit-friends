@@ -16,5 +16,6 @@ export type Training = {
   createdAt?: Date;
   publishAt?: Date;
   orders?: number[];
-  reviews?: number[]
+  reviews?: number[];
+  totalPageNumber: number;
 }

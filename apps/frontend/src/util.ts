@@ -1,4 +1,4 @@
-import { DEFAULT_TRAININGS_COUNT_LIMIT } from "./const";
+import { DEFAULT_ORDERS_COUNT_LIMIT, DEFAULT_TRAININGS_COUNT_LIMIT } from "./const";
 import { Query } from "./types/query";
 
 const ucFirst = (string: string) => {
@@ -17,4 +17,8 @@ export function getQueryString({limit = DEFAULT_TRAININGS_COUNT_LIMIT, minPrice,
   return `?limit=${limit}&minPrice=${minPrice}&maxPrice=${maxPrice}
   &minCaloriesCount=${minCaloriesCount}&maxCaloriesCount=${maxCaloriesCount}
   &minRaiting=${minRaiting}&maxRaiting=${maxRaiting}${time !== '' ? `&trainingTime=${time}` : ''}&page=${page}`;
+}
+
+export function getSortQueryString({limit= DEFAULT_ORDERS_COUNT_LIMIT, sortDirection, sortField, page = 1}: Query): string {
+    return `?limit=${limit}&sortDirection=${sortDirection}&sortField=${sortField}&page=${page}`
 }
