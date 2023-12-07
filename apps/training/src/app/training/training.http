@@ -21,7 +21,7 @@ Content-Type: application/json
 ###
 
 # Get all trainings
-GET http://localhost:3000/api/trainings?limit=1&page=2&minPrice=10&maxPrice=310 HTTP/1.1
+GET http://localhost:3000/api/trainings?limit=10&page=2&sortField=raiting HTTP/1.1
 
 ###
 

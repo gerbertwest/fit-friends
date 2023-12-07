@@ -114,7 +114,7 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
     }
 
   public find({limit, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount,
-    minRaiting, maxRaiting, trainingTypes, sortDirection, page}: TrainingQuery): Promise<Training[]> {
+    minRaiting, maxRaiting, trainingTypes, sortDirection, page, special, sortField}: TrainingQuery): Promise<Training[]> {
 
     return this.prisma.training.findMany({
       where: {
@@ -133,6 +133,7 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
         trainingType: {
           in: trainingTypes
         },
+        special: special === 'true' ? true : undefined,
       },
       take: page > 0 ? (limit * page) : limit,
       include: {
@@ -140,7 +141,7 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
         reviews: true,
       },
       orderBy: [
-        { price: sortDirection }
+        sortField === 'raiting' ? { raiting: sortDirection } : {price: sortDirection}
       ],
     });
   }

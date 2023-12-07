@@ -10,3 +10,4 @@ export const userSelector = (state: State): {data: User | null; isLoading: boole
 export const updateUserSelector = (state: State): {data: User | null} => state[NameSpace.User].updateUserData;
 export const userFriendsSelector = (state: State): {data: User[]; isLoading: boolean} => state[NameSpace.User].users;
 export const userRequests = (state: State): {data: UserRequest[]} => state[NameSpace.User].requests;
+export const usersSelector = (state: State): {data: User[]; isLoading: boolean; isError: boolean} => state[NameSpace.User].users;

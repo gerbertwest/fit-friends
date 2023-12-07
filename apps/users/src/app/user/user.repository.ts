@@ -45,9 +45,9 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
       .exec();
   }
 
-  public async find({limit, location, level, trainingType, sortDirection, page}: UserQuery): Promise<User[] | null> {
+  public async find({limit, location, level, trainingType, sortDirection, page, readyToTraining}: UserQuery): Promise<User[] | null> {
     return this.userModel
-      .find({location: {$in: location}, level:level, trainingType: {$in: trainingType}})
+      .find({location: {$in: location}, level:level, trainingType: {$in: trainingType}, readyToTraining: readyToTraining === 'true' ? true : undefined})
       .sort({role: sortDirection})
       .limit(page > 0 ? limit*page : limit)
       .exec();

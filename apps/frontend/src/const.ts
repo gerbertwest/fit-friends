@@ -39,6 +39,7 @@ export enum APIRoute {
   TrainerOrders = 'order/trainer',
   CreateTraining = '/training',
   Video = '/training/video',
+  Trainings = '/training',
 
 }
 

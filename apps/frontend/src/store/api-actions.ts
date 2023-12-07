@@ -242,3 +242,60 @@ export const createTraining = createAsyncThunk<void, NewTraining, {
     }
   }
 );
+
+export const fetchTrainingsAction = createAsyncThunk<Training[], {
+  queryString?: string
+},
+{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/fetchTrainings',
+  async ({queryString}, {extra: api}) => {
+      const {data} = await api.get<Training[]>(`${APIRoute.Trainings}${queryString}`);
+      return data;
+  },
+);
+
+export const fetchSpecTrainingsAction = createAsyncThunk<Training[], {
+  queryString?: string
+},
+{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/fetchSpecTrainings',
+  async ({queryString}, {extra: api}) => {
+      const {data} = await api.get<Training[]>(`${APIRoute.Trainings}${queryString}`);
+      return data;
+  },
+);
+
+export const fetchRaitingTrainingsAction = createAsyncThunk<Training[], {
+  queryString?: string
+},
+{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/fetchRaitingTrainings',
+  async ({queryString}, {extra: api}) => {
+      const {data} = await api.get<Training[]>(`${APIRoute.Trainings}${queryString}`);
+      return data;
+  },
+);
+
+export const fetchUsers = createAsyncThunk<User[], {queryString?: string}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchUsers',
+  async ({queryString}, {extra: api}) => {
+    const {data} = await api.get<User[]>(`${APIRoute.Users}${queryString}`);
+    return data;
+  },
+);

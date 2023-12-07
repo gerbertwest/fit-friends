@@ -32,6 +32,16 @@ export type TrainingProcess = {
     isLoading: boolean;
     isError: boolean;
   };
+  specTrainings: {
+    data: Training[];
+    isLoading: boolean;
+    isError: boolean;
+  };
+  raitingTrainings: {
+    data: Training[];
+    isLoading: boolean;
+    isError: boolean;
+  };
   trainerOrders: {
     data: TrainerOrder[];
     isError: boolean;

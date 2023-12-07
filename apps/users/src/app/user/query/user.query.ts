@@ -31,4 +31,8 @@ export class UserQuery {
   @Transform(({ value }) => +value)
   @IsOptional()
   public page: number;
+
+  @IsOptional()
+  public readyToTraining: string;
+
 }

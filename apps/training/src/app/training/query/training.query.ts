@@ -60,6 +60,8 @@ export class TrainingQuery {
   public sortField: string;
 
   @IsOptional()
-  public active: string
+  public active: string;
 
+  @IsOptional()
+  public special: string;
 }
