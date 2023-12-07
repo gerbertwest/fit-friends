@@ -29,6 +29,8 @@ export class TrainingController {
       await this.notifyService.registerSubscriber({title, trainerId})
     }
 
+    console.log(newTraining)
+
     return fillObject(TrainingRdo, newTraining);
   }
 

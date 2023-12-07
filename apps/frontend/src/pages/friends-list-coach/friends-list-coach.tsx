@@ -3,9 +3,8 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { userFriendsSelector, userRequests } from "../../store/user/selectors";
 import { fetchMyFriends, fetchRequestsByUser } from "../../store/api-actions";
-import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
-import { getQueryString } from "../../util";
 
 function FriendsListCoach(): JSX.Element {
 
@@ -20,9 +19,8 @@ function FriendsListCoach(): JSX.Element {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const queryString = getQueryString({
-      page: page,
-    })
+
+    const queryString = `?limit=${DEFAULT_FRIENDS_COUNT_LIMIT}&page=${page}`
     dispatch(fetchMyFriends({queryString}))
     dispatch(fetchRequestsByUser())
   }, [dispatch, page])

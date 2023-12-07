@@ -7,7 +7,7 @@ export class TrainingRdo {
     description: 'The uniq training ID',
     example: '1'
   })
-  @Expose()
+  @Expose({name: 'trainingId'})
   public id?: number;
 
   @ApiProperty({

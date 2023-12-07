@@ -12,6 +12,7 @@ import { User } from '../types/user';
 import { Training } from '../types/training';
 import { UserRequest } from '../types/request';
 import { TrainerOrder } from '../types/trainer-order';
+import { NewTraining } from '../types/new-training';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -211,4 +212,33 @@ export const fetchTrainerOrdersAction = createAsyncThunk<TrainerOrder[], {
       const {data} = await api.get<TrainerOrder[]>(`${APIRoute.TrainerOrders}${queryString}`);
       return data;
   },
+);
+
+export const createTraining = createAsyncThunk<void, NewTraining, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/createTraining',
+  async ({ title, level, description, trainingTime, trainingType, sex, price, caloriesCount, video, special }, { dispatch, extra: api }) => {
+    const postData = await api.post<{ id: number }>(APIRoute.CreateTraining, {
+      title,
+      level,
+      trainingTime,
+      trainingType,
+      sex,
+      description,
+      price,
+      caloriesCount,
+      special,
+    });
+
+    if (postData.status === HTTP_CODE.CREATED && video) {
+      const payload = new FormData();
+      payload.append('file', video);
+      await api.post(`${APIRoute.Video}/${postData.data.id}`, payload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+  }
 );

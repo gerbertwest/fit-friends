@@ -21,7 +21,7 @@ function CoachAccount(): JSX.Element {
     personalTrainings: false,
     level: '',
     avatar: '',
-    certificates: []
+    certificates: [],
   }
   const DEFAULT_TYPE: string[] = [];
 
