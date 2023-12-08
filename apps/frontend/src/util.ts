@@ -10,13 +10,14 @@ const ucFirst = (string: string) => {
 export {ucFirst};
 
 export function getQueryString({limit = DEFAULT_TRAININGS_COUNT_LIMIT, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount, minRaiting, maxRaiting,
-  trainingTime, page = 1}: Query): string {
+  trainingTime, trainingTypes, sortDirection = 'desc', page = 1}: Query): string {
 
   const time = trainingTime && trainingTime !== null ? trainingTime.join(',') : '';
+  const type = trainingTypes && trainingTypes !==null ? trainingTypes.join(',') : '';
 
   return `?limit=${limit}&minPrice=${minPrice}&maxPrice=${maxPrice}
   &minCaloriesCount=${minCaloriesCount}&maxCaloriesCount=${maxCaloriesCount}
-  &minRaiting=${minRaiting}&maxRaiting=${maxRaiting}${time !== '' ? `&trainingTime=${time}` : ''}&page=${page}`;
+  &minRaiting=${minRaiting}&maxRaiting=${maxRaiting}${time !== '' ? `&trainingTime=${time}` : ''}${type !== '' ? `&trainingTypes=${type}` : ''}&page=${page}&sortDirection=${sortDirection}`;
 }
 
 export function getSortQueryString({limit= DEFAULT_ORDERS_COUNT_LIMIT, sortDirection, sortField, page = 1}: Query): string {

@@ -113,10 +113,32 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
       return newResult;
     }
 
-  public find({limit, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount,
+  public async find({limit, minPrice, maxPrice, minCaloriesCount, maxCaloriesCount,
     minRaiting, maxRaiting, trainingTypes, sortDirection, page, special, sortField}: TrainingQuery): Promise<Training[]> {
 
-    return this.prisma.training.findMany({
+      const trainings = await this.prisma.training.findMany({
+        where: {
+          price: {
+              gte: minPrice,
+              lte: maxPrice
+          },
+          caloriesCount: {
+            gte: minCaloriesCount,
+            lte: maxCaloriesCount
+          },
+          raiting: {
+            gte: minRaiting,
+            lte: maxRaiting
+          },
+          trainingType: {
+            in: trainingTypes
+          },
+          special: special === 'true' ? true : undefined,
+        },
+      })
+      const count = trainings.length;
+
+    const result =  await this.prisma.training.findMany({
       where: {
         price: {
             gte: minPrice,
@@ -144,6 +166,9 @@ export class TrainingRepository implements CRUDRepository<TrainingEntity, number
         sortField === 'raiting' ? { raiting: sortDirection } : {price: sortDirection}
       ],
     });
+
+    const newResult = result.map((item) => ({...item, totalPageNumber: count}))
+    return newResult;
   }
 
   public update(trainingId: number, item: TrainingEntity): Promise<Training> {

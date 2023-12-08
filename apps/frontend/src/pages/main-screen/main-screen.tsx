@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector, rairingTrainingsSelector, specTrainingsSelector } from "../../store/training/selectors";
 import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAction, fetchUserByIdAction, fetchUsers } from "../../store/api-actions";
 import { userSelector, usersSelector } from "../../store/user/selectors";
-import { useParams } from "react-router-dom";
-import { STATIC_DIRECTORY } from "../../const";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppRoute, STATIC_DIRECTORY } from "../../const";
 
 function MainScreen(): JSX.Element {
 
@@ -16,6 +16,7 @@ function MainScreen(): JSX.Element {
   const users = useAppSelector(usersSelector);
   const dispatch = useAppDispatch();
   const params = useParams();
+  const navigate = useNavigate();
 
   const types = user.data?.trainingType?.join(',')
 
@@ -150,7 +151,8 @@ function MainScreen(): JSX.Element {
           <div className="popular-trainings__wrapper">
             <div className="popular-trainings__title-wrapper">
               <h2 className="popular-trainings__title">Популярные тренировки</h2>
-              <button className="btn-flat popular-trainings__button" type="button"><span>Смотреть все</span>
+              <button className="btn-flat popular-trainings__button" type="button" onClick={() => navigate(`${AppRoute.TrainingCatalog}/${params.id}`)}>
+                <span>Смотреть все</span>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-right"></use>
                 </svg>

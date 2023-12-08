@@ -11,6 +11,7 @@ export enum AppRoute {
   CreateTraining = '/createTraining',
   MyOrders = '/myOrders',
   MyFriends = '/myFriends',
+  TrainingCatalog = '/catalog'
 }
 
 export enum AuthorizationStatus {
@@ -68,7 +69,7 @@ export const GENDERS = ['для мужчин', 'для женщин', 'для в
 
 export const STATIC_DIRECTORY = 'http://localhost:3334'
 
-export const DEFAULT_TRAININGS_COUNT_LIMIT = 4;
+export const DEFAULT_TRAININGS_COUNT_LIMIT = 5;
 export const DEFAULT_ORDERS_COUNT_LIMIT = 1;
 export const DEFAULT_FRIENDS_COUNT_LIMIT = 1;
 
