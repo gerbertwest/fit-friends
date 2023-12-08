@@ -11,7 +11,9 @@ export enum AppRoute {
   CreateTraining = '/createTraining',
   MyOrders = '/myOrders',
   MyFriends = '/myFriends',
-  TrainingCatalog = '/catalog'
+  TrainingCatalog = '/catalog',
+  Training = '/training',
+  TrainingId = ':id',
 }
 
 export enum AuthorizationStatus {

@@ -18,6 +18,7 @@ import MyOrders from "../pages/my-orders/my-orders";
 import CreateTraining from "../pages/create-training/create-training";
 import FriendsListCoach from "../pages/friends-list-coach/friends-list-coach";
 import TrainingCatalogScreen from "../pages/training-catalog/training-catalog";
+import TrainingCardScreen from "../pages/training-card/training-cars";
 
 export function App(): JSX.Element {
 
@@ -156,6 +157,19 @@ export function App(): JSX.Element {
                 authorizationStatus={authorizationStatus}
               >
           <TrainingCatalogScreen/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+      </Route>
+
+      <Route path={AppRoute.Training}>
+       <Route path={AppRoute.TrainingId}>
+         <Route index element={
+          <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+          <TrainingCardScreen/>
           </PrivateRoute>
         }
         />
