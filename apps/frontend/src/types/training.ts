@@ -1,5 +1,8 @@
+import { Review } from "./review";
+import { User } from "./user";
+
 export type Training = {
-  id?: number;
+  id: number;
   title: string;
   backgroundImage: string;
   level: string;
@@ -12,10 +15,11 @@ export type Training = {
   video: string;
   raiting?: number;
   trainerId: string;
+  trainer: User;
   special: boolean;
   createdAt?: Date;
   publishAt?: Date;
   orders?: number[];
-  reviews?: number[];
+  reviews?: Review[];
   totalPageNumber: number;
 }

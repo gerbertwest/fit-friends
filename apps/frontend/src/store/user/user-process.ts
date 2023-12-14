@@ -21,6 +21,9 @@ const initialState: UserProcess = {
   },
   requests: {
     data: []
+  },
+  tokenPayload: {
+    data: null
   }
 };
 
@@ -35,8 +38,9 @@ export const userProcess = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(checkAuthAction.fulfilled, (state) => {
+      .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
+        state.tokenPayload.data = action.payload
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
@@ -48,7 +52,7 @@ export const userProcess = createSlice({
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.loginError = true;
       })
-      .addCase(logoutAction.fulfilled, (state, action) => {
+      .addCase(logoutAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(registerUser.fulfilled, (state) => {

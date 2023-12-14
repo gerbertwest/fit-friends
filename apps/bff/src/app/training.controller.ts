@@ -80,6 +80,7 @@ export class TrainingController {
         'Authorization': req.headers['authorization']
       }
     })).data;
+
     return fillObject(TrainingRdo, {...data, user: user});
   }
 

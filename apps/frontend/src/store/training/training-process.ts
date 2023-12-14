@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { NameSpace } from "../../const";
 import { TrainingProcess } from "../../types/state";
-import { fetchMyTrainingsAction, fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainerOrdersAction, fetchTrainingsAction } from "../api-actions";
+import { fetchMyTrainingsAction, fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainerOrdersAction, fetchTrainingByIdAction, fetchTrainingsAction } from "../api-actions";
 
 
 const initialState: TrainingProcess = {
@@ -23,6 +23,11 @@ const initialState: TrainingProcess = {
   trainerOrders: {
     data: [],
     isError: false,
+  },
+  training: {
+    data: null,
+    isError: false,
+    isLoading: false,
   }
 
 };
@@ -71,6 +76,9 @@ export const trainingProcess = createSlice({
     })
     .addCase(fetchRaitingTrainingsAction.rejected, (state) => {
       state.raitingTrainings.isError = true;
+    })
+    .addCase(fetchTrainingByIdAction.fulfilled, (state, action) => {
+      state.training.data = action.payload;
     })
   }
 });

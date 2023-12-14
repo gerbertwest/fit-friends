@@ -6321,9 +6321,9 @@ input:active + .custom-textarea__text {
   display: flex;
 }
 
-.training-card--edit .training-video__button {
+/* .training-card--edit .training-video__button {
   display: none;
-}
+} */
 
 .training-card--edit .training-video__edit-buttons {
   display: -ms-grid;

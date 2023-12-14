@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector } from "../../store/training/selectors";
 import { fetchMyTrainingsAction } from "../../store/api-actions";
 import { AppRoute, DEFAULT_TRAININGS_COUNT_LIMIT, STATIC_DIRECTORY, TRAINING_TIMES } from "../../const";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import FilterSlider from "../../components/filter-slider/filter-slider";
 import { getQueryString } from "../../util";
 
@@ -193,7 +193,7 @@ function MyTrainings(): JSX.Element {
                         <p className="thumbnail-training__text">{training.description}</p>
                       </div>
                       <div className="thumbnail-training__button-wrapper">
-                        <a className="btn btn--small thumbnail-training__button-catalog" href="#">Подробнее</a>
+                      <Link className="btn btn--small thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
                         <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
                       </div>
                     </div>

@@ -13,17 +13,19 @@ import { Training } from '../types/training';
 import { UserRequest } from '../types/request';
 import { TrainerOrder } from '../types/trainer-order';
 import { NewTraining } from '../types/new-training';
+import { EditTraining } from '../types/edit-training';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<TokenPayload, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
-    await api.get(APIRoute.Check);
+    const {data} = await api.get<TokenPayload>(APIRoute.Check);
+    return data
   },
 );
 
@@ -298,4 +300,32 @@ export const fetchUsers = createAsyncThunk<User[], {queryString?: string}, {
     const {data} = await api.get<User[]>(`${APIRoute.Users}${queryString}`);
     return data;
   },
+);
+
+export const fetchTrainingByIdAction = createAsyncThunk<Training, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchTrainingById',
+  async (trainingId, {extra: api}) => {
+    const {data} = await api.get<Training>(`${APIRoute.Trainings}/${trainingId}`);
+    return data;
+  },
+);
+
+export const updateTraining = createAsyncThunk<Training, EditTraining, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/update',
+  async ({description, price, title, id}, { dispatch, extra: api }) => {
+    const postData = await api.patch(`${APIRoute.Trainings}/${id}`, {
+      description,
+      price,
+      title
+    });
+    return postData.data;
+  }
 );
