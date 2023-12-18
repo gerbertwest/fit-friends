@@ -14,6 +14,7 @@ import { UserRequest } from '../types/request';
 import { TrainerOrder } from '../types/trainer-order';
 import { NewTraining } from '../types/new-training';
 import { EditTraining } from '../types/edit-training';
+import { NewReview } from '../types/new-review';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -320,12 +321,38 @@ export const updateTraining = createAsyncThunk<Training, EditTraining, {
   extra: AxiosInstance;
 }>(
   'training/update',
-  async ({description, price, title, id}, { dispatch, extra: api }) => {
+  async ({description, price, title, id, video}, { dispatch, extra: api }) => {
     const postData = await api.patch(`${APIRoute.Trainings}/${id}`, {
       description,
       price,
       title
     });
+
+    if (postData.status === HTTP_CODE.OK && video) {
+      const payload = new FormData();
+      payload.append('file', video);
+      await api.post(`${APIRoute.Video}/${id}`, payload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+    if (postData.status === HTTP_CODE.OK && video === undefined) {
+      await api.patch(`${APIRoute.Trainings}/${id}`, {
+        video: ''
+      });
+    }
     return postData.data;
+  }
+);
+
+export const createReview = createAsyncThunk<void, NewReview, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/createReview',
+  async ({ message, trainingId, raiting }, { dispatch, extra: api }) => {
+    await api.post<{ id: number }>(APIRoute.Review, {
+      message, trainingId, raiting
+    });
   }
 );

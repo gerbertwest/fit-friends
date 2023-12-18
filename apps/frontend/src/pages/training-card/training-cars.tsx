@@ -7,6 +7,7 @@ import { checkAuthAction, fetchTrainingByIdAction, fetchUserByIdAction, updateTr
 import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import { EditTraining } from "../../types/edit-training";
+import PopupReview from "../popup-review/popup-review";
 //import { useElementListener } from "../../hooks/use-element-listener";
 
 function TrainingCardScreen(): JSX.Element {
@@ -26,17 +27,20 @@ function TrainingCardScreen(): JSX.Element {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [editStatus, setEditStatus] = useState(false);
+  const [isModalActive, setModalActive] = useState(false);
 
-  const DEFAULT_DATA: EditTraining = {
+  const [editData, setEditData] = useState({
     title: '',
     description: '',
     price: 0,
     id: 0,
     special: false,
-  }
+    video: '',
+    backgroundImage: '',
 
-  const [editData, setEditData] = useState(DEFAULT_DATA);
-  //const [special, setSpecial] = useState(false)
+  });
+
+  const [video, setVideo] = useState<File | undefined>();
 
   useEffect(() => {
     if (training.data) {
@@ -46,9 +50,11 @@ function TrainingCardScreen(): JSX.Element {
         price: training.data.price,
         id: training.data.id,
         special: training.data.special,
-       }
-      );
+        video: training.data.video,
+        backgroundImage: training.data.backgroundImage
+       });
     }
+
   }, [training.data])
 
   useEffect(() => {
@@ -58,8 +64,8 @@ function TrainingCardScreen(): JSX.Element {
   }, [dispatch, training.data?.reviews])
 
   useEffect(() => {
-    dispatch(fetchTrainingByIdAction(Number(params.id)))
-    dispatch(checkAuthAction())
+      dispatch(fetchTrainingByIdAction(Number(params.id)))
+      dispatch(checkAuthAction())
   }, [dispatch, params.id])
 
   const trainer = training.data?.trainer;
@@ -71,6 +77,13 @@ function TrainingCardScreen(): JSX.Element {
   const onChangeSpecial = () => {setEditData({...editData, special: true, price: editData.price * 0.9})}
   const onDeleteSpecial = () => {setEditData({...editData, special: false, price: editData.price / 0.9})}
 
+  const handleVideoUpload = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setVideo(evt.target.files[0]);
+  };
+
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const formData: EditTraining = {
@@ -79,10 +92,17 @@ function TrainingCardScreen(): JSX.Element {
       description: editData.description,
       price: Math.ceil(editData.price),
       special: editData.special,
+      video
     };
-    console.log(formData)
     setEditStatus(false)
     dispatch(updateTraining(formData));
+  };
+
+  const handleModalOpen = () => {
+    setModalActive(true);
+  };
+  const handleModalClose = () => {
+    setModalActive(false);
   };
 
   return (
@@ -94,7 +114,8 @@ function TrainingCardScreen(): JSX.Element {
             <div className="inner-page__wrapper">
               <h1 className="visually-hidden">Карточка тренировки</h1>
               <aside className="reviews-side-bar">
-                <button className="btn-flat btn-flat--underlined reviews-side-bar__back" type="button" onClick={() => navigate(`${AppRoute.TrainingCatalog}/${user.data?.id}`)}>
+                <button className="btn-flat btn-flat--underlined reviews-side-bar__back" type="button"
+                  onClick={() => {role === UserRole.User ? navigate(`${AppRoute.TrainingCatalog}/${user.data?.id}`) : navigate(`${AppRoute.MyTrainings}/${user.data?.id}`)}}>
                   <svg width="14" height="10" aria-hidden="true">
                     <use xlinkHref="#arrow-left"></use>
                   </svg><span>Назад</span>
@@ -124,7 +145,9 @@ function TrainingCardScreen(): JSX.Element {
                     ))
                     }
                 </ul>
-                <button className="btn btn--medium reviews-side-bar__button" type="button" disabled={role === UserRole.Admin}>Оставить отзыв</button>
+                <button className="btn btn--medium reviews-side-bar__button" type="button" disabled={role === UserRole.Admin} onClick={handleModalOpen}>
+                  Оставить отзыв
+                </button>
               </aside>
               <div className="training-card training-card--edit">
                 <div className="training-info">
@@ -228,51 +251,48 @@ function TrainingCardScreen(): JSX.Element {
                 </div>
                 <div className="training-video">
                   <h2 className="training-video__title">Видео</h2>
-                  <div className="training-video__video">
                    {isPlaying ?
                     <div className="training-video__thumbnail">
                       <video src={`${STATIC_DIRECTORY}${training.data?.video}`} poster={`${STATIC_DIRECTORY}${training.data?.video}`} ref={videoRef} controls autoPlay>
                      </video>
                     </div>
                     :
-                    training.data?.video !== '' ?
-                    <>
-                    <div className="training-video__thumbnail">
+                    editData.video !== '' || undefined || video ?
+                    <div className="training-video__video">
+                      <div className="training-video__thumbnail">
                        <picture>
                           <source type="image/webp"/>
-                          <img src={`${STATIC_DIRECTORY}${training.data?.backgroundImage}`} width="922" height="566" alt="Обложка видео"/>
+                          <img src={`${STATIC_DIRECTORY}${editData.backgroundImage}`} width="922" height="566" alt="Обложка видео"/>
                        </picture>
-                    </div>
-                    <button className="training-video__play-button btn-reset" onClick={() => setIsPlaying(!isPlaying)}>
+                      </div>
+                     <button className="training-video__play-button btn-reset" onClick={() => setIsPlaying(!isPlaying)}>
                       <svg width="18" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-arrow"></use>
                       </svg>
-                    </button>
-                    </> :
-                    ''
-                    }
-                  </div>
-                  <div className="training-video__drop-files">
-                    <form action="#" method="post">
+                     </button>
+                    </div> :
+                    <div className="training-video__drop-files">
+                     <form action="#" method="post">
                       <div className="training-video__form-wrapper">
-                        <div className="drag-and-drop">
-                          <label>
-                            <span className="drag-and-drop__label" tabIndex={0}>Загрузите сюда файлы формата MOV, AVI или MP4
-                              <svg width="20" height="20" aria-hidden="true">
-                                <use xlinkHref="#icon-import-video"></use>
-                              </svg></span>
-                            <input type="file" name="import" tabIndex={-1} accept=".mov, .avi, .mp4"/>
-                          </label>
-                        </div>
+                       <div className="drag-and-drop">
+                        <label>
+                          <span className="drag-and-drop__label" tabIndex={0}>Загрузите сюда файлы формата MOV, AVI или MP4
+                            <svg width="20" height="20" aria-hidden="true">
+                              <use xlinkHref="#icon-import-video"></use>
+                            </svg></span>
+                          <input type="file" name="import" tabIndex={-1} accept=".mov, .avi, .mp4" disabled={role === UserRole.User || !editStatus} onChange={handleVideoUpload}/>
+                        </label>
+                       </div>
                       </div>
-                    </form>
-                  </div>
+                     </form>
+                    </div>
+                    }
                   <div className="training-video__buttons-wrapper">
                     {role === UserRole.Admin ?
                     editStatus === true ?
                      <div className="training-video__edit-buttons">
-                      <button className="btn" type="button">Сохранить</button>
-                      <button className="btn btn--outlined" type="button">Удалить</button>
+                      <button className="btn" type="button" onClick={handleSubmit}>Сохранить</button>
+                      <button className="btn btn--outlined" type="button" disabled={training.data?.video === ''} onClick={() => setEditData({...editData, video: ''})}>Удалить</button>
                      </div> : ''
                      :
                      <>
@@ -287,6 +307,11 @@ function TrainingCardScreen(): JSX.Element {
           </div>
         </section>
       </main>
+      <div>
+        {isModalActive && (
+          <PopupReview onClose={handleModalClose}/>
+        )}
+      </div>
     </div>
   )
 }

@@ -31,8 +31,6 @@ function CreateTraining(): JSX.Element {
     setCreatingData({...creatingData, [target.name]: target.value});
   };
 
-  console.log(creatingData)
-
   const handleVideoUpload = (evt: ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files) {
       return;

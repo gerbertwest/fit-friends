@@ -43,6 +43,7 @@ export enum APIRoute {
   CreateTraining = '/training',
   Video = '/training/video',
   Trainings = '/training',
+  Review = '/review',
 
 }
 

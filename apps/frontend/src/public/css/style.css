@@ -4407,7 +4407,7 @@ input:active + .custom-textarea__text {
 }
 
 .training-video__drop-files {
-  display: none;
+  /* display: none; */
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;

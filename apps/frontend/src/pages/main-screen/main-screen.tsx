@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector, rairingTrainingsSelector, specTrainingsSelector } from "../../store/training/selectors";
 import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAction, fetchUserByIdAction, fetchUsers } from "../../store/api-actions";
 import { userSelector, usersSelector } from "../../store/user/selectors";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppRoute, STATIC_DIRECTORY } from "../../const";
 
 function MainScreen(): JSX.Element {
@@ -71,7 +71,7 @@ function MainScreen(): JSX.Element {
                   <div className="thumbnail-preview__inner">
                     <h3 className="thumbnail-preview__title">{training.title}</h3>
                     <div className="thumbnail-preview__button-wrapper">
-                      <a className="btn btn--small thumbnail-preview__button" href="#">Подробнее</a>
+                      <Link className="btn btn--small thumbnail-preview__button" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
                     </div>
                   </div>
                  </div>
@@ -205,7 +205,7 @@ function MainScreen(): JSX.Element {
                         <p className="thumbnail-training__text">{training.description}</p>
                       </div>
                       <div className="thumbnail-training__button-wrapper">
-                        <a className="btn btn--small thumbnail-training__button-catalog" href="#">Подробнее</a>
+                        <Link className="btn btn--small thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
                         <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
                       </div>
                     </div>

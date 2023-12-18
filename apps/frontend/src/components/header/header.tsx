@@ -1,10 +1,12 @@
 function Header(): JSX.Element {
   return (
     <header className="header">
-    <div className="container"><a className="header__logo" href="index.html" aria-label="Переход на главную">
+    <div className="container">
+      <a className="header__logo" href="/" aria-label="Переход на главную">
         <svg width="187" height="70" aria-hidden="true">
           <use xlinkHref="#logo"></use>
-        </svg></a>
+        </svg>
+      </a>
       <nav className="main-nav">
         <ul className="main-nav__list">
           <li className="main-nav__item"><a className="main-nav__link is-active" href="#" aria-label="На главную">
