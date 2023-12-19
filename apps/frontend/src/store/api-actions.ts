@@ -15,6 +15,7 @@ import { TrainerOrder } from '../types/trainer-order';
 import { NewTraining } from '../types/new-training';
 import { EditTraining } from '../types/edit-training';
 import { NewReview } from '../types/new-review';
+import { NewOrder } from '../types/new-order';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -353,6 +354,23 @@ export const createReview = createAsyncThunk<void, NewReview, {
   async ({ message, trainingId, raiting }, { dispatch, extra: api }) => {
     await api.post<{ id: number }>(APIRoute.Review, {
       message, trainingId, raiting
+    });
+  }
+);
+
+export const createOrder = createAsyncThunk<void, NewOrder, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'order/createOrder',
+  async ({ count, paymentMethod, type, trainingId, userId }, { dispatch, extra: api }) => {
+     await api.post<{ id: number }>(APIRoute.NewOrder, {
+      count,
+      paymentMethod,
+      type,
+      trainingId,
+      userId
     });
   }
 );

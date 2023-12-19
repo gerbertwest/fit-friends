@@ -57,6 +57,10 @@ export type TrainingProcess = {
   };
 };
 
+export type OrderProcess = {
+  createStatus: boolean;
+}
+
 
 export type State = ReturnType<typeof store.getState>;
 

@@ -63,7 +63,6 @@ function PopupReview(props: PopupReviewProps): JSX.Element {
 
   return (
         <div className="popup-form popup-form--feedback">
-
           <section className="popup" ref={rootRef}>
            <form method="get" onSubmit={handleSubmit}>
             <div className="popup__wrapper">

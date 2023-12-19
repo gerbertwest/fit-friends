@@ -8,6 +8,8 @@ import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import { EditTraining } from "../../types/edit-training";
 import PopupReview from "../popup-review/popup-review";
+import PopupBuy from "../popup-buy/popup-buy";
+import { getCreateOrderStatus } from "../../store/order/selectors";
 //import { useElementListener } from "../../hooks/use-element-listener";
 
 function TrainingCardScreen(): JSX.Element {
@@ -19,6 +21,8 @@ function TrainingCardScreen(): JSX.Element {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const token = useAppSelector(tokenPayloadSelector)
+  const createOrderStatus = useAppSelector(getCreateOrderStatus)
+  console.log(createOrderStatus)
 
   const role = token.data?.role;
 
@@ -27,7 +31,11 @@ function TrainingCardScreen(): JSX.Element {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [editStatus, setEditStatus] = useState(false);
-  const [isModalActive, setModalActive] = useState(false);
+  const [isModalActive, setModalActive] = useState({
+    popupStatus: false,
+    reviewPopup: false,
+    buyPopup: false
+  });
 
   const [editData, setEditData] = useState({
     title: '',
@@ -98,11 +106,11 @@ function TrainingCardScreen(): JSX.Element {
     dispatch(updateTraining(formData));
   };
 
-  const handleModalOpen = () => {
-    setModalActive(true);
+  const handleModalOpen = (choosePopup: string) => {
+    setModalActive({...isModalActive, popupStatus: true, [choosePopup]: true})
   };
-  const handleModalClose = () => {
-    setModalActive(false);
+  const handleModalClose = (choosePopup: string) => {
+    setModalActive({...isModalActive, popupStatus: false, [choosePopup]: false});
   };
 
   return (
@@ -145,7 +153,7 @@ function TrainingCardScreen(): JSX.Element {
                     ))
                     }
                 </ul>
-                <button className="btn btn--medium reviews-side-bar__button" type="button" disabled={role === UserRole.Admin} onClick={handleModalOpen}>
+                <button className="btn btn--medium reviews-side-bar__button" type="button" disabled={role === UserRole.Admin} onClick={() => handleModalOpen('reviewPopup')}>
                   Оставить отзыв
                 </button>
               </aside>
@@ -242,7 +250,7 @@ function TrainingCardScreen(): JSX.Element {
                             </svg><span>Отменить скидку</span>
                           </button>
                              :
-                            <button className="btn training-info__buy" type="button">Купить</button>
+                            <button className="btn training-info__buy" type="button" onClick={() => handleModalOpen('buyPopup')} disabled={createOrderStatus}>Купить</button>
                           }
                         </div>
                       </div>
@@ -296,7 +304,7 @@ function TrainingCardScreen(): JSX.Element {
                      </div> : ''
                      :
                      <>
-                     <button className="btn training-video__button" type="button" disabled>Приступить</button>
+                     <button className="btn training-video__button" type="button" disabled={!createOrderStatus}>Приступить</button>
                      <button className="btn training-video__button training-video__button--stop" type="button">Закончить</button>
                      </>
                     }
@@ -308,8 +316,11 @@ function TrainingCardScreen(): JSX.Element {
         </section>
       </main>
       <div>
-        {isModalActive && (
-          <PopupReview onClose={handleModalClose}/>
+        {isModalActive.reviewPopup && isModalActive.popupStatus && (
+          <PopupReview onClose={() => handleModalClose('reviewPopup')}/>
+        )}
+        {isModalActive.buyPopup && isModalActive.popupStatus && (
+          <PopupBuy onClose={() => handleModalClose('buyPopup')} training={training.data} userId={user.data?.id}/>
         )}
       </div>
     </div>

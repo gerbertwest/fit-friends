@@ -25,6 +25,7 @@ export enum AuthorizationStatus {
 export enum NameSpace {
   Training = 'TRAINING',
   User = 'USER',
+  Order = "ORDER",
 }
 
 export enum APIRoute {
@@ -44,6 +45,7 @@ export enum APIRoute {
   Video = '/training/video',
   Trainings = '/training',
   Review = '/review',
+  NewOrder = '/order',
 
 }
 
