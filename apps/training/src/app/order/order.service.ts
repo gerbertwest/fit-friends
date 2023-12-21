@@ -50,6 +50,10 @@ export class OrderService {
     return this.orderRepository.findByTrainerId(trainerId, query);
   }
 
+  async getOrder(trainingId: number, userId: string): Promise<Order> | null {
+    return this.orderRepository.findByUserIdAndTrainingId(trainingId, userId);
+  }
+
   async updateOrder(orderId: number, dto: UpdateOrderDto) {
 
     const existOrder = await this.orderRepository.findById(orderId)

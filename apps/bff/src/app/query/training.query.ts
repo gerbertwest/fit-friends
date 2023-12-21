@@ -57,6 +57,11 @@ export class TrainingQuery {
   public sortField: string;
 
   @IsOptional()
-  public active: string
+  public active: string;
+
+  @Transform(({ value } ) => +value)
+  @IsNumber()
+  @IsOptional()
+  public trainingId: number;
 
 }

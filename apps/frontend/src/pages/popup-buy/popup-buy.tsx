@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Training } from "../../types/training";
 import { STATIC_DIRECTORY } from "../../const";
 import { NewOrder } from "../../types/new-order";
-import { createOrder } from "../../store/api-actions";
+import { createOrder, fetchOrderAction } from "../../store/api-actions";
 import { useAppDispatch } from "../../hooks/index";
 
 type PopupBuyProps = {
@@ -42,16 +42,11 @@ function PopupBuy(props: PopupBuyProps): JSX.Element {
   const [data, setData] = useState({
     paymentMethod: '',
     count: 0,
-    // type: 'абонемент',
-    // trainingId: 0,
-    // userId: ''
   });
 
   const onChange = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setData({...data, [target.name]: target.value});
   };
-
-  console.log(data)
 
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
@@ -63,11 +58,11 @@ function PopupBuy(props: PopupBuyProps): JSX.Element {
         type: 'абонемент',
         userId: props.userId
       };
-      console.log(formData)
       dispatch(createOrder(formData));
     }
 
     props.onClose();
+    window.location.reload();
   };
 
   return (

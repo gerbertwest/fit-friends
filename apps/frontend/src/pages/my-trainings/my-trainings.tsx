@@ -194,7 +194,7 @@ function MyTrainings(): JSX.Element {
                       </div>
                       <div className="thumbnail-training__button-wrapper">
                       <Link className="btn btn--small thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
-                        <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
+                        <Link className="btn btn--small btn--outlined thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Отзывы</Link>
                       </div>
                     </div>
                   </div>

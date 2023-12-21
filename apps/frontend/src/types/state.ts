@@ -1,5 +1,6 @@
 import { AuthorizationStatus } from '../const.js';
 import {store} from '../store/index.js';
+import { Order } from './order';
 import { UserRequest } from './request';
 import { TokenPayload } from './token-payload';
 import { TrainerOrder } from './trainer-order';
@@ -59,6 +60,16 @@ export type TrainingProcess = {
 
 export type OrderProcess = {
   createStatus: boolean;
+  order: {
+    data: Order | null;
+    isLoading: boolean;
+    isError: boolean;
+  }
+  orders: {
+    data: Order[];
+    isLoading: boolean;
+    isError: boolean;
+  }
 }
 
 

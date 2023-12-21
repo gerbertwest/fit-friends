@@ -48,6 +48,18 @@ export class OrderController {
   }
 
   @ApiResponse({
+    type: TrainerOrderRdo,
+    status: HttpStatus.OK,
+    description: 'orders of treiner found'
+  })
+  @Get('order/:userId')
+  async showOrderByTrainingAndUser(@Param('userId') userId: string, @Query() query: TrainingQuery) {
+    const {trainingId} = query
+    const order = await this.orderService.getOrder(trainingId, userId);
+    return fillObject(OrderRdo, order);
+  }
+
+  @ApiResponse({
     type: OrderRdo,
     status: HttpStatus.OK,
     description: 'Training has been updeted.'

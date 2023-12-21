@@ -64,4 +64,9 @@ export class TrainingQuery {
 
   @IsOptional()
   public special: string;
+
+  @Transform(({ value } ) => +value)
+  @IsNumber()
+  @IsOptional()
+  public trainingId: number;
 }

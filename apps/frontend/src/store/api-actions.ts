@@ -16,6 +16,8 @@ import { NewTraining } from '../types/new-training';
 import { EditTraining } from '../types/edit-training';
 import { NewReview } from '../types/new-review';
 import { NewOrder } from '../types/new-order';
+import { Order } from '../types/order';
+import { EditOrder } from '../types/edit-order';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -309,7 +311,7 @@ export const fetchTrainingByIdAction = createAsyncThunk<Training, number, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/fetchTrainingById',
+  'training/fetchTrainingById',
   async (trainingId, {extra: api}) => {
     const {data} = await api.get<Training>(`${APIRoute.Trainings}/${trainingId}`);
     return data;
@@ -365,12 +367,40 @@ export const createOrder = createAsyncThunk<void, NewOrder, {
 }>(
   'order/createOrder',
   async ({ count, paymentMethod, type, trainingId, userId }, { dispatch, extra: api }) => {
-     await api.post<{ id: number }>(APIRoute.NewOrder, {
+     await api.post<{ id: number }>(APIRoute.Order, {
       count,
       paymentMethod,
       type,
       trainingId,
       userId
     });
+  }
+);
+
+export const fetchOrderAction = createAsyncThunk<Order | null, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'order/fetchOrder',
+  async (trainingId, {extra: api}) => {
+    const {data} = await api.get<Order | null>(`${APIRoute.Order}?trainingId=${trainingId}`);
+    return data;
+  },
+);
+
+export const updateOrder = createAsyncThunk<Order, EditOrder, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/update',
+  async ({count, active, id}, { dispatch, extra: api }) => {
+    const postData = await api.patch(`${APIRoute.Order}/${id}`, {
+      count,
+      active
+    });
+
+    return postData.data;
   }
 );

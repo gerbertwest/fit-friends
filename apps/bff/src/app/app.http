@@ -261,9 +261,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExO
 ###
 
 # Get orders by userId
-GET http://localhost:4000/api/order/user?limit=10&sortDirection=desc&active=true HTTP/1.1
+GET http://localhost:4000/api/order/user?limit=10&sortDirection=desc HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE2OTkyODEyODUsImV4cCI6MTY5OTI4MjE4NX0.KjWNyqoMBg0tB6QzefQSM0W5O9X7QU-uTZ-xxVV6RTs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTUwZmFjODhjYjJiYjAwYTkyOGYwNGEiLCJlbWFpbCI6Imtla3NAaHRtbGFjYWRlbXkucnUiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MgS2Vrc2lrIiwiaWF0IjoxNzAzMDg3MjgyLCJleHAiOjE3MDMwODgxODJ9.SuxiDup2YC7jtF_nw9fvq8o02ocbcf44_Wiu8Ahvm6M
+
+###
+
+# Get order by userId and trainingId
+GET http://localhost:4000/api/order?trainingId=15 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTUwZmFjODhjYjJiYjAwYTkyOGYwNGEiLCJlbWFpbCI6Imtla3NAaHRtbGFjYWRlbXkucnUiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MgS2Vrc2lrIiwiaWF0IjoxNzAzMDkyNTA0LCJleHAiOjE3MDMwOTM0MDR9.9xcGoeFmOlT51oe36RnoO21Q7GOg8j61jxbZKlcNgS0
 
 ###
 

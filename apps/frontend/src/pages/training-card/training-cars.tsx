@@ -3,13 +3,14 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { trainingSelector } from "../../store/training/selectors";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { checkAuthAction, fetchTrainingByIdAction, fetchUserByIdAction, updateTraining } from "../../store/api-actions";
+import { checkAuthAction, fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
 import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import { EditTraining } from "../../types/edit-training";
 import PopupReview from "../popup-review/popup-review";
 import PopupBuy from "../popup-buy/popup-buy";
-import { getCreateOrderStatus } from "../../store/order/selectors";
+import { orderSelector } from "../../store/order/selectors";
+
 //import { useElementListener } from "../../hooks/use-element-listener";
 
 function TrainingCardScreen(): JSX.Element {
@@ -21,14 +22,15 @@ function TrainingCardScreen(): JSX.Element {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const token = useAppSelector(tokenPayloadSelector)
-  const createOrderStatus = useAppSelector(getCreateOrderStatus)
-  console.log(createOrderStatus)
+  const order = useAppSelector(orderSelector)
 
   const role = token.data?.role;
+  const trainer = training.data?.trainer;
 
   // const [isLoaded, setIsLoaded] = useState(false);
   // useElementListener('loadeddata', videoRef, () => setIsLoaded(true));
 
+  const [trainingActive, setTrainingActive] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false);
   const [editStatus, setEditStatus] = useState(false);
   const [isModalActive, setModalActive] = useState({
@@ -48,6 +50,12 @@ function TrainingCardScreen(): JSX.Element {
 
   });
 
+  const [orderData, setOrderData] = useState({
+    id: 0,
+    count: 0,
+    active: false
+  });
+
   const [video, setVideo] = useState<File | undefined>();
 
   useEffect(() => {
@@ -62,8 +70,17 @@ function TrainingCardScreen(): JSX.Element {
         backgroundImage: training.data.backgroundImage
        });
     }
-
   }, [training.data])
+
+  useEffect(() => {
+    if (order.data) {
+      setOrderData({
+        id: order.data.orderId,
+        count: order.data.count,
+        active: order.data.active
+       });
+    }
+  }, [order.data])
 
   useEffect(() => {
     training.data?.reviews?.map((review) => (
@@ -74,17 +91,17 @@ function TrainingCardScreen(): JSX.Element {
   useEffect(() => {
       dispatch(fetchTrainingByIdAction(Number(params.id)))
       dispatch(checkAuthAction())
-  }, [dispatch, params.id])
+      if (training.data?.id) {
+        dispatch(fetchOrderAction(training.data?.id))
+      }
+  }, [dispatch, params.id, training.data?.id])
 
-  const trainer = training.data?.trainer;
 
   const onChange = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setEditData({...editData, [target.name]: target.value});
   };
-
   const onChangeSpecial = () => {setEditData({...editData, special: true, price: editData.price * 0.9})}
   const onDeleteSpecial = () => {setEditData({...editData, special: false, price: editData.price / 0.9})}
-
   const handleVideoUpload = (evt: ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files) {
       return;
@@ -112,6 +129,30 @@ function TrainingCardScreen(): JSX.Element {
   const handleModalClose = (choosePopup: string) => {
     setModalActive({...isModalActive, popupStatus: false, [choosePopup]: false});
   };
+
+  const handleActiveStatus = () => {
+    if (orderData.count > 1) {
+       setOrderData({
+         ...orderData,
+         count: orderData.count - 1,
+       })
+    }
+    else {
+      setOrderData({
+        ...orderData,
+        count: 0,
+        active: false
+      })
+    }
+    setTrainingActive(false)
+  }
+
+  console.log(orderData)
+
+  useEffect(() => {
+    if (orderData.id)
+    dispatch(updateOrder(orderData))
+  }, [dispatch, orderData])
 
   return (
     <div className="wrapper">
@@ -250,7 +291,7 @@ function TrainingCardScreen(): JSX.Element {
                             </svg><span>Отменить скидку</span>
                           </button>
                              :
-                            <button className="btn training-info__buy" type="button" onClick={() => handleModalOpen('buyPopup')} disabled={createOrderStatus}>Купить</button>
+                            <button className="btn training-info__buy" type="button" onClick={() => handleModalOpen('buyPopup')} disabled={orderData.active ? true : false}>Купить</button>
                           }
                         </div>
                       </div>
@@ -303,11 +344,16 @@ function TrainingCardScreen(): JSX.Element {
                       <button className="btn btn--outlined" type="button" disabled={training.data?.video === ''} onClick={() => setEditData({...editData, video: ''})}>Удалить</button>
                      </div> : ''
                      :
-                     <>
-                     <button className="btn training-video__button" type="button" disabled={!createOrderStatus}>Приступить</button>
-                     <button className="btn training-video__button training-video__button--stop" type="button">Закончить</button>
-                     </>
-                    }
+                     !trainingActive ?
+                     <button className="btn training-video__button" type="button"
+                       disabled={!orderData.active ? true : false} onClick={() => setTrainingActive(true)}>
+                      Приступить
+                     </button>
+                     :
+                     <button className="btn training-video__button " type="button" onClick={handleActiveStatus}>
+                      Закончить
+                     </button>
+                     }
                   </div>
                 </div>
               </div>

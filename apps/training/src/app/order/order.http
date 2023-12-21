@@ -22,6 +22,11 @@ GET http://localhost:3000/api/orders/trainer/6555111955b20bdc0afff541?sortField=
 
 ###
 
+# Get order by userId and trainingId
+GET http://localhost:3000/api/orders/order/6550fac88cb2bb00a928f04a?trainingId=3 HTTP/1.1
+
+###
+
 # Update order activ by id
 PATCH http://localhost:3000/api/orders/17 HTTP/1.1
 Content-Type: application/json

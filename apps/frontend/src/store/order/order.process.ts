@@ -1,10 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { OrderProcess } from "../../types/state";
 import { NameSpace } from "../../const";
-import { createOrder } from "../api-actions";
+import { createOrder, fetchOrderAction } from "../api-actions";
 
 const initialState: OrderProcess = {
-  createStatus: false
+  createStatus: false,
+  order: {
+    data: null,
+    isError: false,
+    isLoading: false,
+  },
+  orders: {
+    data: [],
+    isError: false,
+    isLoading: false,
+  }
 };
 
 export const orderProcess = createSlice({
@@ -18,6 +28,9 @@ export const orderProcess = createSlice({
       })
       .addCase(createOrder.rejected, (state) => {
         state.createStatus = false
+      })
+      .addCase(fetchOrderAction.fulfilled, (state, action) => {
+        state.order.data = action.payload;
       })
   }
 });

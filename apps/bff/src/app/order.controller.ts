@@ -70,6 +70,19 @@ export class OrderController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'All orders of user found'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Get('/')
+  public async showOrderByTrainingAndUser(@Query() {trainingId}: TrainingQuery, @Req() { user: payload }: RequestWithTokenPayload) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Order}/order/${payload.sub}`, {params: {trainingId}});
+    return data;
+    }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'The training has been updated.'
   })
   @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
