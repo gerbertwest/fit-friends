@@ -19,6 +19,9 @@ import CreateTraining from "../pages/create-training/create-training";
 import FriendsListCoach from "../pages/friends-list-coach/friends-list-coach";
 import TrainingCatalogScreen from "../pages/training-catalog/training-catalog";
 import TrainingCardScreen from "../pages/training-card/training-cars";
+import UserCalatogScreen from "../pages/user-catalog-screen/user-catalog-screen";
+import UserCardScreen from "../pages/user-card-screen/user-card-screen";
+import TrainerCardScreen from "../pages/trainer-card-screen/trainer-card-screen";
 
 export function App(): JSX.Element {
 
@@ -175,6 +178,47 @@ export function App(): JSX.Element {
         />
        </Route>
       </Route>
+
+      <Route path={AppRoute.UserCatalog}>
+       <Route path={AppRoute.UserId}>
+         <Route index element={
+          <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+          <UserCalatogScreen/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+      </Route>
+
+      <Route path={AppRoute.User}>
+       <Route path={AppRoute.UserId}>
+         <Route index element={
+          <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+          <UserCardScreen/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+      </Route>
+
+      <Route path={AppRoute.Trainer}>
+       <Route path={AppRoute.UserId}>
+         <Route index element={
+          <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+          <TrainerCardScreen/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+      </Route>
+
+
 
     </Routes>
     </HistoryRouter>

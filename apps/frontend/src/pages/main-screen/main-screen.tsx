@@ -233,7 +233,8 @@ function MainScreen(): JSX.Element {
           <div className="look-for-company__wrapper">
             <div className="look-for-company__title-wrapper">
               <h2 className="look-for-company__title">Ищут компанию для тренировки</h2>
-              <button className="btn-flat btn-flat--light look-for-company__button" type="button"><span>Смотреть все</span>
+              <button className="btn-flat btn-flat--light look-for-company__button" type="button" onClick={() => navigate(`${AppRoute.UserCatalog}/${params.id}`)}>
+                <span>Смотреть все</span>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-right"></use>
                 </svg>

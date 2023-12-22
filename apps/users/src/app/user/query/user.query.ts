@@ -1,4 +1,4 @@
-import { IsArray, IsIn, IsNumber, IsOptional } from "class-validator";
+import { IsArray, IsBoolean, IsIn, IsNumber, IsOptional } from "class-validator";
 import { DEFAULT_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from "../user.constant";
 import { Transform } from "class-transformer";
 import { levels, locations, trainingsType } from "@fit-friends/shared/app-types";
@@ -32,7 +32,9 @@ export class UserQuery {
   @IsOptional()
   public page: number;
 
+  @IsBoolean()
+  @Transform(({ value} ) => value === 'true')
   @IsOptional()
-  public readyToTraining: string;
+  public readyToTraining: boolean;
 
 }
