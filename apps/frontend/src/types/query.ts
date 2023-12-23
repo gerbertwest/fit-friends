@@ -11,4 +11,6 @@ export type Query = {
   sortDirection?: string,
   page?: number,
   sortField?: string,
+  level?: string,
+  locations?: string[],
 }

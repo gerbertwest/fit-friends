@@ -1,4 +1,4 @@
-import { DEFAULT_ORDERS_COUNT_LIMIT, DEFAULT_TRAININGS_COUNT_LIMIT } from "./const";
+import { DEFAULT_ORDERS_COUNT_LIMIT, DEFAULT_TRAININGS_COUNT_LIMIT, DEFAULT_USERS_COUNT_LIMIT } from "./const";
 import { Query } from "./types/query";
 
 const ucFirst = (string: string) => {
@@ -22,4 +22,10 @@ export function getQueryString({limit = DEFAULT_TRAININGS_COUNT_LIMIT, minPrice,
 
 export function getSortQueryString({limit= DEFAULT_ORDERS_COUNT_LIMIT, sortDirection, sortField, page = 1}: Query): string {
     return `?limit=${limit}&sortDirection=${sortDirection}&sortField=${sortField}&page=${page}`
+}
+
+export function getUsersQueryString({limit = DEFAULT_USERS_COUNT_LIMIT, level, trainingTypes, locations, sortDirection = 'desc', page = 1}: Query): string {
+  const type = trainingTypes && trainingTypes !==null ? trainingTypes.join(',') : '';
+  const location = locations && locations !==null ? locations.join(',') : '';
+  return `?limit=${limit}${location !== '' ? `&location=${location}` : ''}${type !== '' ? `&trainingType=${type}` : ''}&level=${level}&sortDirection=${sortDirection}&page=${page}`;
 }

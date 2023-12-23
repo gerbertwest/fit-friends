@@ -40,7 +40,7 @@ function TrainingCatalogScreen(): JSX.Element {
     setFilters({...filters, [minName]: count[0], [maxName]: count[1]})
   };
 
-  const changeFilterTime = (value: string) => {
+  const changeFilterType = (value: string) => {
     if (filterType) {
     const ind = filterType.indexOf(value);
     if (ind === -1) {
@@ -53,7 +53,7 @@ function TrainingCatalogScreen(): JSX.Element {
   };
 
   const onChangeFilterType = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    changeFilterTime(target.value);
+    changeFilterType(target.value);
   };
 
   useEffect(() => {
@@ -70,8 +70,6 @@ function TrainingCatalogScreen(): JSX.Element {
     })
     dispatch(fetchTrainingsAction({queryString}))
   }, [dispatch, filterType, filters.maxCalories, filters.maxPrice, filters.maxRating, filters.minCalories, filters.minPrice, filters.minRating, page, sortDirection])
-
-  console.log(trainings.data)
 
   const backCondition = trainings.data.find((item) => item.totalPageNumber > page*DEFAULT_TRAININGS_COUNT_LIMIT)
   const disabledCondition = trainings.data.find((item) => item.totalPageNumber <= DEFAULT_TRAININGS_COUNT_LIMIT)

@@ -80,6 +80,7 @@ export const STATIC_DIRECTORY = 'http://localhost:3334'
 export const DEFAULT_TRAININGS_COUNT_LIMIT = 5;
 export const DEFAULT_ORDERS_COUNT_LIMIT = 1;
 export const DEFAULT_FRIENDS_COUNT_LIMIT = 1;
+export const DEFAULT_USERS_COUNT_LIMIT = 12;
 
 
 interface GENDERS_DICTIONARY  {
