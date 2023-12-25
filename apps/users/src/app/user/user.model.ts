@@ -97,6 +97,9 @@ export class UserModel extends Document implements User {
 
   @Prop()
   public subscriptions?: string[]
+
+  @Prop()
+  public totalPageNumber?: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

@@ -12,6 +12,7 @@ export interface User {
   description: string;
   location: UserLocation;
   backgroundImage?: string;
+  totalPageNumber?: number;
 
   level?: UserLevel;
   trainingType?: string[];

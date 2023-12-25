@@ -23,5 +23,7 @@ export type User = {
 
   friends?: string[];
 
-  subscriptions?: string[]
+  subscriptions?: string[];
+
+  totalPageNumber?: number;
 };

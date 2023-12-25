@@ -9,6 +9,8 @@ import { getUsersQueryString, ucFirst } from "../../util";
 
 function UserCalatogScreen(): JSX.Element {
 
+  const POINTS_COUNT = 3
+
   type Filter = {
     locations: string[],
     types: string[],
@@ -30,6 +32,8 @@ function UserCalatogScreen(): JSX.Element {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sortDirection, setSortDirection] = useState('desc');
   const [page, setPage] = useState<number>(DEFAULT_PAGE);
+  const [moreLocations, setMoreLocations] = useState(false);
+  const [moreTypes, setMoreTypes] = useState(false);
 
   useEffect(() => {
     const queryString = getUsersQueryString({
@@ -78,10 +82,21 @@ function UserCalatogScreen(): JSX.Element {
     changeFilterLocation(target.value);
   };
 
-  // const backCondition = users.data.find((item) => item.totalPageNumber > page*DEFAULT_USERS_COUNT_LIMIT)
-  // const disabledCondition = users.data.find((item) => item.totalPageNumber <= DEFAULT_USERS_COUNT_LIMIT)
+  const backCondition = users.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_USERS_COUNT_LIMIT)
+  const disabledCondition = users.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_USERS_COUNT_LIMIT)
 
-  console.log(filters)
+  console.log(users.data)
+
+  let locations = LOCATIONS.slice(0, POINTS_COUNT);
+  if (moreLocations) {
+    locations = LOCATIONS
+  }
+
+  let trainingTypes = TRAINING_TYPES.slice(0, POINTS_COUNT);
+  if (moreTypes) {
+    trainingTypes = TRAINING_TYPES
+  }
+
 
   return (
     <div className="wrapper">
@@ -104,7 +119,7 @@ function UserCalatogScreen(): JSX.Element {
                     <div className="user-catalog-form__block user-catalog-form__block--location">
                       <h4 className="user-catalog-form__block-title">Локация, станция метро</h4>
                       <ul className="user-catalog-form__check-list">
-                        {LOCATIONS.map((location) => (
+                        {locations.map((location) => (
                           <li className="user-catalog-form__check-list-item">
                           <div className="custom-toggle custom-toggle--checkbox">
                             <label>
@@ -117,63 +132,8 @@ function UserCalatogScreen(): JSX.Element {
                           </div>
                         </li>
                         ))}
-                        {/* <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="user-agreement-1" name="user-agreement" checked/>
-                                <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Автово</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="user-agreement-1" name="user-agreement" checked/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Адмиралтейская</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="user-agreement-1" name="user-agreement" checked/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Академическая</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="user-agreement-1" name="user-agreement"/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Балтийская</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="user-agreement-1" name="user-agreement"/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Бухарестская</span>
-                            </label>
-                          </div>
-                        </li> */}
                       </ul>
-                      <button className="btn-show-more user-catalog-form__btn-show" type="button">
+                      <button className="btn-show-more user-catalog-form__btn-show" type="button" onClick={() => setMoreLocations(true)}>
                         <span>Посмотреть все</span>
                         <svg className="btn-show-more__icon" width="10" height="4" aria-hidden="true">
                           <use xlinkHref="#arrow-down"></use>
@@ -183,7 +143,7 @@ function UserCalatogScreen(): JSX.Element {
                     <div className="user-catalog-form__block user-catalog-form__block--spezialization">
                       <h4 className="user-catalog-form__block-title">Специализация</h4>
                       <ul className="user-catalog-form__check-list">
-                        {TRAINING_TYPES.map((type) => (
+                        {trainingTypes.map((type) => (
                         <li className="user-catalog-form__check-list-item">
                           <div className="custom-toggle custom-toggle--checkbox">
                             <label>
@@ -196,63 +156,9 @@ function UserCalatogScreen(): JSX.Element {
                           </div>
                         </li>
                         ))}
-                        {/* <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="spezialization-1" name="spezialization" checked/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Аэробика</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="spezialization-1" name="spezialization" checked/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Бег</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="spezialization-1" name="spezialization" checked/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Бокс</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="spezialization-1" name="spezialization"/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Йога</span>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="user-catalog-form__check-list-item">
-                          <div className="custom-toggle custom-toggle--checkbox">
-                            <label>
-                              <input type="checkbox" value="spezialization-1" name="spezialization"/>
-                              <span className="custom-toggle__icon">
-                                <svg width="9" height="6" aria-hidden="true">
-                                  <use xlinkHref="#arrow-check"></use>
-                                </svg></span><span className="custom-toggle__label">Кроссфит</span>
-                            </label>
-                          </div>
-                        </li> */}
                       </ul>
-                      <button className="btn-show-more user-catalog-form__btn-show" type="button"><span>Посмотреть все</span>
+                      <button className="btn-show-more user-catalog-form__btn-show" type="button" onClick={() => setMoreTypes(true)}>
+                        <span>Посмотреть все</span>
                         <svg className="btn-show-more__icon" width="10" height="4" aria-hidden="true">
                           <use xlinkHref="#arrow-down"></use>
                         </svg>
@@ -325,12 +231,17 @@ function UserCalatogScreen(): JSX.Element {
                     }
                   </ul>
                   <div className="show-more users-catalog__show-more">
-                    <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}>
-                      Показать еще
-                    </button>
-                    <button className="btn show-more__button show-more__button--to-top" type="button" onClick={() => setPage(1)}>
-                      Вернуться в начало
-                    </button>
+                    {
+                      backCondition !== undefined || disabledCondition !== undefined ?
+                      <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
+                        disabled={disabledCondition !== undefined ? true : false}>
+                          Показать еще
+                      </button>
+                      :
+                      <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>
+                          Вернуться в начало
+                      </button>
+                    }
                   </div>
                 </div>
               </div>

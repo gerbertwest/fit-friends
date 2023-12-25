@@ -23,6 +23,7 @@ export class UserEntity implements User {
   public certificates?: string[];
   public merits?: string;
   public personalTrainings?: boolean;
+  public totalPageNumber?: number;
 
 
   constructor(user: User) {
@@ -50,7 +51,8 @@ export class UserEntity implements User {
       readyToTraining: this.readyToTraining,
       certificates: this.certificates,
       merits: this.merits,
-      personalTrainings: this.personalTrainings
+      personalTrainings: this.personalTrainings,
+      totalPageNumber: this.totalPageNumber,
     };
   }
 
@@ -75,6 +77,7 @@ export class UserEntity implements User {
     this.certificates = user.certificates;
     this.merits = user.merits;
     this.personalTrainings = user.personalTrainings;
+    this.totalPageNumber = user.totalPageNumber;
   }
 
   public async setPassword(password: string): Promise<UserEntity> {

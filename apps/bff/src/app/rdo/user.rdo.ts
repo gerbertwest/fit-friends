@@ -89,6 +89,9 @@ export class UserRdo {
   @Expose()
   public trainingType: string[];
 
+  @Expose()
+  public totalPageNumber: number;
+
   // поля для роли Пользователь
 
   @ApiProperty({
