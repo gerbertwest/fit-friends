@@ -85,8 +85,6 @@ function UserCalatogScreen(): JSX.Element {
   const backCondition = users.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_USERS_COUNT_LIMIT)
   const disabledCondition = users.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_USERS_COUNT_LIMIT)
 
-  console.log(users.data)
-
   let locations = LOCATIONS.slice(0, POINTS_COUNT);
   if (moreLocations) {
     locations = LOCATIONS

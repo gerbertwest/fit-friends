@@ -28,6 +28,9 @@ function FriendsListCoach(): JSX.Element {
 
   const initiators = requests.data.map((req) => req.initiatorId)
 
+  const backCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_FRIENDS_COUNT_LIMIT)
+  const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
+
 
   return (
     <div className="wrapper">
@@ -96,8 +99,19 @@ function FriendsListCoach(): JSX.Element {
                 )}
               </ul>
               <div className="show-more friends-list__show-more">
-                <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}>Показать еще</button>
-                <button className="btn show-more__button show-more__button--to-top" type="button">Вернуться в начало</button>
+                {
+                  backCondition !== undefined || disabledCondition !== undefined ?
+                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
+                  disabled={disabledCondition !== undefined ? true : false}>
+                    Показать еще
+                  </button>
+                  :
+                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>
+                    Вернуться в начало
+                  </button>
+                }
+                {/* <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}>Показать еще</button>
+                <button className="btn show-more__button show-more__button--to-top" type="button">Вернуться в начало</button> */}
               </div>
             </div>
           </div>

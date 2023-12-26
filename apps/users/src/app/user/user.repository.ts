@@ -92,6 +92,15 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
   }
 
   public async findTrainerFriends(trainerId: string, {limit, page}: UserQuery): Promise<User[] | null> {
+    const users = await this.userModel
+    .find({friends: trainerId})
+    .exec();
+
+    const count = users.length;
+
+     await this.userModel
+    .updateMany({}, {$set:{totalPageNumber: count}})
+
     return this.userModel
     .find({friends: trainerId})
     .limit(page > 0 ? limit*page : limit)
