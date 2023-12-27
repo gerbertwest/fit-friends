@@ -67,6 +67,17 @@ export class TrainingController {
   }
 
   @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'All trainings of trainer found'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Get('/trainer/:id')
+  public async indexTrainingsByTrainerId(@Query() query: TrainingQuery, @Param('id') id: string) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Training}/trainer/${id}`, {params: query});
+    return data;
+  }
+
+  @ApiResponse({
     type: TrainingRdo,
     status: HttpStatus.OK,
     description: 'training found'

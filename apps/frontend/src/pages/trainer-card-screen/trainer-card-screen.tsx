@@ -1,6 +1,51 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/header/header";
+import { useAppSelector, useAppDispatch } from "../../hooks/index";
+import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction } from "../../store/api-actions";
+import { userSelector, tokenPayloadSelector } from "../../store/user/selectors";
+import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import PopupMap from "../popup-map/popup-map";
+import { myTrainingsSelector } from "../../store/training/selectors";
 
 function TrainerCardScreen(): JSX.Element {
+
+  const user = useAppSelector(userSelector);
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const navigate = useNavigate();
+  const token = useAppSelector(tokenPayloadSelector);
+  const myTrainings = useAppSelector(myTrainingsSelector);
+
+  const [isModalActive, setModalActive] = useState(false);
+  const [friendButtonType, setFriendButtonType] = useState('add')
+
+  const queryString = '?limit=4'
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchUserByIdAction(params.id))
+      dispatch(fetchMyTrainingsByIdAction({queryString: queryString, id: params.id}))
+    }
+  }, [dispatch, params.id])
+
+  const handleModalOpen = () => {
+    setModalActive(true)
+  };
+  const handleModalClose = () => {
+    setModalActive(false);
+  };
+
+  const handleAddFriend = () => {
+    params.id && dispatch(fetchAddFriendAction(params.id))
+    setFriendButtonType('delete')
+  }
+
+  const handleDeleteFriend = () => {
+    params.id && dispatch(fetchDeleteFriendAction(params.id))
+    setFriendButtonType('add')
+  }
+
   return (
     <div className="wrapper">
       <Header/>
@@ -8,7 +53,7 @@ function TrainerCardScreen(): JSX.Element {
         <div className="inner-page inner-page--no-sidebar">
           <div className="container">
             <div className="inner-page__wrapper">
-              <button className="btn-flat inner-page__back" type="button">
+              <button className="btn-flat inner-page__back" type="button" onClick={() => navigate(`${AppRoute.UserCatalog}/${token.data?.sub}`)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>
@@ -20,12 +65,13 @@ function TrainerCardScreen(): JSX.Element {
                     <div className="user-card-coach__card">
                       <div className="user-card-coach__content">
                         <div className="user-card-coach__head">
-                          <h2 className="user-card-coach__title">Валерия</h2>
+                          <h2 className="user-card-coach__title">{user.data?.name}</h2>
                         </div>
                         <div className="user-card-coach__label">
-                          <a href="popup-user-map.html"><svg className="user-card-coach__icon-location" width="12" height="14" aria-hidden="true">
+                          <Link to="" onClick={handleModalOpen}>
+                            <svg className="user-card-coach__icon-location" width="12" height="14" aria-hidden="true">
                             <use xlinkHref="#icon-location"></use>
-                          </svg><span>Адмиралтейская</span></a>
+                          </svg><span>{user.data?.location}</span></Link>
                         </div>
                         <div className="user-card-coach__status-container">
                           <div className="user-card-coach__status user-card-coach__status--tag">
@@ -33,11 +79,18 @@ function TrainerCardScreen(): JSX.Element {
                               <use xlinkHref="#icon-cup"></use>
                             </svg><span>Тренер</span>
                           </div>
-                          <div className="user-card-coach__status user-card-coach__status--check"><span>Готов тренировать</span></div>
+                          {user.data?.readyToTraining ?
+                            <div className="user-card-coach__status user-card-coach__status--check">
+                              <span>Готов тренировать</span>
+                            </div>
+                            :
+                            <div className="user-card-coach-2__status user-card-coach-2__status--check">
+                              <span>Не готов к тренировке</span>
+                            </div>
+                          }
                         </div>
                         <div className="user-card-coach__text">
-                          <p>Привет! Меня зовут Иванова Валерия, мне 34 года. Я&nbsp;профессиональный тренер по&nbsp;боксу. Не&nbsp;боюсь пробовать новое, также увлекаюсь кроссфитом, йогой и&nbsp;силовыми тренировками.</p>
-                          <p>Провожу как индивидуальные тренировки, так и&nbsp;групповые занятия. Помогу вам достигнуть своей цели и&nbsp;сделать это с&nbsp;удовольствием!</p>
+                          {user.data?.description}
                         </div>
                         <button className="btn-flat user-card-coach__sertificate" type="button">
                           <svg width="12" height="13" aria-hidden="true">
@@ -45,28 +98,25 @@ function TrainerCardScreen(): JSX.Element {
                           </svg><span>Посмотреть сертификаты</span>
                         </button>
                         <ul className="user-card-coach__hashtag-list">
-                          <li className="user-card-coach__hashtag-item">
-                            <div className="hashtag"><span>#бокс</span></div>
-                          </li>
-                          <li className="user-card-coach__hashtag-item">
-                            <div className="hashtag"><span>#кроссфит</span></div>
-                          </li>
-                          <li className="user-card-coach__hashtag-item">
-                            <div className="hashtag"><span>#силовые</span></div>
-                          </li>
-                          <li className="user-card-coach__hashtag-item">
-                            <div className="hashtag"><span>#йога</span></div>
-                          </li>
+                          {user.data?.trainingType?.map((type) => (
+                            <li className="user-card-coach__hashtag-item">
+                              <div className="hashtag"><span>#{type}</span></div>
+                            </li>
+                          ))}
                         </ul>
-                        <button className="btn user-card-coach__btn" type="button">Добавить в друзья</button>
+                        {friendButtonType === 'add' ?
+                        <button className="btn user-card-coach__btn" type="button" onClick={handleAddFriend}>Добавить в друзья</button>
+                        :
+                        <button className="btn btn--outlined user-card-coach-2__btn" type="button" onClick={handleDeleteFriend}>Удалить из друзей</button>
+                        }
                       </div>
                       <div className="user-card-coach__gallary">
                         <ul className="user-card-coach__gallary-list">
                           <li className="user-card-coach__gallary-item">
-                            <img src="img/content/user-coach-photo1.jpg" srcSet="img/content/user-coach-photo1@2x.jpg 2x" width="334" height="573" alt="photo1"/>
+                            <img src={`${STATIC_DIRECTORY}/static/user-coach-photo1.jpg`} srcSet={`${STATIC_DIRECTORY}/static/user-coach-photo1@2x.jpg 2x`} width="334" height="573" alt="photo1"/>
                           </li>
                           <li className="user-card-coach__gallary-item">
-                            <img src="img/content/user-coach-photo2.jpg" srcSet="img/content/user-coach-photo2@2x.jpg 2x" width="334" height="573" alt="photo2"/>
+                            <img src={`${STATIC_DIRECTORY}/static/user-coach-photo2.jpg`} srcSet={`${STATIC_DIRECTORY}/static/user-coach-photo2@2x.jpg 2x`} width="334" height="573" alt="photo2"/>
                           </li>
                         </ul>
                       </div>
@@ -88,152 +138,45 @@ function TrainerCardScreen(): JSX.Element {
                         </div>
                       </div>
                       <ul className="user-card-coach__training-list">
-                        <li className="user-card-coach__training-item">
-                          <div className="thumbnail-training">
-                            <div className="thumbnail-training__inner">
-                              <div className="thumbnail-training__image">
-                                <picture>
-                                  <source type="image/webp" srcSet="img/content/user-card-coach/training-1.webp, img/content/user-card-coach/training-1@2x.webp 2x"/>
-                                    <img src="img/content/user-card-coach/training-1.jpg" srcSet="img/content/user-card-coach/training-1@2x.jpg 2x" width="330" height="190" alt=""/>
-                                </picture>
-                              </div>
-                              <p className="thumbnail-training__price"><span className="thumbnail-training__price-value">1200</span><span>₽</span>
-                              </p>
-                              <h3 className="thumbnail-training__title">Power</h3>
-                              <div className="thumbnail-training__info">
-                                <ul className="thumbnail-training__hashtags-list">
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#силовые</span></div>
-                                  </li>
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#600ккал</span></div>
-                                  </li>
-                                </ul>
-                                <div className="thumbnail-training__rate">
-                                  <svg width="16" height="16" aria-hidden="true">
-                                    <use xlinkHref="#icon-star"></use>
-                                  </svg><span className="thumbnail-training__rate-value">4</span>
+                        {myTrainings.data.map((training) => (
+                              <li className="user-card-coach__training-item">
+                              <div className="thumbnail-training">
+                                <div className="thumbnail-training__inner">
+                                  <div className="thumbnail-training__image">
+                                    <picture>
+                                      <source type="image/webp"/>
+                                        <img src={`${STATIC_DIRECTORY}${training.backgroundImage}`} width="330" height="190" alt=""/>
+                                    </picture>
+                                  </div>
+                                  <p className="thumbnail-training__price"><span className="thumbnail-training__price-value">{training.price}</span><span>₽</span>
+                                  </p>
+                                  <h3 className="thumbnail-training__title">{training.title}</h3>
+                                  <div className="thumbnail-training__info">
+                                    <ul className="thumbnail-training__hashtags-list">
+                                      <li className="thumbnail-training__hashtags-item">
+                                        <div className="hashtag thumbnail-training__hashtag"><span>#{training.trainingType}</span></div>
+                                      </li>
+                                      <li className="thumbnail-training__hashtags-item">
+                                        <div className="hashtag thumbnail-training__hashtag"><span>#{training.caloriesCount}ккал</span></div>
+                                      </li>
+                                    </ul>
+                                    <div className="thumbnail-training__rate">
+                                      <svg width="16" height="16" aria-hidden="true">
+                                        <use xlinkHref="#icon-star"></use>
+                                      </svg><span className="thumbnail-training__rate-value">{training.raiting}</span>
+                                    </div>
+                                  </div>
+                                  <div className="thumbnail-training__text-wrapper">
+                                    <p className="thumbnail-training__text">{training.description}</p>
+                                  </div>
+                                  <div className="thumbnail-training__button-wrapper">
+                                    <Link className="btn btn--small thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
+                                    <Link className="btn btn--small btn--outlined thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Отзывы</Link>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="thumbnail-training__text-wrapper">
-                                <p className="thumbnail-training__text">Тренировка на отработку правильной техники работы с тяжелыми весами, укрепления мышц кора и спины.</p>
-                              </div>
-                              <div className="thumbnail-training__button-wrapper">
-                                <a className="btn btn--small thumbnail-training__button-catalog" href="#">Подробнее</a>
-                                <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        {/* <li className="user-card-coach__training-item">
-                          <div className="thumbnail-training">
-                            <div className="thumbnail-training__inner">
-                              <div className="thumbnail-training__image">
-                                <picture>
-                                  <source type="image/webp" srcSet="img/content/user-card-coach/training-2.webp, img/content/user-card-coach/training-2@2x.webp 2x"/>
-                                    <img src="img/content/user-card-coach/training-2.jpg" srcSet="img/content/user-card-coach/training-2@2x.jpg 2x" width="330" height="190" alt=""/>
-                                </picture>
-                              </div>
-                              <p className="thumbnail-training__price"><span className="thumbnail-training__price-value">2200</span><span>₽</span>
-                              </p>
-                              <h3 className="thumbnail-training__title">Devil's Cindy</h3>
-                              <div className="thumbnail-training__info">
-                                <ul className="thumbnail-training__hashtags-list">
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#кроссфит</span></div>
-                                  </li>
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#950ккал</span></div>
-                                  </li>
-                                </ul>
-                                <div className="thumbnail-training__rate">
-                                  <svg width="16" height="16" aria-hidden="true">
-                                    <use xlinkHref="#icon-star"></use>
-                                  </svg><span className="thumbnail-training__rate-value">5</span>
-                                </div>
-                              </div>
-                              <div className="thumbnail-training__text-wrapper">
-                                <p className="thumbnail-training__text">Знаменитый кроссфит комплекс. Синди – универсальная тренировка для развития функциональной силы.</p>
-                              </div>
-                              <div className="thumbnail-training__button-wrapper">
-                                <a className="btn btn--small thumbnail-training__button-catalog" href="#">Подробнее</a>
-                                <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="user-card-coach__training-item">
-                          <div className="thumbnail-training">
-                            <div className="thumbnail-training__inner">
-                              <div className="thumbnail-training__image">
-                                <picture>
-                                  <source type="image/webp" srcSet="img/content/user-card-coach/training-3.webp, img/content/user-card-coach/training-3@2x.webp 2x"><img src="img/content/user-card-coach/training-3.jpg" srcSet="img/content/user-card-coach/training-3@2x.jpg 2x" width="330" height="190" alt="">
-                                </picture>
-                              </div>
-                              <p className="thumbnail-training__price"><span className="thumbnail-training__price-value">1000</span><span>₽</span>
-                              </p>
-                              <h3 className="thumbnail-training__title">boxing</h3>
-                              <div className="thumbnail-training__info">
-                                <ul className="thumbnail-training__hashtags-list">
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#бокс</span></div>
-                                  </li>
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#800ккал</span></div>
-                                  </li>
-                                </ul>
-                                <div className="thumbnail-training__rate">
-                                  <svg width="16" height="16" aria-hidden="true">
-                                    <use xlinkHref="#icon-star"></use>
-                                  </svg><span className="thumbnail-training__rate-value">5</span>
-                                </div>
-                              </div>
-                              <div className="thumbnail-training__text-wrapper">
-                                <p className="thumbnail-training__text">Тренировка на отработку правильных ударов, координации и оптимальной механики защитных движений.</p>
-                              </div>
-                              <div className="thumbnail-training__button-wrapper">
-                                <a className="btn btn--small thumbnail-training__button-catalog" href="#">Подробнее</a>
-                                <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="user-card-coach__training-item">
-                          <div className="thumbnail-training">
-                            <div className="thumbnail-training__inner">
-                              <div className="thumbnail-training__image">
-                                <picture>
-                                  <source type="image/webp" srcSet="img/content/user-card-coach/training-4.webp, img/content/user-card-coach/training-4@2x.webp 2x"><img src="img/content/user-card-coach/training-4.jpg" srcSet="img/content/user-card-coach/training-4@2x.jpg 2x" width="330" height="190" alt="">
-                                </picture>
-                              </div>
-                              <p className="thumbnail-training__price">Бесплатно
-                              </p>
-                              <h3 className="thumbnail-training__title">Crossfit</h3>
-                              <div className="thumbnail-training__info">
-                                <ul className="thumbnail-training__hashtags-list">
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#кроссфит</span></div>
-                                  </li>
-                                  <li className="thumbnail-training__hashtags-item">
-                                    <div className="hashtag thumbnail-training__hashtag"><span>#1200ккал</span></div>
-                                  </li>
-                                </ul>
-                                <div className="thumbnail-training__rate">
-                                  <svg width="16" height="16" aria-hidden="true">
-                                    <use xlinkHref="#icon-star"></use>
-                                  </svg><span className="thumbnail-training__rate-value">5</span>
-                                </div>
-                              </div>
-                              <div className="thumbnail-training__text-wrapper">
-                                <p className="thumbnail-training__text">Сложный комплекс упражнений для профессиональных атлетов на отработку показателей в классическом стиле.</p>
-                              </div>
-                              <div className="thumbnail-training__button-wrapper">
-                                <a className="btn btn--small thumbnail-training__button-catalog" href="#">Подробнее</a>
-                                <a className="btn btn--small btn--outlined thumbnail-training__button-catalog" href="#">Отзывы</a>
-                              </div>
-                            </div>
-                          </div>
-                        </li> */}
+                            </li>
+                        ))}
                       </ul>
                       <form className="user-card-coach__training-form">
                         <button className="btn user-card-coach__btn-training" type="button">Хочу персональную тренировку</button>
@@ -257,6 +200,9 @@ function TrainerCardScreen(): JSX.Element {
           </div>
         </div>
       </main>
+      <div>
+        {isModalActive && (<PopupMap user={user.data} onClose={handleModalClose}/>)}
+      </div>
     </div>
   )
 }
