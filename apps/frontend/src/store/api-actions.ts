@@ -404,3 +404,27 @@ export const updateOrder = createAsyncThunk<Order, EditOrder, {
     return postData.data;
   }
 );
+
+export const fetchAddFriendAction = createAsyncThunk<User, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/addFriend',
+  async (friendId, {extra: api}) => {
+    const {data} = await api.patch<User>(`${APIRoute.Users}/${friendId}`);
+    return data;
+  },
+);
+
+export const fetchDeleteFriendAction = createAsyncThunk<User, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/deleteFriend',
+  async (friendId, {extra: api}) => {
+    const {data} = await api.delete<User>(`${APIRoute.Users}/${friendId}`);
+    return data;
+  },
+);
