@@ -91,4 +91,16 @@ export const GENDERS_DICTIONARY: GENDERS_DICTIONARY = {
   'для мужчин': 'Мужчинам',
   'для женщин': 'Женщинам',
   'для всех':'Всем',
+};
+
+interface LOCATION_DICTIONARY  {
+  [index: string]: [number, number]
+};
+
+export const LOCATION_DICTIONARY: LOCATION_DICTIONARY = {
+  Пионерская: [59.9386, 30.3141],
+  Петроградская: [61.9386, 30.3141],
+  Удельная: [60.9386, 30.3141],
+  Звёздная: [63.9386, 30.3141],
+  Спортивная: [54.9386, 30.3141],
 }

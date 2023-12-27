@@ -147,8 +147,6 @@ function TrainingCardScreen(): JSX.Element {
     setTrainingActive(false)
   }
 
-  console.log(orderData)
-
   useEffect(() => {
     if (orderData.id)
     dispatch(updateOrder(orderData))

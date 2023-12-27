@@ -282,7 +282,10 @@ function MainScreen(): JSX.Element {
                         )) : ''
                       }
                     </ul>
-                    <a className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button" href="#">Подробнее</a>
+                    <Link className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
+                      to={user.role === 'Пользователь' ? `${AppRoute.User}/${user.id}` : `${AppRoute.Trainer}/${user.id}`}>
+                      Подробнее
+                    </Link>
                   </div>
                 </li>
                 )) :
