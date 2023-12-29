@@ -376,6 +376,24 @@ export class UsersController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'requests of user exist'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Get('request/exist/:id')
+  public async existRequest(@Param('id') id: string, @Req() req: Request, ) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Request}/${id}`,
+    {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })
+    return data;
+  }
+
+  ////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'Avatar has been updated'
   })
   @UseGuards(CheckAuthGuard)

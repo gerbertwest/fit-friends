@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppSelector, useAppDispatch } from "../../hooks/index";
-import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction } from "../../store/api-actions";
-import { userSelector, tokenPayloadSelector } from "../../store/user/selectors";
+import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction, fetchNewRequestAction, fetchExistRequest } from "../../store/api-actions";
+import { userSelector, tokenPayloadSelector, userRequest } from "../../store/user/selectors";
 import { AppRoute, STATIC_DIRECTORY } from "../../const";
 import PopupMap from "../popup-map/popup-map";
 import { myTrainingsSelector } from "../../store/training/selectors";
@@ -16,9 +16,12 @@ function TrainerCardScreen(): JSX.Element {
   const navigate = useNavigate();
   const token = useAppSelector(tokenPayloadSelector);
   const myTrainings = useAppSelector(myTrainingsSelector);
+  const existRequest = useAppSelector(userRequest);
+  console.log(existRequest)
 
   const [isModalActive, setModalActive] = useState(false);
   const [friendButtonType, setFriendButtonType] = useState('add')
+  const [requestButton, setRequestButton] = useState(true)
 
   const queryString = '?limit=4'
 
@@ -26,6 +29,7 @@ function TrainerCardScreen(): JSX.Element {
     if (params.id) {
       dispatch(fetchUserByIdAction(params.id))
       dispatch(fetchMyTrainingsByIdAction({queryString: queryString, id: params.id}))
+      dispatch(fetchExistRequest(params.id))
     }
   }, [dispatch, params.id])
 
@@ -44,6 +48,13 @@ function TrainerCardScreen(): JSX.Element {
   const handleDeleteFriend = () => {
     params.id && dispatch(fetchDeleteFriendAction(params.id))
     setFriendButtonType('add')
+  }
+
+  const handleCreateRequest = () => {
+    if (params.id) {
+      dispatch(fetchNewRequestAction(params.id))
+      setRequestButton(false)
+    }
   }
 
   return (
@@ -79,7 +90,7 @@ function TrainerCardScreen(): JSX.Element {
                               <use xlinkHref="#icon-cup"></use>
                             </svg><span>Тренер</span>
                           </div>
-                          {user.data?.readyToTraining ?
+                          {user.data?.personalTrainings ?
                             <div className="user-card-coach__status user-card-coach__status--check">
                               <span>Готов тренировать</span>
                             </div>
@@ -179,7 +190,12 @@ function TrainerCardScreen(): JSX.Element {
                         ))}
                       </ul>
                       <form className="user-card-coach__training-form">
-                        <button className="btn user-card-coach__btn-training" type="button">Хочу персональную тренировку</button>
+                        {!existRequest.isError && user.data?.personalTrainings && requestButton ?
+                          <button className="btn user-card-coach__btn-training" type="button" onClick={handleCreateRequest}>
+                            Хочу персональную тренировку
+                          </button> :
+                          ''
+                        }
                         <div className="user-card-coach__training-check">
                           <div className="custom-toggle custom-toggle--checkbox">
                             <label>

@@ -315,9 +315,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTM3ZWQ1N
 ##########################################
 
 # Create new request
-POST http://localhost:4000/api/users/request/6555111955b20bdc0afff541 HTTP/1.1
+POST http://localhost:4000/api/users/request/6548fd4635582a6799a83907 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE3MDA4NTI2MjUsImV4cCI6MTcwMDg1MzUyNX0.guegB1rjUspdmCr0qtF51NF6v3P6jA3Z_d5W8SU_-LE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTUwZmFjODhjYjJiYjAwYTkyOGYwNGEiLCJlbWFpbCI6Imtla3NAaHRtbGFjYWRlbXkucnUiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MgS2Vrc2lrIiwiaWF0IjoxNzAzODUxNjMzLCJleHAiOjE3MDM4NTI1MzN9.wFB5ywZngDCJkvDF4lUccuno81IoW8S92pGRGYkzgSY
 
 ###
 
@@ -336,6 +336,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2N
 POST http://localhost:4000/api/users/request HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDg1NDE1OCwiZXhwIjoxNzAwODU1MDU4fQ.JarYPR0Lnnyntt0K1nnOg5PpQH-7uSJPec2xyTsafA8
+
+###
+
+# Get exist user request
+GET http://localhost:4000/api/users/request/exist/6548fd4635582a6799a83907 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTUwZmFjODhjYjJiYjAwYTkyOGYwNGEiLCJlbWFpbCI6Imtla3NAaHRtbGFjYWRlbXkucnUiLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6Iktla3MgS2Vrc2lrIiwiaWF0IjoxNzAzODUzNTc1LCJleHAiOjE3MDM4NTQ0NzV9.BBcCZ6Z-cVeER-puv6dFmdkczWLClOQDnF-6aQI5MA8
 
 ###
 

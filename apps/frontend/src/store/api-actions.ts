@@ -444,3 +444,28 @@ export const fetchDeleteFriendAction = createAsyncThunk<User, string, {
     return data;
   },
 );
+
+export const fetchNewRequestAction = createAsyncThunk<Request, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/createRequest',
+  async (userId, {extra: api}) => {
+    const {data} = await api.post<Request>(`${APIRoute.Requests}/${userId}`);
+    return data;
+  },
+);
+
+export const fetchExistRequest = createAsyncThunk<Request, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/existRequest',
+  async (userId, {extra: api}) => {
+    const {data} = await api.get<Request>(`${APIRoute.Requests}/exist/${userId}`);
+    console.log(data)
+    return data;
+  },
+);

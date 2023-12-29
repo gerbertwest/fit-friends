@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { RequestRepository } from "./request.repository";
 import { CreateRequestDto } from "./dto/create-request.dto";
 import { RequestEntity } from "./request.entity";
 import { UserRequest } from "@fit-friends/shared/app-types";
 import { UpdateRequestDto } from "./dto/update-request.dto";
+import { AuthUserError } from "../authentication/authentication.constant";
 
 @Injectable()
 export class RequestService {
@@ -16,7 +17,7 @@ export class RequestService {
     const existRequest = await this.requestRepository.findByUsers(request.userId, request.initiatorId)
 
     if (existRequest) {
-      return existRequest
+      throw new ConflictException(AuthUserError.Exists);
     }
 
     return this.requestRepository
@@ -40,6 +41,14 @@ export class RequestService {
 
   public async gerRequestsByUser(userId: string) {
     return this.requestRepository.findByUserId(userId)
+  }
+
+  public async existRequest (userId: string, initiatorId: string) {
+    const existRequest = await this.requestRepository.findByUsers(userId, initiatorId)
+    if (existRequest) {
+      throw new ConflictException(AuthUserError.Exists);
+    }
+    return null
   }
 
 }

@@ -71,4 +71,17 @@ export class RequestController {
     return fillObject(RequestRdo, userRequests);
   }
 
+  @ApiResponse({
+    type: RequestRdo,
+    status: HttpStatus.OK,
+    description: 'request of user exist'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  async existRequest( @Req() { user: payload }: RequestWithTokenPayload, @Param('id', MongoidValidationPipe) id: string) {
+    const userRequests = await this.requestService.existRequest(id, payload.sub);
+    console.log(userRequests)
+    return fillObject(RequestRdo, userRequests);
+  }
+
 }

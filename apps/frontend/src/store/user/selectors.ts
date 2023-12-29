@@ -13,3 +13,4 @@ export const userFriendsSelector = (state: State): {data: User[]; isLoading: boo
 export const userRequests = (state: State): {data: UserRequest[]} => state[NameSpace.User].requests;
 export const usersSelector = (state: State): {data: User[]; isLoading: boolean; isError: boolean} => state[NameSpace.User].users;
 export const tokenPayloadSelector = (state: State): {data: TokenPayload | null} => state[NameSpace.User].tokenPayload;
+export const userRequest = (state: State): {data: Request | null, isError: boolean} => state[NameSpace.User].request;

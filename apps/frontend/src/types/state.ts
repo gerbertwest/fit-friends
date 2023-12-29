@@ -26,6 +26,10 @@ export type UserProcess = {
   requests: {
     data: UserRequest[]
   };
+  request: {
+    isError: boolean;
+    data: Request | null
+  }
   tokenPayload: {
     data: TokenPayload | null;
   }

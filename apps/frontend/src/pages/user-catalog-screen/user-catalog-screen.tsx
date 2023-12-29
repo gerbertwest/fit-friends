@@ -197,7 +197,7 @@ function UserCalatogScreen(): JSX.Element {
                   <ul className="users-catalog__list">
                     {
                       users.data.map((user) => (
-                        <li className="users-catalog__item">
+                    <li className="users-catalog__item">
                       <div className={`thumbnail-user thumbnail-user--role-${user.role === 'Пользователь' ? 'user' : 'coach'}`}>
                         <div className="thumbnail-user__image">
                           <picture>
