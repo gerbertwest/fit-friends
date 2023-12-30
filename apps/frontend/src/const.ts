@@ -49,6 +49,7 @@ export enum APIRoute {
   Trainings = '/training',
   Review = '/review',
   Order = '/order',
+  Subscriptions = '/users/subscriptions'
 
 }
 

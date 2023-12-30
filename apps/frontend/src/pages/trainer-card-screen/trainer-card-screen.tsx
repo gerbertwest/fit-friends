@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppSelector, useAppDispatch } from "../../hooks/index";
-import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction, fetchNewRequestAction, fetchExistRequest } from "../../store/api-actions";
-import { userSelector, tokenPayloadSelector, userRequest } from "../../store/user/selectors";
+import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction, fetchNewRequestAction, fetchExistRequest, fetchAddSubscriptionAction, fetchDeleteSubscriptionAction, fetchSubscriptions } from "../../store/api-actions";
+import { userSelector, tokenPayloadSelector, userRequest, usersSelector } from "../../store/user/selectors";
 import { AppRoute, STATIC_DIRECTORY } from "../../const";
 import PopupMap from "../popup-map/popup-map";
 import { myTrainingsSelector } from "../../store/training/selectors";
@@ -17,21 +17,31 @@ function TrainerCardScreen(): JSX.Element {
   const token = useAppSelector(tokenPayloadSelector);
   const myTrainings = useAppSelector(myTrainingsSelector);
   const existRequest = useAppSelector(userRequest);
-  console.log(existRequest)
+  const subscriptions = useAppSelector(usersSelector).data;
 
   const [isModalActive, setModalActive] = useState(false);
   const [friendButtonType, setFriendButtonType] = useState('add')
   const [requestButton, setRequestButton] = useState(true)
+  const [checkbox, setCheckbox] = useState(false);
 
   const queryString = '?limit=4'
+
+  const subscription = subscriptions.find((sub) => sub.id === params.id)
 
   useEffect(() => {
     if (params.id) {
       dispatch(fetchUserByIdAction(params.id))
       dispatch(fetchMyTrainingsByIdAction({queryString: queryString, id: params.id}))
       dispatch(fetchExistRequest(params.id))
+      dispatch(fetchSubscriptions())
     }
   }, [dispatch, params.id])
+
+  useEffect(() => {
+    if (subscription !== undefined) {
+      setCheckbox(true)
+    }
+  },[subscription])
 
   const handleModalOpen = () => {
     setModalActive(true)
@@ -56,6 +66,18 @@ function TrainerCardScreen(): JSX.Element {
       setRequestButton(false)
     }
   }
+
+  const handleAddSubscription = () => {
+    params.id && dispatch(fetchAddSubscriptionAction(params.id))
+    setCheckbox(true)
+  }
+
+  const handleDeleteSubscription = () => {
+    params.id && dispatch(fetchDeleteSubscriptionAction(params.id))
+    setCheckbox(false)
+  }
+
+
 
   return (
     <div className="wrapper">
@@ -199,7 +221,7 @@ function TrainerCardScreen(): JSX.Element {
                         <div className="user-card-coach__training-check">
                           <div className="custom-toggle custom-toggle--checkbox">
                             <label>
-                              <input type="checkbox" value="user-agreement-1" name="user-agreement" checked/>
+                              <input type="checkbox" value="user-agreement-1" name="user-agreement" checked={checkbox} onChange={checkbox ? handleDeleteSubscription : handleAddSubscription}/>
                                 <span className="custom-toggle__icon">
                                 <svg width="9" height="6" aria-hidden="true">
                                   <use xlinkHref="#arrow-check"></use>

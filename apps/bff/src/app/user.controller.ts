@@ -293,6 +293,24 @@ export class UsersController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'subscriptions found'
+  })
+  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @Post('subscriptions')
+  public async getSubscriptions(@Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/subscriptions`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    return data;
+  }
+
+  ///////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'All alerts by userId found'
   })
   @UseGuards(CheckAuthGuard)

@@ -469,3 +469,39 @@ export const fetchExistRequest = createAsyncThunk<Request, string, {
     return data;
   },
 );
+
+export const fetchAddSubscriptionAction = createAsyncThunk<User, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/addSubscription',
+  async (trainerId, {extra: api}) => {
+    const {data} = await api.patch<User>(`${APIRoute.Subscriptions}/${trainerId}`);
+    return data;
+  },
+);
+
+export const fetchDeleteSubscriptionAction = createAsyncThunk<User, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/deleteSubscription',
+  async (trainerId, {extra: api}) => {
+    const {data} = await api.delete<User>(`${APIRoute.Subscriptions}/${trainerId}`);
+    return data;
+  },
+);
+
+export const fetchSubscriptions = createAsyncThunk<User[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchSubscriptions',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.post<User[]>(`${APIRoute.Subscriptions}/`);
+    return data;
+  },
+);
