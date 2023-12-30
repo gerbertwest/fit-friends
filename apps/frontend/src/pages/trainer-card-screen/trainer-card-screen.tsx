@@ -7,6 +7,7 @@ import { userSelector, tokenPayloadSelector, userRequest, usersSelector } from "
 import { AppRoute, STATIC_DIRECTORY } from "../../const";
 import PopupMap from "../popup-map/popup-map";
 import { myTrainingsSelector } from "../../store/training/selectors";
+import PopupCertificates from "../popup-certificates/popup-certificates";
 
 function TrainerCardScreen(): JSX.Element {
 
@@ -19,7 +20,12 @@ function TrainerCardScreen(): JSX.Element {
   const existRequest = useAppSelector(userRequest);
   const subscriptions = useAppSelector(usersSelector).data;
 
-  const [isModalActive, setModalActive] = useState(false);
+  //const [isModalActive, setModalActive] = useState(false);
+  const [isModalActive, setModalActive] = useState({
+    popupStatus: false,
+    mapPopup: false,
+    certificatesPopup: false
+  });
   const [friendButtonType, setFriendButtonType] = useState('add')
   const [requestButton, setRequestButton] = useState(true)
   const [checkbox, setCheckbox] = useState(false);
@@ -43,11 +49,13 @@ function TrainerCardScreen(): JSX.Element {
     }
   },[subscription])
 
-  const handleModalOpen = () => {
-    setModalActive(true)
+  const handleModalOpen = (choosePopup: string) => {
+    setModalActive({...isModalActive, popupStatus: true, [choosePopup]: true})
+    //setModalActive(true)
   };
-  const handleModalClose = () => {
-    setModalActive(false);
+  const handleModalClose = (choosePopup: string) => {
+    setModalActive({...isModalActive, popupStatus: false, [choosePopup]: false});
+    //setModalActive(false);
   };
 
   const handleAddFriend = () => {
@@ -101,7 +109,7 @@ function TrainerCardScreen(): JSX.Element {
                           <h2 className="user-card-coach__title">{user.data?.name}</h2>
                         </div>
                         <div className="user-card-coach__label">
-                          <Link to="" onClick={handleModalOpen}>
+                          <Link to="" onClick={() => handleModalOpen('mapPopup')}>
                             <svg className="user-card-coach__icon-location" width="12" height="14" aria-hidden="true">
                             <use xlinkHref="#icon-location"></use>
                           </svg><span>{user.data?.location}</span></Link>
@@ -125,7 +133,7 @@ function TrainerCardScreen(): JSX.Element {
                         <div className="user-card-coach__text">
                           {user.data?.description}
                         </div>
-                        <button className="btn-flat user-card-coach__sertificate" type="button">
+                        <button className="btn-flat user-card-coach__sertificate" type="button" onClick={() => handleModalOpen('certificatesPopup')}>
                           <svg width="12" height="13" aria-hidden="true">
                             <use xlinkHref="#icon-teacher"></use>
                           </svg><span>Посмотреть сертификаты</span>
@@ -239,7 +247,8 @@ function TrainerCardScreen(): JSX.Element {
         </div>
       </main>
       <div>
-        {isModalActive && (<PopupMap user={user.data} onClose={handleModalClose}/>)}
+        {isModalActive.mapPopup && isModalActive.popupStatus && (<PopupMap user={user.data} onClose={() => handleModalClose('mapPopup')}/>)}
+        {isModalActive.certificatesPopup && isModalActive.popupStatus && (<PopupCertificates user={user.data} onClose={() => handleModalClose('certificatesPopup')}/>)}
       </div>
     </div>
   )
