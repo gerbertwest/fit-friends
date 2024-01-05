@@ -38,7 +38,7 @@ services:
       retries: 5
 
   fitFriends.notify.mongodb.ui:
-    image: mongo-express
+    image: mongo-express:1.0.0-alpha.4
     restart: always
     container_name: fitFriends.notify.mongodb.ui
     ports:
