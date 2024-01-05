@@ -22,6 +22,7 @@ import TrainingCardScreen from "../pages/training-card/training-cars";
 import UserCalatogScreen from "../pages/user-catalog-screen/user-catalog-screen";
 import UserCardScreen from "../pages/user-card-screen/user-card-screen";
 import TrainerCardScreen from "../pages/trainer-card-screen/trainer-card-screen";
+import UserAccount from "../pages/user-account-screen/user-account-screen";
 
 export function App(): JSX.Element {
 
@@ -217,6 +218,19 @@ export function App(): JSX.Element {
         />
        </Route>
       </Route>
+
+      <Route path={AppRoute.UserAccount}>
+       <Route path={AppRoute.UserId}>
+        <Route index element={
+          <PrivateRoute
+          authorizationStatus={authorizationStatus}
+        >
+          <UserAccount/>
+          </PrivateRoute>
+        }
+        />
+       </Route>
+     </Route>
 
 
 

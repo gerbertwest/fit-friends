@@ -1,4 +1,10 @@
+import { Link, useParams } from "react-router-dom";
+import { AppRoute } from "../../const";
+
 function Header(): JSX.Element {
+
+  const params = useParams();
+
   return (
     <header className="header">
     <div className="container">
@@ -13,10 +19,13 @@ function Header(): JSX.Element {
               <svg width="18" height="18" aria-hidden="true">
                 <use xlinkHref="#icon-home"></use>
               </svg></a></li>
-          <li className="main-nav__item"><a className="main-nav__link" href="#" aria-label="Личный кабинет">
+          <li className="main-nav__item">
+            <Link className="main-nav__link" to={`${AppRoute.UserAccount}/${params.id}`} aria-label="Личный кабинет">
               <svg width="16" height="18" aria-hidden="true">
                 <use xlinkHref="#icon-user"></use>
-              </svg></a></li>
+              </svg>
+            </Link>
+          </li>
           <li className="main-nav__item"><a className="main-nav__link" href="#" aria-label="Друзья">
               <svg width="22" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-friends"></use>
@@ -53,7 +62,7 @@ function Header(): JSX.Element {
               <use xlinkHref="#icon-search"></use>
             </svg>
           </label>
-          <ul className="search__list">
+          {/* <ul className="search__list">
             <li className="search__item"><a className="search__link" href="#">Бокс</a></li>
             <li className="search__item"><a className="search__link is-active" href="#">Бег</a></li>
             <li className="search__item"><a className="search__link" href="#">Аэробика</a></li>
@@ -67,7 +76,7 @@ function Header(): JSX.Element {
             <li className="search__item"><a className="search__link" href="#">Text</a></li>
             <li className="search__item"><a className="search__link" href="#">Text</a></li>
             <li className="search__item"><a className="search__link" href="#">Text</a></li>
-          </ul>
+          </ul> */}
         </form>
       </div>
     </div>

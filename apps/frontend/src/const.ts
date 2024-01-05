@@ -17,6 +17,7 @@ export enum AppRoute {
   UserCatalog = '/userCatalog',
   User = '/user',
   Trainer = '/trainer',
+  UserAccount = '/userAccount',
 }
 
 export enum AuthorizationStatus {
