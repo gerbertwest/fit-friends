@@ -43,8 +43,10 @@ services:
     container_name: fitFriends.notify.mongodb.ui
     ports:
       - 8084:8081
-    env_file:
-      - '.notify.env'
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: test
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@fitFriends.notify.mongodb:27017/
 
 volumes:
   fitFriends.notify.mongodb:
