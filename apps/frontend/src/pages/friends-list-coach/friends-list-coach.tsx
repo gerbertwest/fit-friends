@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
-import { userFriendsSelector, userRequests } from "../../store/user/selectors";
-import { fetchMyFriends, fetchRequestsByUser } from "../../store/api-actions";
-import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
+import { userFriendsSelector, userRequests, userSelector } from "../../store/user/selectors";
+import { fetchMyFriends, fetchRequestsByUser, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
+import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
 
 function FriendsListCoach(): JSX.Element {
@@ -14,23 +14,30 @@ function FriendsListCoach(): JSX.Element {
   const requests = useAppSelector(userRequests);
   const navigate = useNavigate();
   const params = useParams();
+  const user = useAppSelector(userSelector).data;
 
   const [page, setPage] = useState<number>(DEFAULT_PAGE)
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-
     const queryString = `?limit=${DEFAULT_FRIENDS_COUNT_LIMIT}&page=${page}`
-    dispatch(fetchMyFriends({queryString}))
+
     dispatch(fetchRequestsByUser())
-  }, [dispatch, page])
+    dispatch(fetchUserByIdAction(String(params.id)))
+
+    if (user?.role === UserRole.Admin) {
+      dispatch(fetchMyFriends({queryString}))
+    }
+    else {
+      dispatch(fetchUserFriends({queryString}))
+    }
+  }, [dispatch, page, params.id, user?.role])
 
 
   const initiators = requests.data.map((req) => req.initiatorId)
 
   const backCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_FRIENDS_COUNT_LIMIT)
   const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
-
 
   return (
     <div className="wrapper">
@@ -39,7 +46,8 @@ function FriendsListCoach(): JSX.Element {
         <section className="friends-list">
           <div className="container">
             <div className="friends-list__wrapper">
-              <button className="btn-flat friends-list__back" type="button" onClick={() => navigate(`${AppRoute.CoachAccount}/${params.id}`)}>
+              <button className="btn-flat friends-list__back" type="button" onClick={() => user?.role === UserRole.Admin ? navigate(`${AppRoute.CoachAccount}/${params.id}`) :
+               navigate(`${AppRoute.UserAccount}/${params.id}`)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>
@@ -80,6 +88,13 @@ function FriendsListCoach(): JSX.Element {
                     <div className="thumbnail-friend__activity-bar">
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready"><span>Готов к&nbsp;тренировке</span>
                       </div>
+                      {user?.role === UserRole.User ?
+                      <button className="thumbnail-friend__invite-button" type="button">
+                          <svg width="43" height="46" aria-hidden="true" focusable="false">
+                            <use xlinkHref="#icon-invite"></use>
+                          </svg><span className="visually-hidden">Пригласить друга на совместную тренировку</span>
+                      </button> : ''
+                      }
                     </div> :
                     <div className="thumbnail-friend__activity-bar">
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-not-ready"><span>Не&nbsp;готов к&nbsp;тренировке</span>

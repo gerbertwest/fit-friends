@@ -5,7 +5,7 @@ import { myTrainingsSelector, rairingTrainingsSelector, specTrainingsSelector } 
 import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAction, fetchUserByIdAction, fetchUsers } from "../../store/api-actions";
 import { userSelector, usersSelector } from "../../store/user/selectors";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
 
 function MainScreen(): JSX.Element {
 
@@ -283,7 +283,7 @@ function MainScreen(): JSX.Element {
                       }
                     </ul>
                     <Link className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-                      to={user.role === 'Пользователь' ? `${AppRoute.User}/${user.id}` : `${AppRoute.Trainer}/${user.id}`}>
+                      to={user.role === UserRole.User ? `${AppRoute.User}/${user.id}` : `${AppRoute.Trainer}/${user.id}`}>
                       Подробнее
                     </Link>
                   </div>

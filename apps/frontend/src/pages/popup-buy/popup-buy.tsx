@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Training } from "../../types/training";
 import { STATIC_DIRECTORY } from "../../const";
 import { NewOrder } from "../../types/new-order";
-import { createOrder, fetchOrderAction } from "../../store/api-actions";
+import { createOrder } from "../../store/api-actions";
 import { useAppDispatch } from "../../hooks/index";
 
 type PopupBuyProps = {

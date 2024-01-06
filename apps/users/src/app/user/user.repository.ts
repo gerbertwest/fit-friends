@@ -68,6 +68,15 @@ export class UserRepository implements CRUDRepository<UserEntity | UpdateUserDto
   }
 
   public async findFriends({limit, page, sortDirection}: UserQuery, friends: string[]): Promise<User[] | null> {
+    const users = await this.userModel
+    .find({_id: friends})
+    .exec();
+
+    const count = users.length;
+
+    await this.userModel
+    .updateMany({}, {$set:{totalPageNumber: count}})
+
     return this.userModel
     .find({_id: friends})
     .sort({role: sortDirection})

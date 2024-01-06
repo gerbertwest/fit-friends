@@ -145,6 +145,22 @@ function CoachAccount(): JSX.Element {
     dispatch(updateUser(formData));
   };
 
+  const handleCancel = () => {
+      setRegistryData({
+        name: userData?.name,
+        sex: userData?.sex,
+        location: userData?.location,
+        level: userData?.level,
+        description: userData?.description,
+        avatar: userData?.avatar,
+        certificates: userData?.certificates
+       }
+      );
+      addTrainingType(userData?.trainingType);
+      setPersonalTrainings(userData?.personalTrainings)
+      setEditStatus(false)
+  }
+
   useEffect(() => {
     if (updateUserData?.certificates) {
       setRegistryData({certificates: updateUserData.certificates})
@@ -172,24 +188,24 @@ function CoachAccount(): JSX.Element {
                       <input className="visually-hidden" type="file" name="avatar" accept="image/png, image/jpeg" onChange={handleAvatarUpload} disabled={!editStatus}/>
                         <span className="input-load-avatar__avatar">
                         {
-                          registryData.avatar === '' ?
-                          <img src="public/img/content/user-photo-1.png" srcSet="public/img/content/user-photo-1@2x.png 2x" width="98" height="98" alt="user avatar"/>
-                          :
-                        avatar ? (
+                        avatar ?
                                 <img
                                 src={URL.createObjectURL(avatar)}
                                 alt="avatar"
                                 width="70" height="70" aria-hidden="true"
                               />
-                              ) :
-                              (
+                               : registryData.avatar === '' ?
+
+                                <img src="public/img/content/user-photo-1.png"
+                                srcSet="public/img/content/user-photo-1@2x.png 2x"
+                                width="98" height="98" alt="user avatar"/>
+                               :
                                 <img
                                 src={`${STATIC_DIRECTORY}${registryData.avatar}`}
                                 alt="avatar"
                                 width="70" height="70" aria-hidden="true"
                               />
-                            )
-                            }
+                         }
                          </span>
                     </label>
                   </div>
@@ -201,7 +217,7 @@ function CoachAccount(): JSX.Element {
                         <use xlinkHref="#icon-change"></use>
                       </svg>
                     </button>
-                    <button className="user-info-edit__control-btn" aria-label="удалить" onClick={() => setEditStatus(false)}>
+                    <button className="user-info-edit__control-btn" aria-label="удалить" onClick={handleCancel}>
                       <svg width="14" height="16" aria-hidden="true">
                         <use xlinkHref="#icon-trash"></use>
                       </svg>

@@ -209,6 +209,18 @@ export const fetchMyFriends = createAsyncThunk<User[], {queryString?: string}, {
   },
 );
 
+export const fetchUserFriends = createAsyncThunk<User[], {queryString?: string}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchUserFriends',
+  async ({queryString}, {extra: api}) => {
+    const {data} = await api.post<User[]>(`${APIRoute.UserFriends}${queryString}`);
+    return data;
+  },
+);
+
 export const fetchRequestsByUser = createAsyncThunk<UserRequest[], undefined, {
   dispatch: AppDispatch;
   state: State;

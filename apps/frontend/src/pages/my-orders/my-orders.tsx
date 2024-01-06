@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks/index";
 import { trainerOrdersSelector } from "../../store/training/selectors";
 import { fetchTrainerOrdersAction } from "../../store/api-actions";
 import { AppRoute, DEFAULT_ORDERS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getSortQueryString } from "../../util";
 
 function MyOrders(): JSX.Element {
@@ -39,6 +39,8 @@ function MyOrders(): JSX.Element {
 
   const backCondition = orders.data.find((item) => item.totalPageNumber > page*DEFAULT_ORDERS_COUNT_LIMIT)
   const disabledCondition = orders.data.find((item) => item.totalPageNumber <= DEFAULT_ORDERS_COUNT_LIMIT)
+
+  console.log(orders.data.map((order) => order))
 
   return (
     <div className="wrapper">
@@ -102,11 +104,11 @@ function MyOrders(): JSX.Element {
                         <div className="thumbnail-training__text-wrapper">
                           <p className="thumbnail-training__text">{order.training.description}</p>
                         </div>
-                        <a className="btn-flat btn-flat--underlined thumbnail-training__button-orders" href="#">
+                        <Link className="btn-flat btn-flat--underlined thumbnail-training__button-orders" to={`${AppRoute.Training}/${order.training.id}`}>
                           <svg width="18" height="18" aria-hidden="true">
                             <use xlinkHref="#icon-info"></use>
                           </svg><span>Подробнее</span>
-                        </a>
+                        </Link>
                       </div>
                       <div className="thumbnail-training__total-info">
                         <div className="thumbnail-training__total-info-card">

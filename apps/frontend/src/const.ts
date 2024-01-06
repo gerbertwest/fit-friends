@@ -43,6 +43,7 @@ export enum APIRoute {
   DeleteCertificate = '/users/deleteCertificate',
   MyTrainings = '/training/trainer',
   MyFriends = '/users/trainer/friends',
+  UserFriends = '/users/friends',
   Requests = 'users/request',
   TrainerOrders = 'order/trainer',
   CreateTraining = '/training',
