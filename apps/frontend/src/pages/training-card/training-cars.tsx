@@ -3,7 +3,7 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { trainingSelector } from "../../store/training/selectors";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { checkAuthAction, fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
+import { fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
 import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import { EditTraining } from "../../types/edit-training";
@@ -26,6 +26,8 @@ function TrainingCardScreen(): JSX.Element {
 
   const role = token.data?.role;
   const trainer = training.data?.trainer;
+
+  console.log(role)
 
   // const [isLoaded, setIsLoaded] = useState(false);
   // useElementListener('loadeddata', videoRef, () => setIsLoaded(true));
@@ -90,7 +92,6 @@ function TrainingCardScreen(): JSX.Element {
 
   useEffect(() => {
       dispatch(fetchTrainingByIdAction(Number(params.id)))
-      dispatch(checkAuthAction())
       if (training.data?.id) {
         dispatch(fetchOrderAction(training.data?.id))
       }

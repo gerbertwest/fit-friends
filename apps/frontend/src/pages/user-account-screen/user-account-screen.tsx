@@ -271,13 +271,13 @@ function UserAccount(): JSX.Element {
                       </div>
                       <span className="thumbnail-link__text">Мои друзья</span>
                     </Link>
-                      <a className="thumbnail-link thumbnail-link--theme-light" href="#">
+                      <Link className="thumbnail-link thumbnail-link--theme-light" to={`${AppRoute.MyPurchases}/${params.id}`}>
                       <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
                         <svg width="30" height="26" aria-hidden="true">
                           <use xlinkHref="#icon-shopping-cart"></use>
                         </svg>
                       </div>
-                      <span className="thumbnail-link__text">Мои покупки</span></a>
+                      <span className="thumbnail-link__text">Мои покупки</span></Link>
                         <div className="thumbnail-spec-gym">
                          <div className="thumbnail-spec-gym__image">
                           <picture>

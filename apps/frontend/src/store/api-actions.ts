@@ -18,6 +18,7 @@ import { NewReview } from '../types/new-review';
 import { NewOrder } from '../types/new-order';
 import { Order } from '../types/order';
 import { EditOrder } from '../types/edit-order';
+import { Alert } from '../types/alert';
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -244,6 +245,21 @@ export const fetchTrainerOrdersAction = createAsyncThunk<TrainerOrder[], {
   'training/fetchTrainerOrders',
   async ({queryString}, {extra: api}) => {
       const {data} = await api.get<TrainerOrder[]>(`${APIRoute.TrainerOrders}${queryString}`);
+      return data;
+  },
+);
+
+export const fetchUserOrdersAction = createAsyncThunk<TrainerOrder[], {
+  queryString?: string
+},
+{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'training/fetchUserOrders',
+  async ({queryString}, {extra: api}) => {
+      const {data} = await api.get<TrainerOrder[]>(`${APIRoute.UserOrders}${queryString}`);
       return data;
   },
 );
@@ -514,6 +530,31 @@ export const fetchSubscriptions = createAsyncThunk<User[], undefined, {
   'user/fetchSubscriptions',
   async (_arg, {extra: api}) => {
     const {data} = await api.post<User[]>(`${APIRoute.Subscriptions}/`);
+    return data;
+  },
+);
+
+export const fetchAlertsAction = createAsyncThunk<Alert[], undefined,
+{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchAlerts',
+  async (_arg, {extra: api}) => {
+      const {data} = await api.post<Alert[]>(`${APIRoute.Alerts}`);
+      return data;
+  },
+);
+
+export const fetchDeleteAlertAction = createAsyncThunk<Alert, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/deleteAlerts',
+  async (alertId, {extra: api}) => {
+    const {data} = await api.delete<Alert>(`${APIRoute.Alerts}/${alertId}`);
     return data;
   },
 );

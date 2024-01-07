@@ -1,5 +1,6 @@
 import { AuthorizationStatus } from '../const.js';
 import {store} from '../store/index.js';
+import { Alert } from './alert';
 import { Order } from './order';
 import { UserRequest } from './request';
 import { TokenPayload } from './token-payload';
@@ -33,6 +34,10 @@ export type UserProcess = {
   tokenPayload: {
     data: TokenPayload | null;
   }
+  alerts: {
+    data: Alert[];
+    isError: boolean;
+  }
 };
 
 export type TrainingProcess = {
@@ -60,6 +65,10 @@ export type TrainingProcess = {
     data: TrainerOrder[];
     isError: boolean;
   };
+  userOrders: {
+    data: TrainerOrder[];
+    isError: boolean;
+  };
 };
 
 export type OrderProcess = {
@@ -68,12 +77,12 @@ export type OrderProcess = {
     data: Order | null;
     isLoading: boolean;
     isError: boolean;
-  }
+  };
   orders: {
     data: Order[];
     isLoading: boolean;
     isError: boolean;
-  }
+  };
 }
 
 

@@ -58,7 +58,17 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
   }
 
   public async findByUserId(userId: string, {limit, page, active}: TrainingQuery): Promise<Order[]> {
-    return this.prisma.order.findMany({
+    const orders = await this.prisma.order.findMany({
+      where: {
+        userId,
+        active: active === 'true' ? true : undefined
+      },
+      include: { training: true },
+    })
+
+    const count = orders.length;
+
+    const result = await this.prisma.order.findMany({
       where: {
         userId,
         active: active === 'true' ? true : undefined
@@ -69,6 +79,10 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
         {createdAt: DEFAULT_SORT_DIRECTION}
       ]
     });
+
+    const newResult = result.map((item) => ({...item, totalPageNumber: count}))
+
+    return newResult;
   }
 
   public async findByTrainerId(trainerId: string, {sortDirection, sortField, limit, page}: TrainingQuery): Promise<Order[]> {

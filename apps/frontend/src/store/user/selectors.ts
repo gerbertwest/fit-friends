@@ -4,6 +4,7 @@ import {AuthorizationStatus} from '../../const';
 import { User } from '../../types/user';
 import { UserRequest } from '../../types/request';
 import { TokenPayload } from '../../types/token-payload';
+import { Alert } from '../../types/alert';
 
 export const getAuthorizationStatus = (state: State): AuthorizationStatus => state[NameSpace.User].authorizationStatus;
 export const getLoginError = (state: State): boolean => state[NameSpace.User].loginError;
@@ -14,3 +15,4 @@ export const userRequests = (state: State): {data: UserRequest[]} => state[NameS
 export const usersSelector = (state: State): {data: User[]; isLoading: boolean; isError: boolean} => state[NameSpace.User].users;
 export const tokenPayloadSelector = (state: State): {data: TokenPayload | null} => state[NameSpace.User].tokenPayload;
 export const userRequest = (state: State): {data: Request | null, isError: boolean} => state[NameSpace.User].request;
+export const alerts = (state: State): {data: Alert[]; isError: boolean} => state[NameSpace.User].alerts;

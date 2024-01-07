@@ -18,6 +18,7 @@ export enum AppRoute {
   User = '/user',
   Trainer = '/trainer',
   UserAccount = '/userAccount',
+  MyPurchases = '/myPurchases',
 }
 
 export enum AuthorizationStatus {
@@ -46,12 +47,14 @@ export enum APIRoute {
   UserFriends = '/users/friends',
   Requests = 'users/request',
   TrainerOrders = 'order/trainer',
+  UserOrders = 'order/user',
   CreateTraining = '/training',
   Video = '/training/video',
   Trainings = '/training',
   Review = '/review',
   Order = '/order',
-  Subscriptions = '/users/subscriptions'
+  Subscriptions = '/users/subscriptions',
+  Alerts = '/users/alerts',
 
 }
 

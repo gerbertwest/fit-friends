@@ -40,8 +40,6 @@ function MyOrders(): JSX.Element {
   const backCondition = orders.data.find((item) => item.totalPageNumber > page*DEFAULT_ORDERS_COUNT_LIMIT)
   const disabledCondition = orders.data.find((item) => item.totalPageNumber <= DEFAULT_ORDERS_COUNT_LIMIT)
 
-  console.log(orders.data.map((order) => order))
-
   return (
     <div className="wrapper">
       <Header/>
