@@ -3,6 +3,7 @@ import { User } from "./user";
 
 export type Training = {
   id: number;
+  trainingId?: number;
   title: string;
   backgroundImage: string;
   level: string;

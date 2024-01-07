@@ -104,7 +104,7 @@ function MyOrders(): JSX.Element {
                         <div className="thumbnail-training__text-wrapper">
                           <p className="thumbnail-training__text">{order.training.description}</p>
                         </div>
-                        <Link className="btn-flat btn-flat--underlined thumbnail-training__button-orders" to={`${AppRoute.Training}/${order.training.id}`}>
+                        <Link className="btn-flat btn-flat--underlined thumbnail-training__button-orders" to={`${AppRoute.Training}/${order.training.trainingId}`}>
                           <svg width="18" height="18" aria-hidden="true">
                             <use xlinkHref="#icon-info"></use>
                           </svg><span>Подробнее</span>
