@@ -34,8 +34,6 @@ function Header(): JSX.Element {
     setAlertData(alertsList)
   }
 
-  console.log(alertData)
-
   return (
     <header className="header">
     <div className="container">

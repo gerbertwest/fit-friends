@@ -493,7 +493,6 @@ export const fetchExistRequest = createAsyncThunk<Request, string, {
   'user/existRequest',
   async (userId, {extra: api}) => {
     const {data} = await api.get<Request>(`${APIRoute.Requests}/exist/${userId}`);
-    console.log(data)
     return data;
   },
 );

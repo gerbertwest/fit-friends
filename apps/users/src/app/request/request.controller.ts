@@ -80,7 +80,6 @@ export class RequestController {
   @Get('/:id')
   async existRequest( @Req() { user: payload }: RequestWithTokenPayload, @Param('id', MongoidValidationPipe) id: string) {
     const userRequests = await this.requestService.existRequest(id, payload.sub);
-    console.log(userRequests)
     return fillObject(RequestRdo, userRequests);
   }
 

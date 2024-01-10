@@ -20,7 +20,6 @@ function TrainerCardScreen(): JSX.Element {
   const existRequest = useAppSelector(userRequest);
   const subscriptions = useAppSelector(usersSelector).data;
 
-  //const [isModalActive, setModalActive] = useState(false);
   const [isModalActive, setModalActive] = useState({
     popupStatus: false,
     mapPopup: false,
@@ -29,10 +28,9 @@ function TrainerCardScreen(): JSX.Element {
   const [friendButtonType, setFriendButtonType] = useState('add')
   const [requestButton, setRequestButton] = useState(true)
   const [checkbox, setCheckbox] = useState(false);
+  console.log(checkbox)
 
   const queryString = '?limit=4'
-
-  const subscription = subscriptions.find((sub) => sub.id === params.id)
 
   useEffect(() => {
     if (params.id) {
@@ -44,18 +42,19 @@ function TrainerCardScreen(): JSX.Element {
   }, [dispatch, params.id])
 
   useEffect(() => {
+  const subscription = subscriptions.find((sub) => sub.id === params.id)
+  console.log(subscription)
     if (subscription !== undefined) {
       setCheckbox(true)
     }
-  },[subscription])
+    else {setCheckbox(false)}
+  },[params.id, subscriptions])
 
   const handleModalOpen = (choosePopup: string) => {
     setModalActive({...isModalActive, popupStatus: true, [choosePopup]: true})
-    //setModalActive(true)
   };
   const handleModalClose = (choosePopup: string) => {
     setModalActive({...isModalActive, popupStatus: false, [choosePopup]: false});
-    //setModalActive(false);
   };
 
   const handleAddFriend = () => {

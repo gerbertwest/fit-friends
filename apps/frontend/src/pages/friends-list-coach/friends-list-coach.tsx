@@ -35,6 +35,7 @@ function FriendsListCoach(): JSX.Element {
 
 
   const initiators = requests.data.map((req) => req.initiatorId)
+  console.log(requests.data)
 
   const backCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_FRIENDS_COUNT_LIMIT)
   const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
@@ -125,8 +126,6 @@ function FriendsListCoach(): JSX.Element {
                     Вернуться в начало
                   </button>
                 }
-                {/* <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}>Показать еще</button>
-                <button className="btn show-more__button show-more__button--to-top" type="button">Вернуться в начало</button> */}
               </div>
             </div>
           </div>
