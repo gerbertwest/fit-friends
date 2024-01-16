@@ -28,7 +28,6 @@ function TrainerCardScreen(): JSX.Element {
   const [friendButtonType, setFriendButtonType] = useState('add')
   const [requestButton, setRequestButton] = useState(true)
   const [checkbox, setCheckbox] = useState(false);
-  console.log(checkbox)
 
   const queryString = '?limit=4'
 
@@ -43,7 +42,6 @@ function TrainerCardScreen(): JSX.Element {
 
   useEffect(() => {
   const subscription = subscriptions.find((sub) => sub.id === params.id)
-  console.log(subscription)
     if (subscription !== undefined) {
       setCheckbox(true)
     }

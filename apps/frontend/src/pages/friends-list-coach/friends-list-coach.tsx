@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { userFriendsSelector, userRequests, userSelector } from "../../store/user/selectors";
-import { fetchMyFriends, fetchRequestsByUser, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
+import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByUser, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
 import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -19,6 +19,7 @@ function FriendsListCoach(): JSX.Element {
   const [page, setPage] = useState<number>(DEFAULT_PAGE)
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const queryString = `?limit=${DEFAULT_FRIENDS_COUNT_LIMIT}&page=${page}`
 
@@ -33,9 +34,11 @@ function FriendsListCoach(): JSX.Element {
     }
   }, [dispatch, page, params.id, user?.role])
 
+  const handleCreateRequest = (friendId: string) => {
+      dispatch(fetchNewRequestAction(friendId))
+  }
 
   const initiators = requests.data.map((req) => req.initiatorId)
-  console.log(requests.data)
 
   const backCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_FRIENDS_COUNT_LIMIT)
   const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
@@ -90,7 +93,7 @@ function FriendsListCoach(): JSX.Element {
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready"><span>Готов к&nbsp;тренировке</span>
                       </div>
                       {user?.role === UserRole.User ?
-                      <button className="thumbnail-friend__invite-button" type="button">
+                      <button className="thumbnail-friend__invite-button" type="button" onClick={() => {friend.id && handleCreateRequest(friend.id)}}>
                           <svg width="43" height="46" aria-hidden="true" focusable="false">
                             <use xlinkHref="#icon-invite"></use>
                           </svg><span className="visually-hidden">Пригласить друга на совместную тренировку</span>
