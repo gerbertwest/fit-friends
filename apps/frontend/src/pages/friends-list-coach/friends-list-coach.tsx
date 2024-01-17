@@ -88,7 +88,8 @@ function FriendsListCoach(): JSX.Element {
                       </li>
                       )}
                     </ul>
-                    {friend.readyToTraining ?
+                    {friend.role === UserRole.User ?
+                    friend.readyToTraining ?
                     <div className="thumbnail-friend__activity-bar">
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready"><span>Готов к&nbsp;тренировке</span>
                       </div>
@@ -103,11 +104,30 @@ function FriendsListCoach(): JSX.Element {
                     <div className="thumbnail-friend__activity-bar">
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-not-ready"><span>Не&nbsp;готов к&nbsp;тренировке</span>
                       </div>
-                    </div>}
+                    </div>
+                    :
+                      friend.personalTrainings ?
+                      <div className="thumbnail-friend__activity-bar">
+                      <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready"><span>Готов к&nbsp;тренировке</span>
+                      </div>
+                      {user?.role === UserRole.User ?
+                      <button className="thumbnail-friend__invite-button" type="button" onClick={() => {friend.id && handleCreateRequest(friend.id)}}>
+                          <svg width="43" height="46" aria-hidden="true" focusable="false">
+                            <use xlinkHref="#icon-invite"></use>
+                          </svg><span className="visually-hidden">Пригласить друга на совместную тренировку</span>
+                      </button> : ''
+                      }
+                    </div> :
+                    <div className="thumbnail-friend__activity-bar">
+                      <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-not-ready"><span>Не&nbsp;готов к&nbsp;тренировке</span>
+                      </div>
+                    </div>
+
+                  }
                     </div>
                     {friend.id && initiators.includes(friend.id) ?
                     <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user">
-                        <p className="thumbnail-friend__request-text">Запрос на&nbsp;персональную тренировку</p>
+                        <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку</p>
                       <div className="thumbnail-friend__button-wrapper">
                         <button className="btn btn--medium btn--dark-bg thumbnail-friend__button" type="button">Принять</button>
                         <button className="btn btn--medium btn--outlined btn--dark-bg thumbnail-friend__button" type="button">Отклонить</button>
