@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppSelector, useAppDispatch } from "../../hooks/index";
-import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction, fetchNewRequestAction, fetchExistRequest, fetchAddSubscriptionAction, fetchDeleteSubscriptionAction, fetchSubscriptions } from "../../store/api-actions";
-import { userSelector, tokenPayloadSelector, userRequest, usersSelector } from "../../store/user/selectors";
+import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction,
+  fetchNewRequestAction, fetchExistRequest, fetchAddSubscriptionAction,
+  fetchDeleteSubscriptionAction, fetchSubscriptions, fetchExistFriend } from "../../store/api-actions";
+import { userSelector, tokenPayloadSelector, userRequest, usersSelector, existFriend } from "../../store/user/selectors";
 import { AppRoute, STATIC_DIRECTORY } from "../../const";
 import PopupMap from "../popup-map/popup-map";
 import { myTrainingsSelector } from "../../store/training/selectors";
@@ -19,13 +21,14 @@ function TrainerCardScreen(): JSX.Element {
   const myTrainings = useAppSelector(myTrainingsSelector);
   const existRequest = useAppSelector(userRequest);
   const subscriptions = useAppSelector(usersSelector).data;
+  const friendExistError = useAppSelector(existFriend).isError
 
   const [isModalActive, setModalActive] = useState({
     popupStatus: false,
     mapPopup: false,
     certificatesPopup: false
   });
-  const [friendButtonType, setFriendButtonType] = useState('add')
+  const [friendButtonType, setFriendButtonType] = useState(true)
   const [requestButton, setRequestButton] = useState(true)
   const [checkbox, setCheckbox] = useState(false);
 
@@ -37,8 +40,10 @@ function TrainerCardScreen(): JSX.Element {
       dispatch(fetchMyTrainingsByIdAction({queryString: queryString, id: params.id}))
       dispatch(fetchExistRequest(params.id))
       dispatch(fetchSubscriptions())
+      dispatch(fetchExistFriend(params.id))
+      setFriendButtonType(friendExistError)
     }
-  }, [dispatch, params.id])
+  }, [dispatch, friendExistError, params.id])
 
   useEffect(() => {
   const subscription = subscriptions.find((sub) => sub.id === params.id)
@@ -55,14 +60,19 @@ function TrainerCardScreen(): JSX.Element {
     setModalActive({...isModalActive, popupStatus: false, [choosePopup]: false});
   };
 
+
   const handleAddFriend = () => {
-    params.id && dispatch(fetchAddFriendAction(params.id))
-    setFriendButtonType('delete')
+    if (params.id) {
+      dispatch(fetchAddFriendAction(params.id))
+      setFriendButtonType(true)
+    }
   }
 
   const handleDeleteFriend = () => {
-    params.id && dispatch(fetchDeleteFriendAction(params.id))
-    setFriendButtonType('add')
+    if (params.id) {
+      dispatch(fetchDeleteFriendAction(params.id))
+      setFriendButtonType(false)
+    }
   }
 
   const handleCreateRequest = () => {
@@ -81,8 +91,6 @@ function TrainerCardScreen(): JSX.Element {
     params.id && dispatch(fetchDeleteSubscriptionAction(params.id))
     setCheckbox(false)
   }
-
-
 
   return (
     <div className="wrapper">
@@ -142,7 +150,7 @@ function TrainerCardScreen(): JSX.Element {
                             </li>
                           ))}
                         </ul>
-                        {friendButtonType === 'add' ?
+                        {!friendButtonType ?
                         <button className="btn user-card-coach__btn" type="button" onClick={handleAddFriend}>Добавить в друзья</button>
                         :
                         <button className="btn btn--outlined user-card-coach-2__btn" type="button" onClick={handleDeleteFriend}>Удалить из друзей</button>

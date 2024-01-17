@@ -473,6 +473,18 @@ export const fetchDeleteFriendAction = createAsyncThunk<User, string, {
   },
 );
 
+export const fetchExistFriend = createAsyncThunk<User, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/existFriend',
+  async (friendId, {extra: api}) => {
+    const {data} = await api.get<User>(`${APIRoute.Users}/friend/exist/${friendId}`);
+    return data;
+  },
+);
+
 export const fetchNewRequestAction = createAsyncThunk<Request, string, {
   dispatch: AppDispatch;
   state: State;

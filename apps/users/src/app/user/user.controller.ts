@@ -78,6 +78,18 @@ export class UserController {
     return fillObject(UserRdo, trainerFriends);
   }
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'friend of user exist'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('friend/:friendId')
+  async existRequest( @Req() { user: payload }: RequestWithTokenPayload, @Param('friendId', MongoidValidationPipe) friendId: string) {
+    const friendRequests = await this.userService.existFriend(friendId, payload.sub);
+    return fillObject(UserRdo, friendRequests);
+  }
+
   ////////////////////////////
 
   @ApiResponse({

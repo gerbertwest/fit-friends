@@ -38,6 +38,9 @@ export type UserProcess = {
     data: Alert[];
     isError: boolean;
   }
+  friend: {
+    isError: boolean;
+  }
 };
 
 export type TrainingProcess = {

@@ -225,6 +225,24 @@ export class UsersController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'friend of user exist'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Get('friend/exist/:friendId')
+  public async existFriend(@Param('friendId') friendId: string, @Req() req: Request, ) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/friend/${friendId}`,
+    {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })
+    return data;
+  }
+
+  ////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'The email has been sended.'
   })
   @UseGuards(CheckAuthGuard, CheckUserRoleGuard)

@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import { ConflictException, Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import { User } from "@fit-friends/shared/app-types";
 import { UserQuery } from "./query/user.query";
@@ -6,6 +6,7 @@ import { UpdateUserDto } from "../authentication/dto/update-user.dto";
 import { UsersSeeder } from "../seeder/users.seeder";
 import { appConfig } from "@fit-friends/config/config-users";
 import { ConfigType } from "@nestjs/config";
+import { EXISTS_FRIEND } from "./user.constant";
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -56,6 +57,17 @@ public async deleteFriend(userId: string, dto: UpdateUserDto, friendId: string):
   }
 
   return this.userRepository.update(userId, {...dto, friends: userFriends})
+}
+
+public async existFriend (friendId: string, userId: string) {
+  const user = await this.userRepository.findById(userId);
+  const userFriends = user.friends;
+  const index = userFriends.indexOf(friendId);
+
+  if (index !== -1) {
+    throw new ConflictException(EXISTS_FRIEND);
+  }
+  return null
 }
 
 public async addSubscription(userId: string, dto: UpdateUserDto, trainerId: string): Promise<User> {

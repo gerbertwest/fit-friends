@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header/header"
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
-import { fetchAddFriendAction, fetchDeleteFriendAction, fetchUserByIdAction } from "../../store/api-actions";
-import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
+import { fetchAddFriendAction, fetchDeleteFriendAction, fetchExistFriend, fetchUserByIdAction } from "../../store/api-actions";
+import { existFriend, tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import PopupMap from "../popup-map/popup-map";
 import { AppRoute, STATIC_DIRECTORY } from "../../const";
 
@@ -13,13 +13,18 @@ function UserCardScreen(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
   const token = useAppSelector(tokenPayloadSelector)
+  const friendExistError = useAppSelector(existFriend).isError
 
   const [isModalActive, setModalActive] = useState(false);
-  const [friendButtonType, setFriendButtonType] = useState('add')
+  const [friendButtonType, setFriendButtonType] = useState(true)
 
   useEffect(() => {
-    params.id && dispatch(fetchUserByIdAction(params.id))
-  }, [dispatch, params.id])
+    if (params.id) {
+      dispatch(fetchUserByIdAction(params.id))
+      dispatch(fetchExistFriend(params.id))
+      setFriendButtonType(friendExistError)
+    }
+  }, [dispatch, friendExistError, params.id])
 
   const handleModalOpen = () => {
     setModalActive(true)
@@ -29,13 +34,17 @@ function UserCardScreen(): JSX.Element {
   };
 
   const handleAddFriend = () => {
-    params.id && dispatch(fetchAddFriendAction(params.id))
-    setFriendButtonType('delete')
+    if (params.id) {
+      dispatch(fetchAddFriendAction(params.id))
+      setFriendButtonType(true)
+    }
   }
 
   const handleDeleteFriend = () => {
-    params.id && dispatch(fetchDeleteFriendAction(params.id))
-    setFriendButtonType('add')
+    if (params.id) {
+      dispatch(fetchDeleteFriendAction(params.id))
+      setFriendButtonType(false)
+    }
   }
 
   return (
@@ -79,7 +88,7 @@ function UserCardScreen(): JSX.Element {
                           </li>
                         ))}
                       </ul>
-                      {friendButtonType === 'add' ?
+                      {!friendButtonType ?
                       <button className="btn user-card__btn" type="button" onClick={handleAddFriend}>Добавить в друзья</button>
                       :
                       <button className="btn btn--outlined user-card-coach-2__btn" type="button" onClick={handleDeleteFriend}>Удалить из друзей</button>
