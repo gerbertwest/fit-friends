@@ -485,28 +485,43 @@ export const fetchExistFriend = createAsyncThunk<User, string, {
   },
 );
 
-export const fetchNewRequestAction = createAsyncThunk<Request, string, {
+export const fetchNewRequestAction = createAsyncThunk<UserRequest, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/createRequest',
   async (userId, {extra: api}) => {
-    const {data} = await api.post<Request>(`${APIRoute.Requests}/${userId}`);
+    const {data} = await api.post<UserRequest>(`${APIRoute.Requests}/${userId}`);
     return data;
   },
 );
 
-export const fetchExistRequest = createAsyncThunk<Request, string, {
+export const fetchExistRequest = createAsyncThunk<UserRequest, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/existRequest',
   async (userId, {extra: api}) => {
-    const {data} = await api.get<Request>(`${APIRoute.Requests}/exist/${userId}`);
+    const {data} = await api.get<UserRequest>(`${APIRoute.Requests}/exist/${userId}`);
     return data;
   },
+);
+
+export const fetchUpdateRequest = createAsyncThunk<UserRequest, UserRequest, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/updateRequest',
+  async ({status, requestId}, { dispatch, extra: api }) => {
+    const updateRequest = await api.patch(`${APIRoute.Requests}/${requestId}`, {
+      status,
+    });
+
+    return updateRequest.data;
+  }
 );
 
 export const fetchAddSubscriptionAction = createAsyncThunk<User, string, {

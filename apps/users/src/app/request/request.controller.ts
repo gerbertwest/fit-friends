@@ -50,12 +50,12 @@ export class RequestController {
     description: 'The request has been updeted.'
   })
   @UseGuards(JwtAuthGuard)
-  @Patch('/:id')
-  async changeRequestStatus(@Param('id', MongoidValidationPipe) id: string, @Body() dto: UpdateRequestDto, @Req() { user: payload }: RequestWithTokenPayload) {
-    const request = await this.requestService.getRequest(id)
+  @Patch('/:initiatorId')
+  async changeRequestStatus(@Param('initiatorId', MongoidValidationPipe) initiatorId: string, @Body() dto: UpdateRequestDto, @Req() { user: payload }: RequestWithTokenPayload) {
+    const request = await this.requestService.getRequest(payload.sub, initiatorId)
     const title = dto.status === UserRequest.accepted ? `Пользователь ${payload.name} принял Вашу заявку` : `Пользователь ${payload.name} отклонил Вашу заявку`
     await this.notifyService.registerSubscriber({title: title, userId: request.initiatorId})
-    const updateRequest = await this.requestService.updateRequest(id, {...dto});
+    const updateRequest = await this.requestService.updateRequest(payload.sub, initiatorId, {...dto});
     return fillObject(RequestRdo, updateRequest)
   }
 

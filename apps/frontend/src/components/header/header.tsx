@@ -20,7 +20,7 @@ function Header(): JSX.Element {
     dispatch(fetchAlertsAction())
   }, [dispatch])
 
-  const [alertData, setAlertData] = useState<Alert[]>([]);
+  const [alertData, setAlertData] = useState<Alert[]>(alertsList);
 
   useEffect(() => {
     if (alertsList) {

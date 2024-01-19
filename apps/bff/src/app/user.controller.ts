@@ -377,9 +377,9 @@ export class UsersController {
     description: 'The request has been updeted.'
   })
   @UseGuards(CheckAuthGuard)
-  @Patch('request/:id')
-  public async changeRequestStatus(@Param('id') id: string, @Req() req: Request, @Body() status: string) {
-    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Request}/${id}`,
+  @Patch('request/:initiatorId')
+  public async changeRequestStatus(@Param('initiatorId') initiatorId: string, @Req() req: Request, @Body() status: string) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Request}/${initiatorId}`,
     status,
     {
       headers: {

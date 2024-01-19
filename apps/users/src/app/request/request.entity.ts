@@ -1,7 +1,7 @@
 import { Request } from "@fit-friends/shared/app-types";
 
 export class RequestEntity implements Request {
-  public requestId?: string;
+  public _id?: string;
   public userId: string;
   public initiatorId: string;
   public status: string;
@@ -11,7 +11,7 @@ export class RequestEntity implements Request {
   }
 
   public fillEntity(request: Request) {
-    this.requestId = request.requestId;
+    this._id = request._id;
     this.userId = request.userId;
     this.initiatorId = request.initiatorId;
     this.status = request.status;

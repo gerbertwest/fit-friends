@@ -24,19 +24,20 @@ export class RequestService {
     .create(new RequestEntity({...request, status: UserRequest.approval}))
   }
 
-  public async updateRequest(id: string, dto: UpdateRequestDto) {
+  public async updateRequest(userId: string, initiatorId: string, dto: UpdateRequestDto) {
 
-    const request = await this.getRequest(id)
-
+    //const request = await this.getRequest(id)
+    const request = await this.requestRepository.findByUsers(userId, initiatorId)
+console.log(request._id)
     if(request.status === dto.status) {
       return request
     }
 
-    return this.requestRepository.update(id, {...dto, status: dto.status})
+    return this.requestRepository.update(request._id, {...dto, status: dto.status})
   }
 
-  public async getRequest(id: string) {
-    return this.requestRepository.findById(id);
+  public async getRequest(userId: string, initiatorId: string) {
+    return this.requestRepository.findByUsers(userId, initiatorId)
   }
 
   public async gerRequestsByUser(userId: string) {
