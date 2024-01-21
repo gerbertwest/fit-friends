@@ -83,4 +83,16 @@ export class RequestController {
     return fillObject(RequestRdo, userRequests);
   }
 
+  @ApiResponse({
+    type: RequestRdo,
+    status: HttpStatus.OK,
+    description: 'request of user by initiator found'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('show/:initiatorId')
+  async showRequest(@Param('initiatorId', MongoidValidationPipe) initiatorId: string, @Req() { user: payload }: RequestWithTokenPayload) {
+    const request = await this.requestService.getRequest(payload.sub, initiatorId);
+    return fillObject(RequestRdo, request);
+  }
+
 }

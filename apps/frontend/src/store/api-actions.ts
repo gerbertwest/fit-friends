@@ -515,13 +515,25 @@ export const fetchUpdateRequest = createAsyncThunk<UserRequest, UserRequest, {
   extra: AxiosInstance;
 }>(
   'user/updateRequest',
-  async ({status, requestId}, { dispatch, extra: api }) => {
-    const updateRequest = await api.patch(`${APIRoute.Requests}/${requestId}`, {
+  async ({status, initiatorId}, { dispatch, extra: api }) => {
+    const updateRequest = await api.patch(`${APIRoute.Requests}/${initiatorId}`, {
       status,
     });
 
     return updateRequest.data;
   }
+);
+
+export const fetchRequest = createAsyncThunk<UserRequest, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/request',
+  async (initiatorId, {extra: api}) => {
+    const {data} = await api.post<UserRequest>(`${APIRoute.Requests}/show/${initiatorId}`);
+    return data;
+  },
 );
 
 export const fetchAddSubscriptionAction = createAsyncThunk<User, string, {

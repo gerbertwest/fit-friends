@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { userFriendsSelector, userRequests, userSelector } from "../../store/user/selectors";
-import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByUser, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
+import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByUser, fetchUpdateRequest, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
 import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
+import { UserRequest } from "@fit-friends/shared/app-types";
 
 function FriendsListCoach(): JSX.Element {
 
@@ -17,6 +18,7 @@ function FriendsListCoach(): JSX.Element {
   const user = useAppSelector(userSelector).data;
 
   const [page, setPage] = useState<number>(DEFAULT_PAGE)
+  //const [requestStatus, setRequestStatus] = useState('')
 
   const dispatch = useAppDispatch();
 
@@ -39,9 +41,15 @@ function FriendsListCoach(): JSX.Element {
   }
 
   const initiators = requests.data.map((req) => req.initiatorId)
-
   const backCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_FRIENDS_COUNT_LIMIT)
   const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
+
+  const handleUpdateRequest = (friendId: string, status: string) => {
+    dispatch(fetchUpdateRequest({status: status, initiatorId: friendId}))
+    dispatch(fetchRequestsByUser())
+    //dispatch(fetchRequest(friendId))
+    //setRequestStatus(status)
+  }
 
   return (
     <div className="wrapper">
@@ -60,8 +68,10 @@ function FriendsListCoach(): JSX.Element {
                 <h1 className="friends-list__title">Мои друзья</h1>
               </div>
               <ul className="friends-list__list">
-                {myFriends.data.map((friend) =>
-                <li className="friends-list__item">
+                {myFriends.data.map((friend) => {
+                  const request = requests.data.find((req) => req.initiatorId === friend.id)
+                  return (
+                <li className="friends-list__item" key={friend.id}>
                  <div className="thumbnail-friend">
                   <div className="thumbnail-friend__info thumbnail-friend__info--theme-light">
                     <div className="thumbnail-friend__image-status">
@@ -125,17 +135,33 @@ function FriendsListCoach(): JSX.Element {
 
                   }
                     </div>
-                    {friend.id && initiators.includes(friend.id) ?
-                    <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user">
+                    {friend.id && initiators.includes(friend.id) && request?.status === UserRequest.approval ?
+                    <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" key={friend.id}>
                         <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку</p>
                       <div className="thumbnail-friend__button-wrapper">
-                        <button className="btn btn--medium btn--dark-bg thumbnail-friend__button" type="button">Принять</button>
-                        <button className="btn btn--medium btn--outlined btn--dark-bg thumbnail-friend__button" type="button">Отклонить</button>
+                        <button className="btn btn--medium btn--dark-bg thumbnail-friend__button" type="button"
+                          onClick={() => friend.id && handleUpdateRequest(friend.id, UserRequest.accepted)}>
+                          Принять
+                        </button>
+                        <button className="btn btn--medium btn--outlined btn--dark-bg thumbnail-friend__button" type="button"
+                         onClick={() => friend.id && handleUpdateRequest(friend.id, UserRequest.rejected)}>
+                          Отклонить
+                        </button>
                       </div>
-                    </div> : ''}
+                    </div> :
+
+                      request?.status === UserRequest.accepted ?
+                      <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" key={friend.id}>
+                        <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку принят</p>
+                      </div> :
+                      request?.status === UserRequest.rejected ?
+                      <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" key={friend.id}>
+                      <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку отклонен</p>
+                    </div> : ''
+                    }
                  </div>
                 </li>
-                )}
+                )})}
               </ul>
               <div className="show-more friends-list__show-more">
                 {

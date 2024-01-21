@@ -412,6 +412,24 @@ export class UsersController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'requests of user found'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Post('request/show/:initiatorId')
+  public async showRequest(@Param('initiatorId') initiatorId: string, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Request}/show/${initiatorId}`,
+    {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    })
+    return data;
+  }
+
+  ////////
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'requests of user exist'
   })
   @UseGuards(CheckAuthGuard)
