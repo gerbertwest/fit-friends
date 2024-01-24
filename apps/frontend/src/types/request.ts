@@ -1,4 +1,4 @@
-export type UserRequest = {
+export type Request = {
   requestId?: string;
   initiatorId: string;
   userId?: string;

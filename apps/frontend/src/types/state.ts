@@ -2,7 +2,7 @@ import { AuthorizationStatus } from '../const.js';
 import {store} from '../store/index.js';
 import { Alert } from './alert';
 import { Order } from './order';
-import { UserRequest } from './request';
+import { Request } from './request';
 import { TokenPayload } from './token-payload';
 import { TrainerOrder } from './trainer-order';
 import { Training } from './training';
@@ -25,11 +25,11 @@ export type UserProcess = {
     isError: boolean;
   };
   requests: {
-    data: UserRequest[]
+    data: Request[]
   };
   request: {
     isError: boolean;
-    data: UserRequest | null
+    data: Request | null
   }
   tokenPayload: {
     data: TokenPayload | null;

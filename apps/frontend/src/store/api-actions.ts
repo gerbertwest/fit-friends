@@ -10,7 +10,7 @@ import { NewUser } from '../types/new-user';
 import { UpdateUser } from '../types/update-user';
 import { User } from '../types/user';
 import { Training } from '../types/training';
-import { UserRequest } from '../types/request';
+import { Request } from '../types/request';
 import { TrainerOrder } from '../types/trainer-order';
 import { NewTraining } from '../types/new-training';
 import { EditTraining } from '../types/edit-training';
@@ -222,14 +222,14 @@ export const fetchUserFriends = createAsyncThunk<User[], {queryString?: string},
   },
 );
 
-export const fetchRequestsByUser = createAsyncThunk<UserRequest[], undefined, {
+export const fetchRequestsByUser = createAsyncThunk<Request[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/fetchRequestsByUser',
   async (_arg, {extra: api}) => {
-    const {data} = await api.post<UserRequest[]>(`${APIRoute.Requests}`);
+    const {data} = await api.post<Request[]>(`${APIRoute.Requests}`);
     return data;
   },
 );
@@ -485,31 +485,31 @@ export const fetchExistFriend = createAsyncThunk<User, string, {
   },
 );
 
-export const fetchNewRequestAction = createAsyncThunk<UserRequest, string, {
+export const fetchNewRequestAction = createAsyncThunk<Request, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/createRequest',
   async (userId, {extra: api}) => {
-    const {data} = await api.post<UserRequest>(`${APIRoute.Requests}/${userId}`);
+    const {data} = await api.post<Request>(`${APIRoute.Requests}/${userId}`);
     return data;
   },
 );
 
-export const fetchExistRequest = createAsyncThunk<UserRequest, string, {
+export const fetchExistRequest = createAsyncThunk<Request, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/existRequest',
   async (userId, {extra: api}) => {
-    const {data} = await api.get<UserRequest>(`${APIRoute.Requests}/exist/${userId}`);
+    const {data} = await api.get<Request>(`${APIRoute.Requests}/exist/${userId}`);
     return data;
   },
 );
 
-export const fetchUpdateRequest = createAsyncThunk<UserRequest, UserRequest, {
+export const fetchUpdateRequest = createAsyncThunk<Request, Request, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -524,14 +524,14 @@ export const fetchUpdateRequest = createAsyncThunk<UserRequest, UserRequest, {
   }
 );
 
-export const fetchRequest = createAsyncThunk<UserRequest, string, {
+export const fetchRequest = createAsyncThunk<Request, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/request',
   async (initiatorId, {extra: api}) => {
-    const {data} = await api.post<UserRequest>(`${APIRoute.Requests}/show/${initiatorId}`);
+    const {data} = await api.post<Request>(`${APIRoute.Requests}/show/${initiatorId}`);
     return data;
   },
 );
