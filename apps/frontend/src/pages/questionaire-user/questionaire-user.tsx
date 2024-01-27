@@ -1,15 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import BackgroungLogo from "../../components/background-logo/background-logo";
-import { TRAINING_TIMES } from "../../const";
+import { AppRoute, TRAINING_TIMES } from "../../const";
 import { useAppDispatch } from "../../hooks/index";
 import { UpdateUser } from "../../types/update-user";
-import { updateUser } from "../../store/api-actions";
+import { redirectToRoute, updateUser } from "../../store/api-actions";
 import SpecializationCheckbox from "../../components/specialization-checkbox/specialization-checkbox";
 import LevelCheckbox from "../../components/level-checkbox/level-checkbox";
+import { useParams } from "react-router-dom";
 
 function QuestionaireUser(): JSX.Element {
 
   const dispatch = useAppDispatch();
+  const params = useParams();
 
   const [registryData, setRegistryData] = useState({
     level: '',
@@ -50,6 +52,7 @@ function QuestionaireUser(): JSX.Element {
     };
 
     dispatch(updateUser(formData));
+    dispatch(redirectToRoute(`${AppRoute.Main}/${params.id}`))
   };
 
   return (

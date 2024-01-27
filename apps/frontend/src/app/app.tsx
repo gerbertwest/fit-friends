@@ -82,26 +82,31 @@ export function App(): JSX.Element {
        </Route>
      </Route>
 
-      <Route
-        path={AppRoute.QuestionaireCoach}
-        element={
+     <Route path={AppRoute.QuestionaireCoach}>
+       <Route path={AppRoute.UserId}>
+         <Route index element={
           <PrivateRoute
-          authorizationStatus={authorizationStatus}
-        >
+                authorizationStatus={authorizationStatus}
+              >
           <QuestionaireCoach/>
-         </PrivateRoute>
+          </PrivateRoute>
         }
-      />
-      <Route
-        path={AppRoute.QuestionaireUser}
-        element={
+        />
+       </Route>
+      </Route>
+
+      <Route path={AppRoute.QuestionaireUser}>
+       <Route path={AppRoute.UserId}>
+         <Route index element={
           <PrivateRoute
-          authorizationStatus={authorizationStatus}
-        >
+                authorizationStatus={authorizationStatus}
+              >
           <QuestionaireUser/>
-         </PrivateRoute>
+          </PrivateRoute>
         }
-      />
+        />
+       </Route>
+      </Route>
 
       <Route path={AppRoute.MyTrainings}>
        <Route path={AppRoute.UserId}>

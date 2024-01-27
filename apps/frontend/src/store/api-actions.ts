@@ -97,10 +97,10 @@ export const registerUser = createAsyncThunk<void, NewUser, {
     }
 
     if (postData.status === HTTP_CODE.CREATED && role === UserRole.Admin) {
-      dispatch(redirectToRoute(AppRoute.QuestionaireCoach))
+      dispatch(redirectToRoute(`${AppRoute.QuestionaireCoach}/${postData.data.id}`))
     }
     else if (postData.status === HTTP_CODE.CREATED && role === UserRole.User) {
-      dispatch(redirectToRoute(AppRoute.QuestionaireUser))
+      dispatch(redirectToRoute(`${AppRoute.QuestionaireUser}/${postData.data.id}`))
     }
   }
 );
@@ -145,13 +145,6 @@ export const updateUser = createAsyncThunk<User, UpdateUser, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     }
-
-    // if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.Admin) {
-    //   dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${postData.data.id}`))
-    // }
-    // else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
-    //   dispatch(redirectToRoute(`${AppRoute.Main}/${postData.data.id}`))
-    // }
     return postData.data;
   }
 );

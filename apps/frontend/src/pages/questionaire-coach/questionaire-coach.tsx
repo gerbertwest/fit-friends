@@ -6,11 +6,13 @@ import { redirectToRoute, updateUser } from "../../store/api-actions";
 import SpecializationCheckbox from "../../components/specialization-checkbox/specialization-checkbox";
 import LevelCheckbox from "../../components/level-checkbox/level-checkbox";
 import { AppRoute } from "../../const";
+import { useParams } from "react-router-dom";
 
 function QuestionaireCoach(): JSX.Element {
 
   const DEFAULT_TYPE: string[] = [];
   const dispatch = useAppDispatch();
+  const params = useParams();
 
   const [registryData, setRegistryData] = useState({
     level: '',
@@ -58,7 +60,7 @@ function QuestionaireCoach(): JSX.Element {
     };
 
     dispatch(updateUser(formData));
-    //dispatch(redirectToRoute(`${AppRoute.CoachAccount}/65b4b3e525694047349295cc`))
+    dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${params.id}`))
   };
 
   return (
