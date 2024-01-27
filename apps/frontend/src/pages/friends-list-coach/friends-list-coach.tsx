@@ -73,7 +73,6 @@ function FriendsListCoach(): JSX.Element {
               <ul className="friends-list__list">
                 {myFriends.data.map((friend) => {
                   const request = requests.data.find((req) => req.initiatorId === friend.id)
-                  console.log(friend.id)
                   return (
                 <li className="friends-list__item" key={friend.id}>
                  <div className="thumbnail-friend">

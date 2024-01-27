@@ -95,9 +95,9 @@ function UserAccount(): JSX.Element {
       readyToTraining: readyToTraining,
       level: registryData.level,
     };
-
-    setEditStatus(false)
     dispatch(updateUser(formData));
+    params.id && dispatch(fetchUserByIdAction(params.id))
+    setEditStatus(false)
   };
 
   const handleCancel = () => {
@@ -121,8 +121,6 @@ function UserAccount(): JSX.Element {
       <LoadingScreen/>
     );
   }
-
-  console.log(registryData)
 
   return (
     <div className="wrapper">

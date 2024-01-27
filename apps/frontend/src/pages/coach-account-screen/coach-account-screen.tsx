@@ -140,6 +140,7 @@ function CoachAccount(): JSX.Element {
         level: registryData.level,
       };
     dispatch(updateUser(formData));
+    params.id && dispatch(fetchUserByIdAction(params.id))
     setEditStatus(false)
   };
 
@@ -170,8 +171,6 @@ function CoachAccount(): JSX.Element {
       <LoadingScreen/>
     );
   }
-
-  console.log(registryData.avatar)
 
   return (
     <div className="wrapper">

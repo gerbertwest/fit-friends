@@ -25,10 +25,7 @@ export class RequestService {
   }
 
   public async updateRequest(userId: string, initiatorId: string, dto: UpdateRequestDto) {
-
-    //const request = await this.getRequest(id)
     const request = await this.requestRepository.findByUsers(userId, initiatorId)
-console.log(request._id)
     if(request.status === dto.status) {
       return request
     }

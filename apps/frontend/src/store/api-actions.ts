@@ -113,7 +113,7 @@ export const updateUser = createAsyncThunk<User, UpdateUser, {
   'user/update',
   async ({description, level, trainingTime, trainingType,
     caloriesToLose, caloriesToBurn, readyToTraining,
-    certificate, merits, personalTrainings, avatar, certificates}, { dispatch, extra: api }) => {
+    certificate, merits, personalTrainings, avatar, certificates, sex, name, location}, { dispatch, extra: api }) => {
     const postData = await api.patch(APIRoute.UpdateUser, {
       description,
       level,
@@ -124,10 +124,11 @@ export const updateUser = createAsyncThunk<User, UpdateUser, {
       readyToTraining,
       merits,
       personalTrainings,
-      certificates
+      certificates,
+      sex,
+      name,
+      location,
     });
-
-
 
     if (postData.status === HTTP_CODE.OK && certificate) {
       const payload = new FormData();

@@ -27,8 +27,6 @@ function TrainingCardScreen(): JSX.Element {
   const role = token.data?.role;
   const trainer = training.data?.trainer;
 
-  console.log(role)
-
   // const [isLoaded, setIsLoaded] = useState(false);
   // useElementListener('loadeddata', videoRef, () => setIsLoaded(true));
 
