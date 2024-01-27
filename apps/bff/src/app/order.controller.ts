@@ -72,7 +72,7 @@ export class OrderController {
     status: HttpStatus.OK,
     description: 'All orders of user found'
   })
-  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @UseGuards(CheckAuthGuard)
   @Get('/')
   public async showOrderByTrainingAndUser(@Query() {trainingId}: TrainingQuery, @Req() { user: payload }: RequestWithTokenPayload) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Order}/order/${payload.sub}`, {params: {trainingId}});

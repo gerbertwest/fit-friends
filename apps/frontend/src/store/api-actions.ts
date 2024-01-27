@@ -127,6 +127,8 @@ export const updateUser = createAsyncThunk<User, UpdateUser, {
       certificates
     });
 
+
+
     if (postData.status === HTTP_CODE.OK && certificate) {
       const payload = new FormData();
       payload.append('file', certificate);
@@ -144,13 +146,12 @@ export const updateUser = createAsyncThunk<User, UpdateUser, {
       });
     }
 
-
-    if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.Admin) {
-      dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${postData.data.id}`))
-    }
-    else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
-      dispatch(redirectToRoute(`${AppRoute.Main}/${postData.data.id}`))
-    }
+    // if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.Admin) {
+    //   dispatch(redirectToRoute(`${AppRoute.CoachAccount}/${postData.data.id}`))
+    // }
+    // else if (postData.status === HTTP_CODE.OK && postData.data.role === UserRole.User) {
+    //   dispatch(redirectToRoute(`${AppRoute.Main}/${postData.data.id}`))
+    // }
     return postData.data;
   }
 );

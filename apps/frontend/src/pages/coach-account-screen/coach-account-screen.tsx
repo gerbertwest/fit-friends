@@ -74,7 +74,6 @@ function CoachAccount(): JSX.Element {
    }
   };
 
-
   const onChangeType = ({target}: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     changeType(target.value);
   };
@@ -130,19 +129,18 @@ function CoachAccount(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    const formData: UpdateUser = {
-      name: registryData.name,
-      sex: registryData.sex,
-      description: registryData.description,
-      location: registryData.location,
-      trainingType: trainingType,
-      avatar,
-      personalTrainings: personalTrainings,
-      level: registryData.level,
-    };
-
-    setEditStatus(false)
+      const formData: UpdateUser = {
+        name: registryData.name,
+        sex: registryData.sex,
+        description: registryData.description,
+        location: registryData.location,
+        trainingType: trainingType,
+        avatar: avatar,
+        personalTrainings: personalTrainings,
+        level: registryData.level,
+      };
     dispatch(updateUser(formData));
+    setEditStatus(false)
   };
 
   const handleCancel = () => {
@@ -163,15 +161,17 @@ function CoachAccount(): JSX.Element {
 
   useEffect(() => {
     if (updateUserData?.certificates) {
-      setRegistryData({certificates: updateUserData.certificates})
+      setRegistryData({...registryData, certificates: updateUserData.certificates})
       }
-  }, [updateUserData])
+  }, [registryData, updateUserData?.certificates])
 
   if (user.isLoading) {
     return (
       <LoadingScreen/>
     );
   }
+
+  console.log(registryData.avatar)
 
   return (
     <div className="wrapper">
@@ -187,14 +187,14 @@ function CoachAccount(): JSX.Element {
                     <label>
                       <input className="visually-hidden" type="file" name="avatar" accept="image/png, image/jpeg" onChange={handleAvatarUpload} disabled={!editStatus}/>
                         <span className="input-load-avatar__avatar">
-                        {
-                        avatar ?
+                          {avatar ?
                                 <img
                                 src={URL.createObjectURL(avatar)}
                                 alt="avatar"
                                 width="70" height="70" aria-hidden="true"
                               />
-                               : registryData.avatar === '' ?
+                               :
+                               registryData.avatar === '' ?
 
                                 <img src="public/img/content/user-photo-1.png"
                                 srcSet="public/img/content/user-photo-1@2x.png 2x"
@@ -205,7 +205,7 @@ function CoachAccount(): JSX.Element {
                                 alt="avatar"
                                 width="70" height="70" aria-hidden="true"
                               />
-                         }
+                          }
                          </span>
                     </label>
                   </div>

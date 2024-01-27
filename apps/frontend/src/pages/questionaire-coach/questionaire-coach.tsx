@@ -2,9 +2,10 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import BackgroungLogo from "../../components/background-logo/background-logo";
 import { useAppDispatch } from "../../hooks/index";
 import { UpdateUser } from "../../types/update-user";
-import { updateUser } from "../../store/api-actions";
+import { redirectToRoute, updateUser } from "../../store/api-actions";
 import SpecializationCheckbox from "../../components/specialization-checkbox/specialization-checkbox";
 import LevelCheckbox from "../../components/level-checkbox/level-checkbox";
+import { AppRoute } from "../../const";
 
 function QuestionaireCoach(): JSX.Element {
 
@@ -57,6 +58,7 @@ function QuestionaireCoach(): JSX.Element {
     };
 
     dispatch(updateUser(formData));
+    //dispatch(redirectToRoute(`${AppRoute.CoachAccount}/65b4b3e525694047349295cc`))
   };
 
   return (
