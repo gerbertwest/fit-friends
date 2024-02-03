@@ -55,6 +55,7 @@ export enum APIRoute {
   Order = '/order',
   Subscriptions = '/users/subscriptions',
   Alerts = '/users/alerts',
+  Email = '/users/email',
 
 }
 

@@ -245,7 +245,7 @@ export class UsersController {
     status: HttpStatus.OK,
     description: 'The email has been sended.'
   })
-  @UseGuards(CheckAuthGuard, CheckUserRoleGuard)
+  @UseGuards(CheckAuthGuard)
   @Post('/email')
   public async sendEmail(@Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
 

@@ -285,6 +285,10 @@ export const createTraining = createAsyncThunk<void, NewTraining, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     }
+
+    if (postData.status === HTTP_CODE.CREATED) {
+      await api.post(APIRoute.Email);
+    }
   }
 );
 
