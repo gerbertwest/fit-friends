@@ -21,7 +21,7 @@ export class CreateEmailDto {
     description: 'Trainer name',
     example: 'Keks',
   })
-  public trainerNames: string[];
+  public trainerName: string;
 
   @ApiProperty({
     description: 'Trainer ids',

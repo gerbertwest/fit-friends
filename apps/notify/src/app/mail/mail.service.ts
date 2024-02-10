@@ -16,10 +16,11 @@ export class MailService {
     private readonly mailRepository: MailRepository,
     ) {}
 
-  public sendNotifyNewSubscriber(subscribers: Subscriber[], email: string, trainerNames: string[]) {
+  public sendNotifyNewSubscriber(subscribers: Subscriber[], email: string, trainerName: string) {
+
+    console.log(subscribers)
 
     const title = subscribers.map((subscriber) => subscriber.title)
-    const trainerName = trainerNames.map((subscriber) => subscriber)
 
       this.mailerService.sendMail({
       from: this.serviceConfig.mail.from,
@@ -33,8 +34,8 @@ export class MailService {
     })
   }
 
-  public async createMailing(email: string, trainerNames: string[]) {
-    const mail = new MailEntity({email, trainerNames})
+  public async createMailing(email: string, trainerName: string) {
+    const mail = new MailEntity({email, trainerName})
     return this.mailRepository.create(mail);
   }
 

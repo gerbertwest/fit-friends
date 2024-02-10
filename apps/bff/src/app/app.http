@@ -170,10 +170,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2N
 # Create a new training
 POST http://localhost:4000/api/training HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMzkyMDYwNCwiZXhwIjoxNzAzOTIxNTA0fQ.gb91yIlnWFnVh8qnr-qUrt7uVlNCExephXqb51dV1ZM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwNzU1MzM1MywiZXhwIjoxNzA3NTU0MjUzfQ.PULhFC2VHHO0HPNaorFNr8uQJ5r87-HidZncqr3DibQ
 
 {
-  "title": "Тренировка 16",
+  "title": "Тренировка 151",
   "level": "профессионал",
   "trainingType": "стрейчинг",
   "trainingTime": "10-30 мин",
@@ -291,7 +291,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2N
 # Send Email
 POST http://localhost:4000/api/users/email/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQ4Y2E2Nzk0ZTJkZGUyMzk3MGY5YjkiLCJlbWFpbCI6IkVtbXkzM0B5YWhvby5jb20iLCJyb2xlIjoi0J_QvtC70YzQt9C-0LLQsNGC0LXQu9GMIiwibmFtZSI6IkRyLiBLcmlzdGEgVHVyY290dGUiLCJpYXQiOjE2OTkyNzExNTMsImV4cCI6MTY5OTI3MjA1M30.OM6ybJGliADncsBhhiTrIupnsGq-wfYngr5ePvRuEAA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwNzU0OTE3NCwiZXhwIjoxNzA3NTUwMDc0fQ.QkYlYQMNJUY75bsviIERerAR_8_RZefUczv74sOJQS4
 
 ###
 

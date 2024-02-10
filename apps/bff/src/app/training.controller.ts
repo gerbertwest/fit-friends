@@ -10,7 +10,7 @@ import { fillObject } from "@fit-friends/util/util-core";
 import { TrainingRdo } from "./rdo/training.rdo";
 import { CreateTrainingDto } from "./dto/create-training.dto";
 import { TrainingQuery } from "./query/training.query";
-import { RequestWithTokenPayload } from "@fit-friends/shared/app-types";
+import { RequestWithTokenPayload, User } from "@fit-friends/shared/app-types";
 import { UpdateTrainingDto } from "./dto/update-training.dto";
 import { UserError } from "./app.constant";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -32,7 +32,7 @@ export class TrainingController {
   @UseGuards(CheckAuthGuard, CheckAdminRoleGuard)
   @UseInterceptors(UseridInterceptor)
   @Post('/')
-  public async create(@Body() dto: CreateTrainingDto, @Req() req: Request) {
+  public async create(@Body() dto: CreateTrainingDto, @Req() req: Request, @Req() { user: payload }: RequestWithTokenPayload) {
     const trainer = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${dto.trainerId}`, {
       headers: {
         'Authorization': req.headers['authorization']
@@ -47,11 +47,30 @@ export class TrainingController {
 
     let subscriber = false;
 
+    console.log(subscribers)
+
+
     if (subscribers.length > 0) {
       subscriber = true
     }
 
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Training}/`, {...dto, subscriber: subscriber});
+
+    subscribers.map(async (user: User) => {
+
+      const mails = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Email}/${user.email}`)).data;
+      let requestDate: Date;
+
+       if (mails.length === 0) {
+          requestDate = new Date()
+       }
+
+       else {requestDate = new Date(mails[0].createdAt)}
+
+      await this.httpService.axiosRef.post(`${ApplicationServiceURL.Email}`, {email: user.email, requestDate: requestDate, trainers: user.subscriptions, trainerName: payload.name})
+    }
+    )
+
     return fillObject(TrainingRdo, {...data, user: trainer});
   }
 

@@ -15,7 +15,7 @@ export class MailModel extends Document implements  Mail {
   public requestDate: Date;
 
   @Prop()
-  public trainerNames: string[];
+  public trainerName: string;
 
 }
 
