@@ -6,6 +6,7 @@ import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAc
 import { userSelector, usersSelector } from "../../store/user/selectors";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
+import SimpleCarousel from "../../components/carousel/carousel";
 
 function MainScreen(): JSX.Element {
 
@@ -230,7 +231,7 @@ function MainScreen(): JSX.Element {
       </section>
       <section className="look-for-company">
         <div className="container">
-          <div className="look-for-company__wrapper">
+          {/* <div className="look-for-company__wrapper">
             <div className="look-for-company__title-wrapper">
               <h2 className="look-for-company__title">Ищут компанию для тренировки</h2>
               <button className="btn-flat btn-flat--light look-for-company__button" type="button" onClick={() => navigate(`${AppRoute.UserCatalog}/${params.id}`)}>
@@ -302,7 +303,11 @@ function MainScreen(): JSX.Element {
               </div>
               }
             </ul>
-          </div>
+          </div> */}
+          <SimpleCarousel
+          data={users.data}
+          error={users.isError}
+          />
         </div>
       </section>
     </main>
