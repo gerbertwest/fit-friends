@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector, rairingTrainingsSelector, specTrainingsSelector } from "../../store/training/selectors";
 import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAction, fetchUserByIdAction, fetchUsers } from "../../store/api-actions";
 import { userSelector, usersSelector } from "../../store/user/selectors";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
-import SimpleCarousel from "../../components/carousel/carousel";
+import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import UserCarousel from "../../components/userCarousel/userCarousel";
+import Slider from "react-slick";
+import TrainingCarousel from "../../components/trainingCarousel/trainingCarousel";
+import SpecialOffersCarousel from "../../components/specialOffersCarousel/specialOffersCarousel";
 
 function MainScreen(): JSX.Element {
 
@@ -22,7 +25,7 @@ function MainScreen(): JSX.Element {
   const types = user.data?.trainingType?.join(',')
 
   const queryString = `?limit=2&trainingTypes=${types}`
-  const special = '?limit=1&special=true'
+  const special = '?limit=4&special=true'
   const raiting = '?limit=2&sortField=raiting'
   const readyToTraining = '?limit=5&readyToTraining=true'
 
@@ -33,6 +36,25 @@ function MainScreen(): JSX.Element {
     dispatch(fetchUserByIdAction(String(params.id)))
     dispatch(fetchUsers({queryString: readyToTraining}))
   }, [dispatch, params.id, queryString])
+
+  const sliderUsers = useRef<Slider>(null);
+  const sliderTrainings = useRef<Slider>(null);
+
+  const nextUser = () => {
+    sliderUsers.current?.slickNext();
+  };
+  const previousUser = () => {
+    sliderUsers.current?.slickPrev();
+  };
+
+  const nextTraining = () => {
+    sliderTrainings.current?.slickNext();
+  };
+  const previousTraining = () => {
+    sliderTrainings.current?.slickPrev();
+  };
+
+  console.log(specTrainings)
 
   return (
     <div className="wrapper">
@@ -98,52 +120,10 @@ function MainScreen(): JSX.Element {
         <div className="container">
           <div className="special-offers__wrapper">
             <h2 className="visually-hidden">Специальные предложения</h2>
-            <ul className="special-offers__list">
-              {
-                specTrainings.isError === false ?
-                specTrainings.data.map((spec) => (
-                  <li className="special-offers__item is-active">
-                  <aside className="promo-slider">
-                    <div className="promo-slider__overlay"></div>
-                    <div className="promo-slider__image">
-                      <img src={`${STATIC_DIRECTORY}${spec.backgroundImage}`} height="469" alt="promo"/>
-                    </div>
-                    <div className="promo-slider__header">
-                      <h3 className="promo-slider__title">{spec.title}</h3>
-                      <div className="promo-slider__logo">
-                        <svg width="74" height="74" aria-hidden="true">
-                          <use xlinkHref="#logotype"></use>
-                        </svg>
-                      </div>
-                    </div><span className="promo-slider__text">Горячие предложения на {spec.description}</span>
-                    <div className="promo-slider__bottom-container">
-                      <div className="promo-slider__slider-dots">
-                        <button className="promo-slider__slider-dot--active promo-slider__slider-dot" aria-label="первый слайд"></button>
-                        <button className="promo-slider__slider-dot" aria-label="второй слайд"></button>
-                        <button className="promo-slider__slider-dot" aria-label="третий слайд"></button>
-                      </div>
-                      <div className="promo-slider__price-container">
-                        <p className="promo-slider__price">{spec.price*0.9} ₽</p>
-                        <p className="promo-slider__sup">за занятие</p>
-                        <p className="promo-slider__old-price">{spec.price} ₽</p>
-                      </div>
-                    </div>
-                  </aside>
-                </li>
-                )) :
-                <div className="thumbnail-spec-gym">
-                <div className="thumbnail-spec-gym__image">
-                  <picture>
-                    <source type="image/webp" srcSet="public/img/content/thumbnails/nearest-gym-01.webp, public/img/content/thumbnails/nearest-gym-01@2x.webp 2x"/>
-                      <img src="public/img/content/thumbnails/nearest-gym-01.jpg" srcSet="public/img/content/thumbnails/nearest-gym-01@2x.jpg 2x" width="330" height="190" alt=""/>
-                  </picture>
-                </div>
-                <div className="thumbnail-spec-gym__header">
-                  <h3 className="thumbnail-spec-gym__title">Скоро здесь появится что - то полезное</h3>
-                </div>
-              </div>
-              }
-            </ul>
+            <SpecialOffersCarousel
+            specTrainings={specTrainings.data}
+            error={specTrainings.isError}
+            />
           </div>
         </div>
       </section>
@@ -159,79 +139,29 @@ function MainScreen(): JSX.Element {
                 </svg>
               </button>
               <div className="popular-trainings__controls">
-                <button className="btn-icon popular-trainings__control" type="button" aria-label="previous">
+                <button className="btn-icon popular-trainings__control" type="button" aria-label="previous" onClick={previousTraining}>
                   <svg width="16" height="14" aria-hidden="true">
                     <use xlinkHref="#arrow-left"></use>
                   </svg>
                 </button>
-                <button className="btn-icon popular-trainings__control" type="button" aria-label="next">
+                <button className="btn-icon popular-trainings__control" type="button" aria-label="next" onClick={nextTraining}>
                   <svg width="16" height="14" aria-hidden="true">
                     <use xlinkHref="#arrow-right"></use>
                   </svg>
                 </button>
               </div>
             </div>
-            <ul className="popular-trainings__list">
-              {
-                raitingTrainings.isError === false ?
-                raitingTrainings.data.map((training) => (
-                  <li className="popular-trainings__item">
-                  <div className="thumbnail-training">
-                    <div className="thumbnail-training__inner">
-                      <div className="thumbnail-training__image">
-                        <picture>
-                          <source type="image/webp"/>
-                            <img src={`${STATIC_DIRECTORY}${training.backgroundImage}`} width="330" height="190" alt=""/>
-                        </picture>
-                      </div>
-                      <p className="thumbnail-training__price"><span className="thumbnail-training__price-value">{training.price}</span><span>₽</span>
-                      </p>
-                      <h3 className="thumbnail-training__title">{training.title}</h3>
-                      <div className="thumbnail-training__info">
-                        <ul className="thumbnail-training__hashtags-list">
-                          <li className="thumbnail-training__hashtags-item">
-                            <div className="hashtag thumbnail-training__hashtag"><span>#{training.trainingType}</span></div>
-                          </li>
-                          <li className="thumbnail-training__hashtags-item">
-                            <div className="hashtag thumbnail-training__hashtag"><span>#{training.caloriesCount}ккал</span></div>
-                          </li>
-                        </ul>
-                        <div className="thumbnail-training__rate">
-                          <svg width="16" height="16" aria-hidden="true">
-                            <use xlinkHref="#icon-star"></use>
-                          </svg><span className="thumbnail-training__rate-value">{training.raiting}</span>
-                        </div>
-                      </div>
-                      <div className="thumbnail-training__text-wrapper">
-                        <p className="thumbnail-training__text">{training.description}</p>
-                      </div>
-                      <div className="thumbnail-training__button-wrapper">
-                        <Link className="btn btn--small thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
-                        <Link className="btn btn--small btn--outlined thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Отзывы</Link>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                )) :
-                <div className="thumbnail-spec-gym">
-                <div className="thumbnail-spec-gym__image">
-                  <picture>
-                    <source type="image/webp" srcSet="public/img/content/thumbnails/nearest-gym-01.webp, public/img/content/thumbnails/nearest-gym-01@2x.webp 2x"/>
-                      <img src="public/img/content/thumbnails/nearest-gym-01.jpg" srcSet="public/img/content/thumbnails/nearest-gym-01@2x.jpg 2x" width="330" height="190" alt=""/>
-                  </picture>
-                </div>
-                <div className="thumbnail-spec-gym__header">
-                  <h3 className="thumbnail-spec-gym__title">Скоро здесь появится что - то полезное</h3>
-                </div>
-              </div>
-              }
-            </ul>
+            <TrainingCarousel
+            trainings={raitingTrainings.data}
+            error={raitingTrainings.isError}
+            sliderRef={sliderTrainings}
+            />
           </div>
         </div>
       </section>
       <section className="look-for-company">
         <div className="container">
-          {/* <div className="look-for-company__wrapper">
+          <div className="look-for-company__wrapper">
             <div className="look-for-company__title-wrapper">
               <h2 className="look-for-company__title">Ищут компанию для тренировки</h2>
               <button className="btn-flat btn-flat--light look-for-company__button" type="button" onClick={() => navigate(`${AppRoute.UserCatalog}/${params.id}`)}>
@@ -241,73 +171,24 @@ function MainScreen(): JSX.Element {
                 </svg>
               </button>
               <div className="look-for-company__controls">
-                <button className="btn-icon btn-icon--outlined look-for-company__control" type="button" aria-label="previous">
+                <button className="btn-icon btn-icon--outlined look-for-company__control" type="button" aria-label="previous" onClick={previousUser}>
                   <svg width="16" height="14" aria-hidden="true">
                     <use xlinkHref="#arrow-left"></use>
                   </svg>
                 </button>
-                <button className="btn-icon btn-icon--outlined look-for-company__control" type="button" aria-label="next">
+                <button className="btn-icon btn-icon--outlined look-for-company__control" type="button" aria-label="next" onClick={nextUser}>
                   <svg width="16" height="14" aria-hidden="true">
                     <use xlinkHref="#arrow-right"></use>
                   </svg>
                 </button>
               </div>
             </div>
-            <ul className="look-for-company__list">
-              {
-                users.isError === false ?
-                users.data.map((user) => (
-                  <li className="look-for-company__item">
-                  <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
-                    <div className="thumbnail-user__image">
-                      <picture>
-                        <source type="image/webp"/>
-                          <img src={`${STATIC_DIRECTORY}${user.avatar}`} width="82" height="82" alt=""/>
-                      </picture>
-                    </div>
-                    <div className="thumbnail-user__header">
-                      <h3 className="thumbnail-user__name">{user.name}</h3>
-                      <div className="thumbnail-user__location">
-                        <svg width="14" height="16" aria-hidden="true">
-                          <use xlinkHref="#icon-location"></use>
-                        </svg>
-                        <address className="thumbnail-user__location-address">{user.location}</address>
-                      </div>
-                    </div>
-                    <ul className="thumbnail-user__hashtags-list">
-                      {
-                        user.trainingType ? user.trainingType.map((type) => (
-                          <li className="thumbnail-user__hashtags-item">
-                            <div className="hashtag thumbnail-user__hashtag"><span>#{type}</span></div>
-                          </li>
-                        )) : ''
-                      }
-                    </ul>
-                    <Link className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-                      to={user.role === UserRole.User ? `${AppRoute.User}/${user.id}` : `${AppRoute.Trainer}/${user.id}`}>
-                      Подробнее
-                    </Link>
-                  </div>
-                </li>
-                )) :
-                <div className="thumbnail-spec-gym">
-                <div className="thumbnail-spec-gym__image">
-                  <picture>
-                    <source type="image/webp" srcSet="public/img/content/thumbnails/nearest-gym-01.webp, public/img/content/thumbnails/nearest-gym-01@2x.webp 2x"/>
-                      <img src="public/img/content/thumbnails/nearest-gym-01.jpg" srcSet="public/img/content/thumbnails/nearest-gym-01@2x.jpg 2x" width="330" height="190" alt=""/>
-                  </picture>
-                </div>
-                <div className="thumbnail-spec-gym__header">
-                  <h3 className="thumbnail-spec-gym__title">Скоро здесь появится что - то полезное</h3>
-                </div>
-              </div>
-              }
-            </ul>
-          </div> */}
-          <SimpleCarousel
-          data={users.data}
-          error={users.isError}
-          />
+            <UserCarousel
+            user={users.data}
+            error={users.isError}
+            sliderRef={sliderUsers}
+            />
+          </div>
         </div>
       </section>
     </main>
