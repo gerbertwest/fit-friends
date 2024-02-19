@@ -1,6 +1,6 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
+import Slider, { Settings } from 'react-slick';
 import { RefObject } from 'react';
 import { User } from '../../types/user';
 import { AppRoute, STATIC_DIRECTORY, UserRole } from '../../const';
@@ -14,18 +14,7 @@ type UserCarouselProp = {
 
 function UserCarousel(props: UserCarouselProp): JSX.Element {
 
-  // const params = useParams();
-  // const navigate = useNavigate();
-  // const sliderRef = useRef<Slider>(null);
-
-  // const next = () => {
-  //   sliderRef.current?.slickNext();
-  // };
-  // const previous = () => {
-  //   sliderRef.current?.slickPrev();
-  // };
-
-  const settings = {
+  const settings: Settings = {
     infinite: true,
     speed: 500,
     slidesToShow: 4,

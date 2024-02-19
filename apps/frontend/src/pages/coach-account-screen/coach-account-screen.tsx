@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { updateUserSelector, userSelector } from "../../store/user/selectors";
@@ -10,6 +10,8 @@ import { ucFirst } from "../../util";
 import SpecializationCheckbox from "../../components/specialization-checkbox/specialization-checkbox";
 import { UpdateUser } from "../../types/update-user";
 import { User } from "../../types/user";
+import CertCarousel from "../../components/cert-carousel/cert-carousel";
+import Slider from "react-slick";
 
 function CoachAccount(): JSX.Element {
 
@@ -30,16 +32,19 @@ function CoachAccount(): JSX.Element {
   const params = useParams();
   const updateUserData = useAppSelector(updateUserSelector).data
 
+  const sliderCert = useRef<Slider>(null);
+  const nextCert = () => {
+    sliderCert.current?.slickNext();
+  };
+  const previousCert = () => {
+    sliderCert.current?.slickPrev();
+  };
+
   useEffect(() => {
     dispatch(fetchUserByIdAction(String(params.id)))
   }, [dispatch, params.id])
 
   const [editStatus, setEditStatus] = useState(false);
-  const [certEditStatus, setCertEditStatus] = useState(
-    {
-      key: '',
-      status: false
-    });
   const [registryData, setRegistryData] = useState(DEFAULT_DATA);
   const [avatar, setAvatar] = useState<File | undefined>();
   const [trainingType, addTrainingType] = useState<string[] | undefined>(DEFAULT_TYPE)
@@ -358,12 +363,12 @@ function CoachAccount(): JSX.Element {
                       </input>
 
                       <div className="personal-account-coach__controls">
-                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="previous">
+                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="previous" onClick={previousCert}>
                           <svg width="16" height="14" aria-hidden="true">
                             <use xlinkHref="#arrow-left"></use>
                           </svg>
                         </button>
-                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="next">
+                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="next" onClick={nextCert}>
                           <svg width="16" height="14" aria-hidden="true">
                             <use xlinkHref="#arrow-right"></use>
                           </svg>
@@ -371,67 +376,12 @@ function CoachAccount(): JSX.Element {
                       </div>
                     </div>
 
-                    <ul className="personal-account-coach__list">
-                       {registryData.certificates ? registryData?.certificates.map((cert) => (
-                        <li className="personal-account-coach__item" key={cert}>
-                        <div className="certificate-card certificate-card--edit">
-                          <div className="certificate-card__image">
-                            <picture>
-                              <source type="application/pdf" srcSet={`${STATIC_DIRECTORY}${cert}`}/>
-                                <embed src={`${STATIC_DIRECTORY}${cert}`} width="294" height="360"/>
-                            </picture>
-                          </div>
-                          <div className="certificate-card__buttons">
-                            {certEditStatus.status === true && certEditStatus.key === cert ?
-                            <>
-                            <button className="btn-flat btn-flat--underlined certificate-card__button certificate-card__button--save" type="button"
-                            onClick={() => setCertEditStatus({key: cert, status: false})}>
-                              <svg width="12" height="12" >
-                                <use xlinkHref="#icon-edit"></use>
-                              </svg>
-                              <span>Сохранить</span>
-                            </button>
-                            <div className="certificate-card__controls">
-                            <form className="btn-icon certificate-card__control" aria-label="next">
-                             <label htmlFor="cert">
-                              <svg width="16" height="16" aria-hidden="true">
-                                <use xlinkHref="#icon-change"></use>
-                              </svg>
-                             </label>
-                            </form>
-                            <input
-                              type="file"
-                              name="cert"
-                              id="cert"
-                              accept=".pdf"
-                              hidden
-                              onChange={(evt) => handleChangeCertificate(cert, evt)}
-                             >
-                            </input>
-                            <button className="btn-icon certificate-card__control" type="button" aria-label="next" onClick={() => handleCertificateDelete(cert)}>
-                              <svg width="14" height="16" aria-hidden="true">
-                                <use xlinkHref="#icon-trash"></use>
-                              </svg>
-                            </button>
-                           </div>
-                           </>
-                           :
-                            <button className="btn-flat btn-flat--underlined " type="button" onClick={() => setCertEditStatus({status: true, key: cert})}>
-                              <svg width="12" height="12" >
-                                <use xlinkHref="#icon-edit"></use>
-                              </svg>
-                              <span>Изменить</span>
-                            </button>
-                           }
-
-
-                          </div>
-                        </div>
-                      </li>
-                     )) : ''}
-
-                    </ul>
-
+                    <CertCarousel
+                    certificates={registryData.certificates}
+                    handleChangeCertificate={handleChangeCertificate}
+                    handleCertificateDelete={handleCertificateDelete}
+                    sliderRef={sliderCert}
+                    />
                   </div>
                 </div>
               </div>

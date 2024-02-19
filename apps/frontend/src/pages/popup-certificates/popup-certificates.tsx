@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 import { User } from "../../types/user";
 import { STATIC_DIRECTORY } from "../../const";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Slider, { Settings } from 'react-slick';
 
 type PopupCertificatesProps = {
   onClose: () => void;
@@ -33,6 +36,22 @@ function PopupCertificates(props: PopupCertificatesProps): JSX.Element {
     };
   }, [props, props.onClose]);
 
+  const settings: Settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
+
+  const sliderCert = useRef<Slider>(null);
+  const nextCert = () => {
+    sliderCert.current?.slickNext();
+  };
+  const previousCert = () => {
+    sliderCert.current?.slickPrev();
+  };
+
   return (
     <div className="popup-form">
     <section className="popup" ref={rootRef}>
@@ -48,20 +67,23 @@ function PopupCertificates(props: PopupCertificatesProps): JSX.Element {
         </div>
         <div className="popup__content popup__content--certificates">
           <div className="popup__slider-buttons">
-            <button className="btn-icon popup__slider-btn popup__slider-btn--prev" type="button" aria-label="prev">
+            <button className="btn-icon popup__slider-btn popup__slider-btn--prev" type="button" aria-label="prev" onClick={previousCert}>
               <svg width="16" height="14" aria-hidden="true">
                 <use xlinkHref="#arrow-left"></use>
               </svg>
             </button>
-            <button className="btn-icon popup__slider-btn popup__slider-btn--next" type="button" aria-label="next">
+            <button className="btn-icon popup__slider-btn popup__slider-btn--next" type="button" aria-label="next" onClick={nextCert}>
               <svg width="16" height="14" aria-hidden="true">
                 <use xlinkHref="#arrow-right"></use>
               </svg>
             </button>
           </div>
-          <ul className="popup__slider-list">
+            <Slider
+            ref={sliderCert}
+            {...settings}
+            >
             {props.user?.certificates?.map((cert) => (
-              <li className="popup__slide popup__slide--current">
+            <li className="popup__slide popup__slide--current">
               <div className="popup__slide-img">
                 <picture>
                   <source type="application/pdf" srcSet={`${STATIC_DIRECTORY}${cert}`}/>
@@ -70,7 +92,7 @@ function PopupCertificates(props: PopupCertificatesProps): JSX.Element {
               </div>
             </li>
             ))}
-          </ul>
+            </Slider>
         </div>
       </div>
     </section>

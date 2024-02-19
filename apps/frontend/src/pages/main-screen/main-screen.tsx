@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector, rairingTrainingsSelector, specTrainingsSelector } from "../../store/training/selectors";
 import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAction, fetchUserByIdAction, fetchUsers } from "../../store/api-actions";
 import { userSelector, usersSelector } from "../../store/user/selectors";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { AppRoute, STATIC_DIRECTORY } from "../../const";
-import UserCarousel from "../../components/userCarousel/userCarousel";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppRoute } from "../../const";
+import UserCarousel from "../../components/user-carousel/user-carousel";
 import Slider from "react-slick";
-import TrainingCarousel from "../../components/trainingCarousel/trainingCarousel";
-import SpecialOffersCarousel from "../../components/specialOffersCarousel/specialOffersCarousel";
+import TrainingCarousel from "../../components/training-carousel/training-carousel";
+import SpecialOffersCarousel from "../../components/special-offers-carousel/special-offers-carousel";
+import SpecTrainingCarousel from "../../components/spec-training-carousel/spec-training-carousel";
 
 function MainScreen(): JSX.Element {
 
@@ -39,6 +40,7 @@ function MainScreen(): JSX.Element {
 
   const sliderUsers = useRef<Slider>(null);
   const sliderTrainings = useRef<Slider>(null);
+  const sliderSpecTraining = useRef<Slider>(null);
 
   const nextUser = () => {
     sliderUsers.current?.slickNext();
@@ -54,7 +56,12 @@ function MainScreen(): JSX.Element {
     sliderTrainings.current?.slickPrev();
   };
 
-  console.log(specTrainings)
+  const nextSpecTraining = () => {
+    sliderSpecTraining.current?.slickNext();
+  };
+  const previousSpecTraining = () => {
+    sliderSpecTraining.current?.slickPrev();
+  };
 
   return (
     <div className="wrapper">
@@ -67,52 +74,23 @@ function MainScreen(): JSX.Element {
             <div className="special-for-you__title-wrapper">
               <h2 className="special-for-you__title">Специально подобрано для вас</h2>
               <div className="special-for-you__controls">
-                <button className="btn-icon special-for-you__control" type="button" aria-label="previous">
+                <button className="btn-icon special-for-you__control" type="button" aria-label="previous" onClick={previousSpecTraining}>
                   <svg width="16" height="14" aria-hidden="true">
                     <use xlinkHref="#arrow-left"></use>
                   </svg>
                 </button>
-                <button className="btn-icon special-for-you__control" type="button" aria-label="next">
+                <button className="btn-icon special-for-you__control" type="button" aria-label="next" onClick={nextSpecTraining}>
                   <svg width="16" height="14" aria-hidden="true">
                     <use xlinkHref="#arrow-right"></use>
                   </svg>
                 </button>
               </div>
             </div>
-            <ul className="special-for-you__list">
-              {
-                trainings.isError === false ?
-                trainings.data.map((training) => (
-                <li className="special-for-you__item">
-                 <div className="thumbnail-preview">
-                  <div className="thumbnail-preview__image">
-                    <picture>
-                      <source type="image/webp"/>
-                        <img src={`${STATIC_DIRECTORY}${training.backgroundImage}`} width="452" height="191" alt=""/>
-                    </picture>
-                  </div>
-                  <div className="thumbnail-preview__inner">
-                    <h3 className="thumbnail-preview__title">{training.title}</h3>
-                    <div className="thumbnail-preview__button-wrapper">
-                      <Link className="btn btn--small thumbnail-preview__button" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
-                    </div>
-                  </div>
-                 </div>
-                </li>
-                )) :
-                <div className="thumbnail-spec-gym">
-                <div className="thumbnail-spec-gym__image">
-                  <picture>
-                    <source type="image/webp" srcSet="public/img/content/thumbnails/nearest-gym-01.webp, public/img/content/thumbnails/nearest-gym-01@2x.webp 2x"/>
-                      <img src="public/img/content/thumbnails/nearest-gym-01.jpg" srcSet="public/img/content/thumbnails/nearest-gym-01@2x.jpg 2x" width="330" height="190" alt=""/>
-                  </picture>
-                </div>
-                <div className="thumbnail-spec-gym__header">
-                  <h3 className="thumbnail-spec-gym__title">Скоро здесь появится что - то полезное</h3>
-                </div>
-              </div>
-              }
-            </ul>
+            <SpecTrainingCarousel
+            trainings={trainings.data}
+            error={trainings.isError}
+            sliderRef={sliderSpecTraining}
+            />
           </div>
         </div>
       </section>

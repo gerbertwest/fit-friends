@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppSelector, useAppDispatch } from "../../hooks/index";
@@ -10,6 +10,8 @@ import { AppRoute, STATIC_DIRECTORY } from "../../const";
 import PopupMap from "../popup-map/popup-map";
 import { myTrainingsSelector } from "../../store/training/selectors";
 import PopupCertificates from "../popup-certificates/popup-certificates";
+import Slider from "react-slick";
+import TrainingCarousel from "../../components/training-carousel/training-carousel";
 
 function TrainerCardScreen(): JSX.Element {
 
@@ -92,6 +94,14 @@ function TrainerCardScreen(): JSX.Element {
     setCheckbox(false)
   }
 
+  const sliderTrainings = useRef<Slider>(null);
+  const nextTraining = () => {
+    sliderTrainings.current?.slickNext();
+  };
+  const previousTraining = () => {
+    sliderTrainings.current?.slickPrev();
+  };
+
   return (
     <div className="wrapper">
       <Header/>
@@ -171,59 +181,23 @@ function TrainerCardScreen(): JSX.Element {
                       <div className="user-card-coach__training-head">
                         <h2 className="user-card-coach__training-title">Тренировки</h2>
                         <div className="user-card-coach__training-bts">
-                          <button className="btn-icon user-card-coach__training-btn" type="button" aria-label="back">
+                          <button className="btn-icon user-card-coach__training-btn" type="button" aria-label="back" onClick={previousTraining}>
                             <svg width="14" height="10" aria-hidden="true">
                               <use xlinkHref="#arrow-left"></use>
                             </svg>
                           </button>
-                          <button className="btn-icon user-card-coach__training-btn" type="button" aria-label="next">
+                          <button className="btn-icon user-card-coach__training-btn" type="button" aria-label="next" onClick={nextTraining}>
                             <svg width="14" height="10" aria-hidden="true">
                               <use xlinkHref="#arrow-right"></use>
                             </svg>
                           </button>
                         </div>
                       </div>
-                      <ul className="user-card-coach__training-list">
-                        {myTrainings.data.map((training) => (
-                              <li className="user-card-coach__training-item">
-                              <div className="thumbnail-training">
-                                <div className="thumbnail-training__inner">
-                                  <div className="thumbnail-training__image">
-                                    <picture>
-                                      <source type="image/webp"/>
-                                        <img src={`${STATIC_DIRECTORY}${training.backgroundImage}`} width="330" height="190" alt=""/>
-                                    </picture>
-                                  </div>
-                                  <p className="thumbnail-training__price"><span className="thumbnail-training__price-value">{training.price}</span><span>₽</span>
-                                  </p>
-                                  <h3 className="thumbnail-training__title">{training.title}</h3>
-                                  <div className="thumbnail-training__info">
-                                    <ul className="thumbnail-training__hashtags-list">
-                                      <li className="thumbnail-training__hashtags-item">
-                                        <div className="hashtag thumbnail-training__hashtag"><span>#{training.trainingType}</span></div>
-                                      </li>
-                                      <li className="thumbnail-training__hashtags-item">
-                                        <div className="hashtag thumbnail-training__hashtag"><span>#{training.caloriesCount}ккал</span></div>
-                                      </li>
-                                    </ul>
-                                    <div className="thumbnail-training__rate">
-                                      <svg width="16" height="16" aria-hidden="true">
-                                        <use xlinkHref="#icon-star"></use>
-                                      </svg><span className="thumbnail-training__rate-value">{training.raiting}</span>
-                                    </div>
-                                  </div>
-                                  <div className="thumbnail-training__text-wrapper">
-                                    <p className="thumbnail-training__text">{training.description}</p>
-                                  </div>
-                                  <div className="thumbnail-training__button-wrapper">
-                                    <Link className="btn btn--small thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Подробнее</Link>
-                                    <Link className="btn btn--small btn--outlined thumbnail-training__button-catalog" to={`${AppRoute.Training}/${training.id}`}>Отзывы</Link>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                        ))}
-                      </ul>
+                      <TrainingCarousel
+                      trainings={myTrainings.data}
+                      error={false}
+                      sliderRef={sliderTrainings}
+                      />
                       <form className="user-card-coach__training-form">
                         {!existRequest.isError && user.data?.personalTrainings && requestButton ?
                           <button className="btn user-card-coach__btn-training" type="button" onClick={handleCreateRequest}>
