@@ -5,7 +5,7 @@ import { myTrainingsSelector, rairingTrainingsSelector, specTrainingsSelector } 
 import { fetchRaitingTrainingsAction, fetchSpecTrainingsAction, fetchTrainingsAction, fetchUserByIdAction, fetchUsers } from "../../store/api-actions";
 import { userSelector, usersSelector } from "../../store/user/selectors";
 import { useNavigate, useParams } from "react-router-dom";
-import { AppRoute } from "../../const";
+import { AppRoute, DEFAULT_OFFERS_COUNT_LIMIT, DEFAULT_SPEC_TRAININGS_COUNT_LIMIT, DEFAULT_TRAININGS_COUNT_LIMIT, READY_TO_TRAINING_USERS_COUNT } from "../../const";
 import UserCarousel from "../../components/user-carousel/user-carousel";
 import Slider from "react-slick";
 import TrainingCarousel from "../../components/training-carousel/training-carousel";
@@ -25,10 +25,10 @@ function MainScreen(): JSX.Element {
 
   const types = user.data?.trainingType?.join(',')
 
-  const queryString = `?limit=2&trainingTypes=${types}`
-  const special = '?limit=4&special=true'
-  const raiting = '?limit=2&sortField=raiting'
-  const readyToTraining = '?limit=5&readyToTraining=true'
+  const queryString = `?limit=${DEFAULT_SPEC_TRAININGS_COUNT_LIMIT}&trainingTypes=${types}`
+  const special = `?limit=${DEFAULT_OFFERS_COUNT_LIMIT}&special=true`
+  const raiting = `?limit=${DEFAULT_TRAININGS_COUNT_LIMIT}&sortField=raiting`
+  const readyToTraining = `?limit=${READY_TO_TRAINING_USERS_COUNT}&readyToTraining=true`
 
   useEffect(() => {
     dispatch(fetchTrainingsAction({queryString}))
@@ -36,7 +36,7 @@ function MainScreen(): JSX.Element {
     dispatch(fetchRaitingTrainingsAction({queryString: raiting}))
     dispatch(fetchUserByIdAction(String(params.id)))
     dispatch(fetchUsers({queryString: readyToTraining}))
-  }, [dispatch, params.id, queryString])
+  }, [dispatch, params.id, queryString, raiting, readyToTraining, special])
 
   const sliderUsers = useRef<Slider>(null);
   const sliderTrainings = useRef<Slider>(null);

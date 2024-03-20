@@ -23,6 +23,7 @@ const initialState: TrainingProcess = {
   trainerOrders: {
     data: [],
     isError: false,
+    isLoading: false,
   },
   userOrders: {
     data: [],
@@ -60,8 +61,12 @@ export const trainingProcess = createSlice({
     .addCase(fetchMyTrainingsByIdAction.fulfilled, (state, action) => {
       state.myTrainings.data = action.payload;
     })
+    .addCase(fetchTrainerOrdersAction.pending, (state) => {
+      state.trainerOrders.isLoading = true;
+    })
     .addCase(fetchTrainerOrdersAction.fulfilled, (state, action) => {
       state.trainerOrders.data = action.payload;
+      state.trainerOrders.isLoading = false;
     })
     .addCase(fetchTrainerOrdersAction.rejected, (state) => {
       state.trainerOrders.isError = true;
@@ -87,8 +92,12 @@ export const trainingProcess = createSlice({
     .addCase(fetchRaitingTrainingsAction.rejected, (state) => {
       state.raitingTrainings.isError = true;
     })
+    .addCase(fetchTrainingByIdAction.pending, (state) => {
+      state.training.isLoading = true;
+    })
     .addCase(fetchTrainingByIdAction.fulfilled, (state, action) => {
       state.training.data = action.payload;
+      state.training.isLoading = false;
     })
   }
 });

@@ -6,6 +6,7 @@ import { fetchTrainerOrdersAction } from "../../store/api-actions";
 import { AppRoute, DEFAULT_ORDERS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getSortQueryString } from "../../util";
+import LoadingScreen from "../loading-screen/loading-screen";
 
 function MyOrders(): JSX.Element {
 
@@ -70,6 +71,7 @@ function MyOrders(): JSX.Element {
                   </div>
                 </div>
               </div>
+              {orders.isLoading ? <LoadingScreen/> :
               <ul className="my-orders__list">
                 {orders.data.map((order) =>
                     <li className="my-orders__item">
@@ -129,6 +131,7 @@ function MyOrders(): JSX.Element {
                 )}
 
               </ul>
+              }
               <div className="show-more my-orders__show-more">
                 {backCondition !== undefined || disabledCondition !== undefined ?
                   <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}

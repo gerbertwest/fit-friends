@@ -7,6 +7,7 @@ import { AppRoute, DEFAULT_TRAININGS_COUNT_LIMIT, STATIC_DIRECTORY, TRAINING_TIM
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FilterSlider from "../../components/filter-slider/filter-slider";
 import { getQueryString } from "../../util";
+import LoadingScreen from "../loading-screen/loading-screen";
 
 function MyTrainings(): JSX.Element {
 
@@ -159,9 +160,12 @@ function MyTrainings(): JSX.Element {
           </div>
 
           <div className="inner-page__content">
+            {
+            myTrainings.isLoading || myTrainings.data === null ? <LoadingScreen/> :
             <div className="my-trainings">
               <ul className="my-trainings__list">
-                {myTrainings.data.map((training) =>
+                {
+                myTrainings.data.map((training) =>
                   <li className="my-trainings__item">
                   <div className="thumbnail-training">
                     <div className="thumbnail-training__inner">
@@ -210,6 +214,7 @@ function MyTrainings(): JSX.Element {
                 }
               </div>
             </div>
+          }
           </div>
         </div>
       </div>

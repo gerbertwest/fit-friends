@@ -7,6 +7,7 @@ import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } fro
 import { useNavigate, useParams } from "react-router-dom";
 import { Request } from "../../types/request";
 import { UserRequest } from "@fit-friends/shared/app-types"
+import LoadingScreen from "../loading-screen/loading-screen";
 
 function FriendsListCoach(): JSX.Element {
 
@@ -70,6 +71,7 @@ function FriendsListCoach(): JSX.Element {
               <div className="friends-list__title-wrapper">
                 <h1 className="friends-list__title">Мои друзья</h1>
               </div>
+              {myFriends.isLoading ? <LoadingScreen/> :
               <ul className="friends-list__list">
                 {myFriends.data.map((friend) => {
                   const request = requests.data.find((req) => req.initiatorId === friend.id)
@@ -164,6 +166,7 @@ function FriendsListCoach(): JSX.Element {
                 </li>
                 )})}
               </ul>
+              }
               <div className="show-more friends-list__show-more">
                 {
                   backCondition !== undefined || disabledCondition !== undefined ?

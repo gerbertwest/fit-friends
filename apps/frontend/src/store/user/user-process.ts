@@ -87,11 +87,19 @@ export const userProcess = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.updateUserData.data = action.payload
       })
+      .addCase(fetchMyFriends.pending, (state) => {
+        state.users.isLoading = true;
+      })
       .addCase(fetchMyFriends.fulfilled, (state, action) => {
         state.users.data = action.payload;
+        state.users.isLoading = false;
+      })
+      .addCase(fetchUserFriends.pending, (state) => {
+        state.users.isLoading = true;
       })
       .addCase(fetchUserFriends.fulfilled, (state, action) => {
         state.users.data = action.payload;
+        state.users.isLoading = false;
       })
       .addCase(fetchExistFriend.rejected, (state, action) => {
         state.friend.isError = true;

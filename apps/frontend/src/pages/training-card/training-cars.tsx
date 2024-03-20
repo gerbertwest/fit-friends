@@ -10,8 +10,7 @@ import { EditTraining } from "../../types/edit-training";
 import PopupReview from "../popup-review/popup-review";
 import PopupBuy from "../popup-buy/popup-buy";
 import { orderSelector } from "../../store/order/selectors";
-
-//import { useElementListener } from "../../hooks/use-element-listener";
+import LoadingScreen from "../loading-screen/loading-screen";
 
 function TrainingCardScreen(): JSX.Element {
 
@@ -26,9 +25,6 @@ function TrainingCardScreen(): JSX.Element {
 
   const role = token.data?.role;
   const trainer = training.data?.trainer;
-
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // useElementListener('loadeddata', videoRef, () => setIsLoaded(true));
 
   const [trainingActive, setTrainingActive] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false);
@@ -167,6 +163,8 @@ function TrainingCardScreen(): JSX.Element {
                   </svg><span>Назад</span>
                 </button>
                 <h2 className="reviews-side-bar__title">Отзывы</h2>
+                {
+                training.isLoading || training.data?.reviews === null ? <LoadingScreen/> :
                 <ul className="reviews-side-bar__list">
                   {
                     training.data?.reviews && training.data?.reviews.map((review) => (
@@ -191,6 +189,7 @@ function TrainingCardScreen(): JSX.Element {
                     ))
                     }
                 </ul>
+                }
                 <button className="btn btn--medium reviews-side-bar__button" type="button" disabled={role === UserRole.Admin} onClick={() => handleModalOpen('reviewPopup')}>
                   Оставить отзыв
                 </button>
