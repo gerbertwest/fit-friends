@@ -37,10 +37,13 @@ function CertCarousel(props: CertCarouselProp): JSX.Element {
       <li className="personal-account-coach__item" key={cert}>
       <div className="certificate-card certificate-card--edit">
         <div className="certificate-card__image">
-          <picture>
+          <object>
+            <embed src={`${STATIC_DIRECTORY}${cert}`} width="294" height="360" type="application/pdf"/>
+          </object>
+          {/* <picture>
             <source type="application/pdf" srcSet={`${STATIC_DIRECTORY}${cert}`}/>
-              <embed src={`${STATIC_DIRECTORY}${cert}`} width="294" height="360"/>
-          </picture>
+              <embed src={`${STATIC_DIRECTORY}${cert}`} width="294" height="360" type="application/pdf"/>
+          </picture> */}
         </div>
         <div className="certificate-card__buttons">
           {certEditStatus.status === true && certEditStatus.key === cert ?
