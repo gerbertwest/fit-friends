@@ -7,6 +7,7 @@ import { fetchTrainingsAction } from "../../store/api-actions";
 import { AppRoute, DEFAULT_TRAININGS_COUNT_LIMIT, STATIC_DIRECTORY, TRAINING_TYPES } from "../../const";
 import FilterSlider from "../../components/filter-slider/filter-slider";
 import { getQueryString } from "../../util";
+import ShowMoreButton from "../../components/show-more-button/show-more-button";
 
 function TrainingCatalogScreen(): JSX.Element {
 
@@ -227,14 +228,18 @@ function TrainingCatalogScreen(): JSX.Element {
                     ))
                   }
                 </ul>
-                <div className="show-more training-catalog__show-more">
-                  {backCondition !== undefined || disabledCondition !== undefined ?
-                    <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
-                     disabled={disabledCondition !== undefined ? true : false}>Показать еще</button>
-                     :
-                   <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
-                  }
-                </div>
+                {trainings.data.length !== 0 ?
+                  <ShowMoreButton
+                  backCondition={backCondition}
+                  disabledCondition={disabledCondition}
+                  page={page}
+                  onClick={() => setPage(page + 1)}
+                  onClickBack={() => setPage(1)}
+                />
+                :
+                'Тренировок нет'
+                }
+
               </div>
             </div>
           </div>

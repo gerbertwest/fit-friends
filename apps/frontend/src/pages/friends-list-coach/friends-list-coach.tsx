@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Request } from "../../types/request";
 import { UserRequest } from "@fit-friends/shared/app-types"
 import LoadingScreen from "../loading-screen/loading-screen";
+import ShowMoreButton from "../../components/show-more-button/show-more-button";
 
 function FriendsListCoach(): JSX.Element {
 
@@ -168,19 +169,14 @@ function FriendsListCoach(): JSX.Element {
               </ul>
               }
               {myFriends.data.length !== 0 ?
-              <div className="show-more friends-list__show-more">
-                {
-                  backCondition !== undefined || disabledCondition !== undefined ?
-                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
-                  disabled={disabledCondition !== undefined ? true : false}>
-                    Показать еще
-                  </button>
-                  :
-                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>
-                    Вернуться в начало
-                  </button>
-                }
-              </div> :
+                <ShowMoreButton
+                page={page}
+                onClick={() => setPage(page + 1)}
+                onClickBack={() => setPage(1)}
+                backCondition={backCondition}
+                disabledCondition={disabledCondition}
+              />
+              :
               'Друзей нет'
               }
             </div>

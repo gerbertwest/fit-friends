@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import FilterSlider from "../../components/filter-slider/filter-slider";
 import { getQueryString } from "../../util";
 import LoadingScreen from "../loading-screen/loading-screen";
+import ShowMoreButton from "../../components/show-more-button/show-more-button";
 
 function MyTrainings(): JSX.Element {
 
@@ -206,14 +207,14 @@ function MyTrainings(): JSX.Element {
                 )}
               </ul>
               {myTrainings.data.length !== 0 ?
-              <div className="show-more my-trainings__show-more">
-                {backCondition !== undefined || disabledCondition !== undefined ?
-                  <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
-                  disabled={disabledCondition !== undefined ? true : false}>Показать еще</button>
-                :
-                <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
-                }
-              </div> :
+              <ShowMoreButton
+                backCondition={backCondition}
+                disabledCondition={disabledCondition}
+                page={page}
+                onClick={() => setPage(page + 1)}
+                onClickBack={() => setPage(1)}
+              />
+              :
               'Тренировок нет'
               }
             </div>
