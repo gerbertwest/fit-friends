@@ -132,6 +132,7 @@ function MyOrders(): JSX.Element {
 
               </ul>
               }
+              {orders.data.length !== 0 ?
               <div className="show-more my-orders__show-more">
                 {backCondition !== undefined || disabledCondition !== undefined ?
                   <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
@@ -139,7 +140,9 @@ function MyOrders(): JSX.Element {
                 :
                 <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
                 }
-              </div>
+              </div> :
+              'Заказов нет'
+              }
             </div>
           </div>
         </section>

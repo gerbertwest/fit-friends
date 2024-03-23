@@ -205,6 +205,7 @@ function MyTrainings(): JSX.Element {
                 </li>
                 )}
               </ul>
+              {myTrainings.data.length !== 0 ?
               <div className="show-more my-trainings__show-more">
                 {backCondition !== undefined || disabledCondition !== undefined ?
                   <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
@@ -212,7 +213,9 @@ function MyTrainings(): JSX.Element {
                 :
                 <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
                 }
-              </div>
+              </div> :
+              'Тренировок нет'
+              }
             </div>
           }
           </div>

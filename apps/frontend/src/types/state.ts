@@ -72,6 +72,7 @@ export type TrainingProcess = {
   userOrders: {
     data: TrainerOrder[];
     isError: boolean;
+    isLoading: boolean;
   };
 };
 

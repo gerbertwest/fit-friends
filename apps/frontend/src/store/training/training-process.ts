@@ -28,6 +28,7 @@ const initialState: TrainingProcess = {
   userOrders: {
     data: [],
     isError: false,
+    isLoading: false,
   },
   training: {
     data: null,
@@ -71,8 +72,12 @@ export const trainingProcess = createSlice({
     .addCase(fetchTrainerOrdersAction.rejected, (state) => {
       state.trainerOrders.isError = true;
     })
+    .addCase(fetchUserOrdersAction.pending, (state) => {
+      state.userOrders.isLoading = true;
+    })
     .addCase(fetchUserOrdersAction.fulfilled, (state, action) => {
       state.userOrders.data = action.payload;
+      state.userOrders.isLoading = false;
     })
     .addCase(fetchTrainingsAction.fulfilled, (state, action) => {
       state.myTrainings.data = action.payload;

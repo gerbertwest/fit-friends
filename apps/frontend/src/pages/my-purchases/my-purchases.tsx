@@ -5,6 +5,7 @@ import { userOrdersSelector } from "../../store/training/selectors";
 import { fetchUserOrdersAction } from "../../store/api-actions";
 import { useEffect, useState } from "react";
 import { AppRoute, DEFAULT_ORDERS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
+import LoadingScreen from "../loading-screen/loading-screen";
 
 function MyPurchases(): JSX.Element {
 
@@ -58,6 +59,7 @@ function MyPurchases(): JSX.Element {
                   </div>
                 </div>
               </div>
+              {orders.isLoading ? <LoadingScreen/> :
               <ul className="my-purchases__list">
                 {orders.data.map((order) =>
                   <li className="my-purchases__item">
@@ -100,14 +102,18 @@ function MyPurchases(): JSX.Element {
                 </li>
                 )}
               </ul>
-              <div className="show-more my-orders__show-more">
+              }
+              {orders.data.length !== 0 ?
+                <div className="show-more my-orders__show-more">
                 {backCondition !== undefined || disabledCondition !== undefined ?
                   <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
                   disabled={disabledCondition !== undefined ? true : false}>Показать еще</button>
                 :
                 <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>Вернуться в начало</button>
                 }
-              </div>
+              </div> :
+              'Покупок нет'
+              }
             </div>
           </div>
         </section>

@@ -167,6 +167,7 @@ function FriendsListCoach(): JSX.Element {
                 )})}
               </ul>
               }
+              {myFriends.data.length !== 0 ?
               <div className="show-more friends-list__show-more">
                 {
                   backCondition !== undefined || disabledCondition !== undefined ?
@@ -179,7 +180,9 @@ function FriendsListCoach(): JSX.Element {
                     Вернуться в начало
                   </button>
                 }
-              </div>
+              </div> :
+              'Друзей нет'
+              }
             </div>
           </div>
         </section>
