@@ -52,4 +52,12 @@ export class RequestRepository implements CRUDRepository<RequestEntity | UpdateR
     })
     .exec();
   }
+
+  public async findByInitiatorId(initiatorId: string): Promise<Request[] | null> {
+    return this.requestModel
+    .find({
+      initiatorId: initiatorId
+    })
+    .exec();
+  }
 }

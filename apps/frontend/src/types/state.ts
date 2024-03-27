@@ -27,6 +27,9 @@ export type UserProcess = {
   requests: {
     data: Request[]
   };
+  requestsByInitiator: {
+    data: Request[]
+  };
   request: {
     isError: boolean;
     data: Request | null

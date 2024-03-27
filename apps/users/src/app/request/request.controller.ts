@@ -67,7 +67,19 @@ export class RequestController {
   @UseGuards(JwtAuthGuard)
   @Get('/')
   async showRequestsByUser( @Req() { user: payload }: RequestWithTokenPayload) {
-    const userRequests = await this.requestService.gerRequestsByUser(payload.sub);
+    const userRequests = await this.requestService.getRequestsByUser(payload.sub);
+    return fillObject(RequestRdo, userRequests);
+  }
+
+  @ApiResponse({
+    type: RequestRdo,
+    status: HttpStatus.OK,
+    description: 'requests of initiator found'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/initiator')
+  async showRequestsByInitiator(@Req() { user: payload }: RequestWithTokenPayload) {
+    const userRequests = await this.requestService.getRequestsByInitiator(payload.sub);
     return fillObject(RequestRdo, userRequests);
   }
 

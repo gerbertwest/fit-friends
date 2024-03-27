@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
-import { userFriendsSelector, userRequests, userSelector } from "../../store/user/selectors";
-import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByUser, fetchUpdateRequest, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
+import { userFriendsSelector, userRequests, userRequestsByInitiator, userSelector } from "../../store/user/selectors";
+import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByInitiator, fetchRequestsByUser, fetchUpdateRequest, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
 import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
 import { Request } from "../../types/request";
@@ -16,6 +16,7 @@ function FriendsListCoach(): JSX.Element {
 
   const myFriends = useAppSelector(userFriendsSelector);
   const requests = useAppSelector(userRequests);
+  const requestByInitiator = useAppSelector(userRequestsByInitiator);
   const navigate = useNavigate();
   const params = useParams();
   const user = useAppSelector(userSelector).data;
@@ -32,6 +33,7 @@ function FriendsListCoach(): JSX.Element {
     const queryString = `?limit=${DEFAULT_FRIENDS_COUNT_LIMIT}&page=${page}`
 
     dispatch(fetchRequestsByUser())
+    dispatch(fetchRequestsByInitiator())
     dispatch(fetchUserByIdAction(String(params.id)))
 
     if (user?.role === UserRole.Admin) {
@@ -45,9 +47,11 @@ function FriendsListCoach(): JSX.Element {
 
   const handleCreateRequest = (friendId: string) => {
       dispatch(fetchNewRequestAction(friendId))
+      dispatch(fetchRequestsByInitiator())
   }
 
   const initiators = requests.data.map((req) => req.initiatorId)
+  const users = requestByInitiator.data.map((req) => req.userId)
   const backCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber > page*DEFAULT_FRIENDS_COUNT_LIMIT)
   const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
 
@@ -55,6 +59,8 @@ function FriendsListCoach(): JSX.Element {
     setRequestData({status: status, initiatorId: friendId})
     dispatch(fetchUpdateRequest({status: status, initiatorId: friendId}))
   }
+
+  console.log(users)
 
   return (
     <div className="wrapper">
@@ -109,7 +115,7 @@ function FriendsListCoach(): JSX.Element {
                     <div className="thumbnail-friend__activity-bar">
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready"><span>Готов к&nbsp;тренировке</span>
                       </div>
-                      {user?.role === UserRole.User ?
+                      {user?.role === UserRole.User && !users.includes(friend.id)?
                       <button className="thumbnail-friend__invite-button" type="button" onClick={() => {friend.id && handleCreateRequest(friend.id)}}>
                           <svg width="43" height="46" aria-hidden="true" focusable="false">
                             <use xlinkHref="#icon-invite"></use>
@@ -126,7 +132,7 @@ function FriendsListCoach(): JSX.Element {
                       <div className="thumbnail-friend__activity-bar">
                       <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready"><span>Готов к&nbsp;тренировке</span>
                       </div>
-                      {user?.role === UserRole.User ?
+                      {user?.role === UserRole.User && !users.includes(friend.id) ?
                       <button className="thumbnail-friend__invite-button" type="button" onClick={() => {friend.id && handleCreateRequest(friend.id)}}>
                           <svg width="43" height="46" aria-hidden="true" focusable="false">
                             <use xlinkHref="#icon-invite"></use>

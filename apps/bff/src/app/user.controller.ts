@@ -408,6 +408,24 @@ export class UsersController {
     return data;
   }
 
+    ////////
+
+    @ApiResponse({
+      status: HttpStatus.OK,
+      description: 'requests of initiator found'
+    })
+    @UseGuards(CheckAuthGuard)
+    @Get('request/initiator/')
+    public async showRequestsByInitiator(@Req() req: Request) {
+      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Request}/initiator/`,
+      {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      })
+      return data;
+    }
+
   ////////
 
   @ApiResponse({

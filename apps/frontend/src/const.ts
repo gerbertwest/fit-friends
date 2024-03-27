@@ -36,6 +36,7 @@ export enum NameSpace {
 export enum APIRoute {
   Login = '/users/login',
   Check = '/users/check',
+  Refrech = '/users/refresh',
   Registry = '/users/register',
   Avatar = '/users/avatar',
   UpdateUser = '/users/update',

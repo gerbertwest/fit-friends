@@ -229,6 +229,18 @@ export const fetchRequestsByUser = createAsyncThunk<Request[], undefined, {
   },
 );
 
+export const fetchRequestsByInitiator = createAsyncThunk<Request[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchRequestsByInitiator',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Request[]>(`${APIRoute.Requests}/initiator`);
+    return data;
+  },
+);
+
 export const fetchTrainerOrdersAction = createAsyncThunk<TrainerOrder[], {
   queryString?: string
 },
@@ -492,7 +504,8 @@ export const fetchNewRequestAction = createAsyncThunk<Request, string, {
   'user/createRequest',
   async (userId, {extra: api}) => {
     const request = await api.post<Request>(`${APIRoute.Requests}/${userId}`);
-    return request.data;
+    console.log(request)
+    return request.data
   },
 );
 

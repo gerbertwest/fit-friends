@@ -9,6 +9,11 @@ export const getToken = (): Token => {
   return accessToken ?? '';
 };
 
+export const getRefreshToken = (): Token => {
+  const refreshToken = localStorage.getItem(AUTH_R_TOKEN_KEY_NAME);
+  return refreshToken ?? '';
+};
+
 export const saveToken = (accessToken: Token, refreshToken: Token): void => {
   localStorage.setItem(AUTH_A_TOKEN_KEY_NAME, accessToken);
   localStorage.setItem(AUTH_R_TOKEN_KEY_NAME, refreshToken);

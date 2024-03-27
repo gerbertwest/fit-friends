@@ -37,8 +37,12 @@ export class RequestService {
     return this.requestRepository.findByUsers(userId, initiatorId)
   }
 
-  public async gerRequestsByUser(userId: string) {
+  public async getRequestsByUser(userId: string) {
     return this.requestRepository.findByUserId(userId)
+  }
+
+  public async getRequestsByInitiator(initiatorId: string) {
+    return this.requestRepository.findByInitiatorId(initiatorId)
   }
 
   public async existRequest (userId: string, initiatorId: string) {

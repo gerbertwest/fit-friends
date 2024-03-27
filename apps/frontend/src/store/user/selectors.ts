@@ -12,6 +12,7 @@ export const userSelector = (state: State): {data: User | null; isLoading: boole
 export const updateUserSelector = (state: State): {data: User | null} => state[NameSpace.User].updateUserData;
 export const userFriendsSelector = (state: State): {data: User[]; isLoading: boolean} => state[NameSpace.User].users;
 export const userRequests = (state: State): {data: Request[]} => state[NameSpace.User].requests;
+export const userRequestsByInitiator = (state: State): {data: Request[]} => state[NameSpace.User].requestsByInitiator;
 export const usersSelector = (state: State): {data: User[]; isLoading: boolean; isError: boolean} => state[NameSpace.User].users;
 export const tokenPayloadSelector = (state: State): {data: TokenPayload | null} => state[NameSpace.User].tokenPayload;
 export const userRequest = (state: State): {data: Request | null, isError: boolean} => state[NameSpace.User].request;
