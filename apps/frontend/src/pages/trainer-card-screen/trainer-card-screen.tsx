@@ -148,11 +148,14 @@ function TrainerCardScreen(): JSX.Element {
                         <div className="user-card-coach__text">
                           {user.data?.description}
                         </div>
+                        {user.data?.certificates?.length !== 0 ?
                         <button className="btn-flat user-card-coach__sertificate" type="button" onClick={() => handleModalOpen('certificatesPopup')}>
                           <svg width="12" height="13" aria-hidden="true">
                             <use xlinkHref="#icon-teacher"></use>
-                          </svg><span>Посмотреть сертификаты</span>
-                        </button>
+                          </svg>
+                          <span>Посмотреть сертификаты</span>
+                        </button> : ''
+                        }
                         <ul className="user-card-coach__hashtag-list">
                           {user.data?.trainingType?.map((type) => (
                             <li className="user-card-coach__hashtag-item">
@@ -178,6 +181,8 @@ function TrainerCardScreen(): JSX.Element {
                       </div>
                     </div>
                     <div className="user-card-coach__training">
+                      {myTrainings.data.length !== 0 ?
+                      <>
                       <div className="user-card-coach__training-head">
                         <h2 className="user-card-coach__training-title">Тренировки</h2>
                         <div className="user-card-coach__training-bts">
@@ -198,6 +203,8 @@ function TrainerCardScreen(): JSX.Element {
                       error={false}
                       sliderRef={sliderTrainings}
                       />
+                      </> : <h2>Тренировок пока нет</h2>
+                    }
                       <form className="user-card-coach__training-form">
                         {!existRequest.isError && user.data?.personalTrainings && requestButton ?
                           <button className="btn user-card-coach__btn-training" type="button" onClick={handleCreateRequest}>
