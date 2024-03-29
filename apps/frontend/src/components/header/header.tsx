@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { AppRoute, UserRole } from "../../const";
 import { useEffect, useState } from "react";
-import { checkAuthAction, fetchAlertsAction, fetchDeleteAlertAction } from "../../store/api-actions";
+import { fetchAlertsAction, fetchDeleteAlertAction } from "../../store/api-actions";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { alerts, tokenPayloadSelector } from "../../store/user/selectors";
 import dayjs from 'dayjs'
@@ -16,7 +16,6 @@ function Header(): JSX.Element {
   const role = token.data?.role;
 
   useEffect(() => {
-    dispatch(checkAuthAction())
     dispatch(fetchAlertsAction())
   }, [dispatch])
 
@@ -37,11 +36,11 @@ function Header(): JSX.Element {
   return (
     <header className="header">
     <div className="container">
-      <a className="header__logo" href="/" aria-label="Переход на главную">
+      <Link className="header__logo" to='/' aria-label="Переход на главную">
         <svg width="187" height="70" aria-hidden="true">
           <use xlinkHref="#logo"></use>
         </svg>
-      </a>
+      </Link>
       <nav className="main-nav">
         <ul className="main-nav__list">
           <li className="main-nav__item">

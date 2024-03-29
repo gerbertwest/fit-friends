@@ -1,23 +1,12 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { loginAction } from "../../store/api-actions";
-import { useAppDispatch, useAppSelector } from "../../hooks/index";
-import { getAuthorizationStatus } from "../../store/user/selectors";
-import { AppRoute, AuthorizationStatus } from "../../const";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/index";
+
 import BackgroungLogo from "../../components/background-logo/background-logo";
 
 function SignIn(): JSX.Element {
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
-  //const redirect = useNavigate();
-
-  // useEffect(() => {
-  //   if (authorizationStatus === AuthorizationStatus.Auth) {
-  //     redirect(AppRoute.Main);
-  //   }
-  // }, [authorizationStatus, redirect]);
 
   const [authData, setAuthData] = useState({
     email: '',

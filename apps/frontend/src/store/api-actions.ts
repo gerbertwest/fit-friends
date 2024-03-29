@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { APIRoute, AppRoute, HTTP_CODE, REDIRECT_ACTION_NAME, UserRole} from '../const';
-import { dropToken, saveToken } from '../services/token';
+import { dropToken, getRefreshToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { AppDispatch, State } from '../types/state';
 import { Token } from '../types/token';
@@ -20,6 +20,9 @@ import { Order } from '../types/order';
 import { EditOrder } from '../types/edit-order';
 import { Alert } from '../types/alert';
 
+const BACKEND_URL = 'http://localhost:4200/api';
+const REQUEST_TIMEOUT = 5000;
+
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
 export const checkAuthAction = createAsyncThunk<TokenPayload, undefined, {
@@ -29,8 +32,31 @@ export const checkAuthAction = createAsyncThunk<TokenPayload, undefined, {
 }>(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
-    const {data} = await api.get<TokenPayload>(APIRoute.Check);
-    return data
+    const check = await api.get<TokenPayload>(APIRoute.Check);
+    return check.data
+  },
+);
+
+export const refreshAuthAction = createAsyncThunk<TokenPayload, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/refreshAuth',
+  async (_arg, {extra: api}) => {
+
+   const token = getRefreshToken();
+   const api2 = axios.create({
+    baseURL: BACKEND_URL,
+    timeout: REQUEST_TIMEOUT,
+  });
+   const {data} = await api2.post(APIRoute.Refrech, null, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+   })
+   saveToken(data.accessToken, data.refreshToken)
+   return data
   },
 );
 
