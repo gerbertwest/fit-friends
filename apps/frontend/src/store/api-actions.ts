@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, HTTP_CODE, REDIRECT_ACTION_NAME, UserRole} from '../const';
+import { APIRoute, AppRoute, BACKEND_URL, HTTP_CODE, REDIRECT_ACTION_NAME, REQUEST_TIMEOUT, UserRole} from '../const';
 import { dropToken, getRefreshToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { AppDispatch, State } from '../types/state';
@@ -19,9 +19,6 @@ import { NewOrder } from '../types/new-order';
 import { Order } from '../types/order';
 import { EditOrder } from '../types/edit-order';
 import { Alert } from '../types/alert';
-
-const BACKEND_URL = 'http://localhost:4200/api';
-const REQUEST_TIMEOUT = 5000;
 
 export const redirectToRoute = createAction<string>(REDIRECT_ACTION_NAME);
 
@@ -56,6 +53,7 @@ export const refreshAuthAction = createAsyncThunk<TokenPayload, undefined, {
     }
    })
    saveToken(data.accessToken, data.refreshToken)
+   api.get<TokenPayload>(APIRoute.Check);
    return data
   },
 );

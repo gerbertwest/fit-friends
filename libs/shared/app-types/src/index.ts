@@ -16,3 +16,4 @@ export * from './lib/mail.interface';
 export * from './lib/alert.interface';
 export * from './lib/request.interface';
 export * from './lib/file.interface';
+export * from './lib/axios.error.interface';

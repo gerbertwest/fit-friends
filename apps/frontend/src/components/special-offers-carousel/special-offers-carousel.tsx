@@ -1,9 +1,10 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider, { Settings } from 'react-slick';
-import { STATIC_DIRECTORY } from "../../const";
+import { AppRoute, STATIC_DIRECTORY } from "../../const";
 import { Training } from "../../types/training";
 import { Fragment, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type SpecialOffersCarouselProp = {
   specTrainings?: Training[],
@@ -38,11 +39,14 @@ function SpecialOffersCarousel(props: SpecialOffersCarouselProp): JSX.Element {
         props.error === false ?
         props.specTrainings?.map((spec) => (
         <li className="special-offers__item is-active">
+
           <aside className="promo-slider">
             <div className="promo-slider__overlay"></div>
+            <Link to={`${AppRoute.Training}/${spec.id}`}>
             <div className="promo-slider__image">
               <img src={`${STATIC_DIRECTORY}${spec.backgroundImage}`} height="469" alt="promo"/>
             </div>
+
             <div className="promo-slider__header">
               <h3 className="promo-slider__title">{spec.title}</h3>
               <div className="promo-slider__logo">
@@ -50,7 +54,9 @@ function SpecialOffersCarousel(props: SpecialOffersCarouselProp): JSX.Element {
                   <use xlinkHref="#logotype"></use>
                 </svg>
               </div>
-            </div><span className="promo-slider__text">Горячие предложения на {spec.description}</span>
+            </div>
+            <span className="promo-slider__text">Горячие предложения на {spec.description}</span>
+            </Link>
             <div className="promo-slider__bottom-container">
               <div className="promo-slider__slider-dots">
                 {

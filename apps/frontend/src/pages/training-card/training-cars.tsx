@@ -310,7 +310,7 @@ function TrainingCardScreen(): JSX.Element {
                           <img src={`${STATIC_DIRECTORY}${editData.backgroundImage}`} width="922" height="566" alt="Обложка видео"/>
                        </picture>
                       </div>
-                     <button className="training-video__play-button btn-reset" onClick={() => setIsPlaying(!isPlaying)}>
+                     <button className="training-video__play-button btn-reset" onClick={() => setIsPlaying(!isPlaying)} disabled={!trainingActive}>
                       <svg width="18" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-arrow"></use>
                       </svg>

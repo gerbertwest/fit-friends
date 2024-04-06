@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { AppRoute, UserRole } from "../../const";
 import { useEffect, useState } from "react";
-import { fetchAlertsAction, fetchDeleteAlertAction } from "../../store/api-actions";
+import { checkAuthAction, fetchAlertsAction, fetchDeleteAlertAction } from "../../store/api-actions";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { alerts, tokenPayloadSelector } from "../../store/user/selectors";
 import dayjs from 'dayjs'
@@ -17,6 +17,7 @@ function Header(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchAlertsAction())
+    dispatch(checkAuthAction())
   }, [dispatch])
 
   const [alertData, setAlertData] = useState<Alert[]>(alertsList);

@@ -2,6 +2,7 @@ import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
 import {getToken} from './token';
+import { BACKEND_URL, REQUEST_TIMEOUT } from '../const';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
@@ -10,9 +11,6 @@ const StatusCodeMapping: Record<number, boolean> = {
 };
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
-
-const BACKEND_URL = 'http://localhost:4200/api';
-const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({

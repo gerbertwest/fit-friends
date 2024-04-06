@@ -62,6 +62,9 @@ export enum APIRoute {
 
 export const REDIRECT_ACTION_NAME = 'main/redirectToRoute';
 
+export const BACKEND_URL = 'http://localhost:4200/api';
+export const REQUEST_TIMEOUT = 5000;
+
 export enum UserRole {
   Admin = 'Тренер',
   User = 'Пользователь',

@@ -101,7 +101,7 @@ function PopupBuy(props: PopupBuyProps): JSX.Element {
                       </button>
                       <div className="input-quantity__input">
                         <label>
-                          <input type="text" name="count" value={data.count} size={2} onChange={onChange}/>
+                          <input type="number" name="count" value={data.count} size={2} onChange={onChange} min={1}/>
                         </label>
                       </div>
                       <button className="btn-icon btn-icon--quantity" type="button" aria-label="plus"
