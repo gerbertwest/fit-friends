@@ -60,8 +60,6 @@ function FriendsListCoach(): JSX.Element {
     dispatch(fetchUpdateRequest({status: status, initiatorId: friendId}))
   }
 
-  console.log(users)
-
   return (
     <div className="wrapper">
       <Header/>

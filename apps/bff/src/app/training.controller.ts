@@ -47,9 +47,6 @@ export class TrainingController {
 
     let subscriber = false;
 
-    console.log(subscribers)
-
-
     if (subscribers.length > 0) {
       subscriber = true
     }

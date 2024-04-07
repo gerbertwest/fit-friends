@@ -18,8 +18,6 @@ export class MailService {
 
   public sendNotifyNewSubscriber(subscribers: Subscriber[], email: string, trainerName: string) {
 
-    console.log(subscribers)
-
     const title = subscribers.map((subscriber) => subscriber.title)
 
       this.mailerService.sendMail({

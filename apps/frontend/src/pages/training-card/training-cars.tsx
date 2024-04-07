@@ -117,7 +117,6 @@ function TrainingCardScreen(): JSX.Element {
     };
     setEditStatus(false)
     dispatch(updateTraining(formData));
-    console.log(formData)
   };
 
   const handleModalOpen = (choosePopup: string) => {

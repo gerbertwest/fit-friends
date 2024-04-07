@@ -525,7 +525,6 @@ export const fetchNewRequestAction = createAsyncThunk<Request, string, {
   'user/createRequest',
   async (userId, {extra: api}) => {
     const request = await api.post<Request>(`${APIRoute.Requests}/${userId}`);
-    console.log(request)
     return request.data
   },
 );
