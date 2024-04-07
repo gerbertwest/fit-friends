@@ -403,25 +403,22 @@ export const updateTraining = createAsyncThunk<Training, EditTraining, {
   extra: AxiosInstance;
 }>(
   'training/update',
-  async ({description, price, title, id, video}, { dispatch, extra: api }) => {
+  async ({description, price, title, id, videoFile, video}, { dispatch, extra: api }) => {
     const postData = await api.patch(`${APIRoute.Trainings}/${id}`, {
       description,
       price,
-      title
+      title,
+      video
     });
 
-    if (postData.status === HTTP_CODE.OK && video) {
+    if (postData.status === HTTP_CODE.OK && videoFile) {
       const payload = new FormData();
-      payload.append('file', video);
+      payload.append('file', videoFile);
       await api.post(`${APIRoute.Video}/${id}`, payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     }
-    if (postData.status === HTTP_CODE.OK && video === undefined) {
-      await api.patch(`${APIRoute.Trainings}/${id}`, {
-        video: ''
-      });
-    }
+
     return postData.data;
   }
 );

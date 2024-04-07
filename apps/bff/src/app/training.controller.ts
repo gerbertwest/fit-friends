@@ -159,7 +159,7 @@ export class TrainingController {
   public async certificateUpload(@UploadedFile() file: Express.Multer.File,
   @Req() req: Request, @Param('trainingId') trainingId: number) {
 
-    if (file.mimetype !== 'video/x-msvideo' && file.mimetype !== 'application/mp4' && file.mimetype !== 'video/quicktime') {
+    if (file.mimetype !== 'video/x-msvideo' && file.mimetype !== 'video/mp4' && file.mimetype !== 'video/mov') {
       throw new BadRequestException(UserError.FileFormat);
     }
 

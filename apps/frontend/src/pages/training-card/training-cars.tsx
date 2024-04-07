@@ -52,7 +52,7 @@ function TrainingCardScreen(): JSX.Element {
     active: false
   });
 
-  const [video, setVideo] = useState<File | undefined>();
+  const [videoFile, setVideoFile] = useState<File | undefined>();
 
   useEffect(() => {
     if (training.data) {
@@ -101,7 +101,7 @@ function TrainingCardScreen(): JSX.Element {
     if (!evt.target.files) {
       return;
     }
-    setVideo(evt.target.files[0]);
+    setVideoFile(evt.target.files[0]);
   };
 
   const handleSubmit = (evt: FormEvent) => {
@@ -112,10 +112,12 @@ function TrainingCardScreen(): JSX.Element {
       description: editData.description,
       price: Math.ceil(editData.price),
       special: editData.special,
-      video
+      video: editData.video,
+      videoFile: videoFile
     };
     setEditStatus(false)
     dispatch(updateTraining(formData));
+    console.log(formData)
   };
 
   const handleModalOpen = (choosePopup: string) => {
@@ -146,6 +148,8 @@ function TrainingCardScreen(): JSX.Element {
     if (orderData.id)
     dispatch(updateOrder(orderData))
   }, [dispatch, orderData])
+
+
 
   return (
     <div className="wrapper">
@@ -302,7 +306,7 @@ function TrainingCardScreen(): JSX.Element {
                      </video>
                     </div>
                     :
-                    editData.video !== '' || undefined || video ?
+                    editData.video !== '' || undefined || videoFile ?
                     <div className="training-video__video">
                       <div className="training-video__thumbnail">
                        <picture>
@@ -310,7 +314,7 @@ function TrainingCardScreen(): JSX.Element {
                           <img src={`${STATIC_DIRECTORY}${editData.backgroundImage}`} width="922" height="566" alt="Обложка видео"/>
                        </picture>
                       </div>
-                     <button className="training-video__play-button btn-reset" onClick={() => setIsPlaying(!isPlaying)} disabled={!trainingActive}>
+                     <button className="training-video__play-button btn-reset" onClick={() => setIsPlaying(!isPlaying)} disabled={!trainingActive && role === UserRole.User}>
                       <svg width="18" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-arrow"></use>
                       </svg>
@@ -337,7 +341,7 @@ function TrainingCardScreen(): JSX.Element {
                     editStatus === true ?
                      <div className="training-video__edit-buttons">
                       <button className="btn" type="button" onClick={handleSubmit}>Сохранить</button>
-                      <button className="btn btn--outlined" type="button" disabled={training.data?.video === ''} onClick={() => setEditData({...editData, video: ''})}>Удалить</button>
+                      <button className="btn btn--outlined" type="button" disabled={training.data?.video === ''} onClick={() => {setEditData({...editData, video: ''})}}>Удалить</button>
                      </div> : ''
                      :
                      !trainingActive ?

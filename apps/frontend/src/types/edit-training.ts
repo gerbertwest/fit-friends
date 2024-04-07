@@ -4,5 +4,6 @@ export type EditTraining = {
   price: number;
   description: string;
   special: boolean;
-  video: File | undefined;
+  video?: string;
+  videoFile?: File | undefined;
 }
