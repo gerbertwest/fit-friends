@@ -6,6 +6,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { fetchUsers } from "../../store/api-actions";
 import { AppRoute, DEFAULT_USERS_COUNT_LIMIT, LEVELS, LOCATIONS, STATIC_DIRECTORY, TRAINING_TYPES } from "../../const";
 import { getUsersQueryString, ucFirst } from "../../util";
+import ShowMoreButton from "../../components/show-more-button/show-more-button";
 
 function UserCalatogScreen(): JSX.Element {
 
@@ -228,19 +229,17 @@ function UserCalatogScreen(): JSX.Element {
                       ))
                     }
                   </ul>
-                  <div className="show-more users-catalog__show-more">
-                    {
-                      backCondition !== undefined || disabledCondition !== undefined ?
-                      <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(page + 1)}
-                        disabled={disabledCondition !== undefined ? true : false}>
-                          Показать еще
-                      </button>
-                      :
-                      <button className="btn show-more__button show-more__button--more" type="button" onClick={() => setPage(1)}>
-                          Вернуться в начало
-                      </button>
-                    }
-                  </div>
+                  {users.data.length !== 0 ?
+                  <ShowMoreButton
+                  backCondition={backCondition}
+                  disabledCondition={disabledCondition}
+                  page={page}
+                  onClick={() => setPage(page + 1)}
+                  onClickBack={() => setPage(1)}
+                />
+                :
+                'Тренировок нет'
+                }
                 </div>
               </div>
             </div>
