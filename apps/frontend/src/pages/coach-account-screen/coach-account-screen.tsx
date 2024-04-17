@@ -168,7 +168,8 @@ function CoachAccount(): JSX.Element {
     if (updateUserData?.certificates) {
       setRegistryData({...registryData, certificates: updateUserData.certificates})
       }
-  }, [registryData, updateUserData?.certificates])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateUserData?.certificates])
 
   if (user.isLoading) {
     return (
