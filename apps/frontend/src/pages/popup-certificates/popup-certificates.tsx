@@ -37,7 +37,7 @@ function PopupCertificates(props: PopupCertificatesProps): JSX.Element {
   }, [props, props.onClose]);
 
   const settings: Settings = {
-    infinite: true,
+    infinite: props.user?.certificates && props.user?.certificates?.length >=2 ? true: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -67,12 +67,12 @@ function PopupCertificates(props: PopupCertificatesProps): JSX.Element {
         </div>
         <div className="popup__content popup__content--certificates">
           <div className="popup__slider-buttons">
-            <button className="btn-icon popup__slider-btn popup__slider-btn--prev" type="button" aria-label="prev" onClick={previousCert}>
+            <button className="btn-icon popup__slider-btn popup__slider-btn--prev" type="button" aria-label="prev" onClick={previousCert} disabled={props.user?.certificates?.length === 0}>
               <svg width="16" height="14" aria-hidden="true">
                 <use xlinkHref="#arrow-left"></use>
               </svg>
             </button>
-            <button className="btn-icon popup__slider-btn popup__slider-btn--next" type="button" aria-label="next" onClick={nextCert}>
+            <button className="btn-icon popup__slider-btn popup__slider-btn--next" type="button" aria-label="next" onClick={nextCert} disabled={props.user?.certificates?.length === 0}>
               <svg width="16" height="14" aria-hidden="true">
                 <use xlinkHref="#arrow-right"></use>
               </svg>

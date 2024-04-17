@@ -264,25 +264,28 @@ function CoachAccount(): JSX.Element {
                       </input>
 
                       <div className="personal-account-coach__controls">
-                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="previous" onClick={previousCert}>
+                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="previous" onClick={previousCert} disabled={registryData.certificates?.length === 0}>
                           <svg width="16" height="14" aria-hidden="true">
                             <use xlinkHref="#arrow-left"></use>
                           </svg>
                         </button>
-                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="next" onClick={nextCert}>
+                        <button className="btn-icon personal-account-coach__control" type="button" aria-label="next" onClick={nextCert} disabled={registryData.certificates?.length === 0}>
                           <svg width="16" height="14" aria-hidden="true">
                             <use xlinkHref="#arrow-right"></use>
                           </svg>
                         </button>
                       </div>
                     </div>
-
+                    {registryData.certificates?.length !== 0 ?
                     <CertCarousel
                     certificates={registryData.certificates}
                     handleChangeCertificate={handleChangeCertificate}
                     handleCertificateDelete={handleCertificateDelete}
                     sliderRef={sliderCert}
                     />
+                  :
+                  <p>Сертификатов нет</p>
+                  }
                   </div>
                 </div>
               </div>

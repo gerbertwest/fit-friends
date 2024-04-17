@@ -14,11 +14,12 @@ type CertCarouselProp = {
 function CertCarousel(props: CertCarouselProp): JSX.Element {
 
   const settings: Settings = {
-    infinite: true,
+    infinite: props.certificates && props.certificates?.length >=2 ? true: false,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: props.certificates && props.certificates?.length < 3 ? props.certificates?.length : 3,
+    slidesToScroll: props.certificates && props.certificates?.length < 3  ? 1: 3,
     arrows: false,
+
   };
 
   const [certEditStatus, setCertEditStatus] = useState(
@@ -34,16 +35,12 @@ function CertCarousel(props: CertCarouselProp): JSX.Element {
       className='personal-account-coach__list'
     >
     {props.certificates ? props?.certificates.map((cert) => (
-      <li className="personal-account-coach__item" key={cert}>
+      <li className="personal-account-coach__item">
       <div className="certificate-card certificate-card--edit">
         <div className="certificate-card__image">
           <object>
             <embed src={`${STATIC_DIRECTORY}${cert}`} width="294" height="360" type="application/pdf"/>
           </object>
-          {/* <picture>
-            <source type="application/pdf" srcSet={`${STATIC_DIRECTORY}${cert}`}/>
-              <embed src={`${STATIC_DIRECTORY}${cert}`} width="294" height="360" type="application/pdf"/>
-          </picture> */}
         </div>
         <div className="certificate-card__buttons">
           {certEditStatus.status === true && certEditStatus.key === cert ?
