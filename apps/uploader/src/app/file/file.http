@@ -15,3 +15,8 @@ Content-Type: image/jpeg
 GET http://localhost:3334/api/files/6543e4bfe01ec25cbb5ace04 HTTP/1.1
 
 ###
+
+# Delete file by path
+DELETE http://localhost:3334/api/files?path=/2024/04/394d992b-0c8c-479f-89f7-9cb8ad254cd5.pdf HTTP/1.1
+
+###

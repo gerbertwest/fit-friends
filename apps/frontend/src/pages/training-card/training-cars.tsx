@@ -3,7 +3,7 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { trainingSelector } from "../../store/training/selectors";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
+import { fetchDeleteFile, fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
 import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import { EditTraining } from "../../types/edit-training";
@@ -104,6 +104,10 @@ function TrainingCardScreen(): JSX.Element {
     setVideoFile(evt.target.files[0]);
   };
 
+  const handleVideoDelete = () => {
+    setEditData({...editData, video: ''})
+  }
+
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const formData: EditTraining = {
@@ -117,6 +121,7 @@ function TrainingCardScreen(): JSX.Element {
     };
     setEditStatus(false)
     dispatch(updateTraining(formData));
+    if (editData.video === '' && training.data?.video) {dispatch(fetchDeleteFile(training.data?.video))}
   };
 
   const handleModalOpen = (choosePopup: string) => {
@@ -340,7 +345,7 @@ function TrainingCardScreen(): JSX.Element {
                     editStatus === true ?
                      <div className="training-video__edit-buttons">
                       <button className="btn" type="button" onClick={handleSubmit}>Сохранить</button>
-                      <button className="btn btn--outlined" type="button" disabled={training.data?.video === ''} onClick={() => {setEditData({...editData, video: ''})}}>Удалить</button>
+                      <button className="btn btn--outlined" type="button" disabled={training.data?.video === ''} onClick={handleVideoDelete}>Удалить</button>
                      </div> : ''
                      :
                      !trainingActive ?

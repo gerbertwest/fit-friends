@@ -21,4 +21,8 @@ export class FileRepository {
       .findOne({ _id: id})
       .exec();
   }
+
+  public async destroy(path: string): Promise<void> {
+    return this.fileModel.findOneAndDelete({path: path})
+  }
 }

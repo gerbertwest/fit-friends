@@ -6,6 +6,7 @@ import { CheckAuthGuard } from './guards/check-auth.guard';
 import { TrainingController } from './training.controller';
 import { OrderController } from './order.controller';
 import { ReviewController } from './review.controller';
+import { UploadController } from './upload.controller';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ReviewController } from './review.controller';
     TrainingController,
     OrderController,
     ReviewController,
+    UploadController,
   ],
   providers: [
     CheckAuthGuard

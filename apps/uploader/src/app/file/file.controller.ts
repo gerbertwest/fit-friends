@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, Inject, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import 'multer';
@@ -33,5 +33,10 @@ export class FileController {
     const existFile = await this.fileService.getFile(fileId);
     const path = `${this.applicationConfig.serveRoot}${existFile.path}`;
     return fillObject(UploadedFileRdo, Object.assign(existFile, { path }));
+  }
+
+  @Delete('/')
+  async destroy(@Query('path') path: string) {
+    this.fileService.removeFile(path);
   }
 }

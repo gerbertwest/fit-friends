@@ -545,36 +545,4 @@ export class UsersController {
     return updateUser.data;
   }
 
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Certificate has been deleted'
-  })
-  @UseGuards(CheckAuthGuard, CheckAdminRoleGuard)
-  @Post('deleteCertificate')
-  public async certificateDelete(@Body() dto: UpdateUserDto,
-  @Req() { user: payload }: RequestWithTokenPayload, @Req() req: Request) {
-
-    const user = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${payload.sub}`, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
-    });
-
-    const newCertificates = user.data.certificates
-    const index = newCertificates.indexOf(dto.certificate);
-
-  if (index !== -1) {
-    newCertificates.splice(index, 1);
-  }
-
-    const {data} = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/update/${payload.sub}`, {certificates: newCertificates}, {
-        headers: {
-          'Authorization': req.headers['authorization']
-        }
-      });
-
-    return data;
-  }
-
-
 }

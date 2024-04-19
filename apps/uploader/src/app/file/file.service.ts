@@ -2,12 +2,13 @@ import { uploaderConfig } from '@fit-friends/config/config-uploader';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ensureDir } from 'fs-extra';
-import { writeFile } from 'node:fs/promises';
+import {  unlink, writeFile } from 'node:fs/promises';
 import dayjs from 'dayjs';
 import * as crypto from 'node:crypto';
 import { FileEntity } from './file.entity';
 import { FileRepository } from './file.repository';
 import { extension } from 'mime-types';
+
 
 type WritedFile = {
   hashName: string;
@@ -47,6 +48,13 @@ export class FileService {
     };
   }
 
+  private async deleteFile(path: string) {
+    const { uploadDirectory } = this.applicationConfig;
+    const uploadDirectoryPath = `${uploadDirectory}${path}`;
+
+   await unlink(uploadDirectoryPath)
+  }
+
   public async saveFile(file: Express.Multer.File) {
     const writedFile = await this.writeFile(file);
     const newFile = new FileEntity({
@@ -58,6 +66,11 @@ export class FileService {
     });
 
     return this.fileRepository.create(newFile);
+  }
+
+  public async removeFile(path: string) {
+    await this.deleteFile(path);
+    return this.fileRepository.destroy(path)
   }
 
   public async getFile(fileId: string) {

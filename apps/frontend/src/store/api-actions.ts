@@ -627,4 +627,18 @@ export const fetchDeleteAlertAction = createAsyncThunk<Alert, string, {
     const {data} = await api.delete<Alert>(`${APIRoute.Alerts}/${alertId}`);
     return data;
   },
+
+);
+
+export const fetchDeleteFile = createAsyncThunk<string, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'upload/deleteFile',
+  async (path, {extra: api}) => {
+    const {data} = await api.delete<string>(`${APIRoute.Upload}/deleteFile?path=${path}`);
+    return data;
+  },
+
 );

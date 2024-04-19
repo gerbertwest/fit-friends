@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { updateUserSelector, userSelector } from "../../store/user/selectors";
-import { fetchUserByIdAction, updateUser } from "../../store/api-actions";
+import { fetchDeleteFile, fetchUserByIdAction, updateUser } from "../../store/api-actions";
 import { Link, useParams } from "react-router-dom";
 import LoadingScreen from "../loading-screen/loading-screen";
 import { AppRoute } from "../../const";
@@ -110,6 +110,7 @@ function CoachAccount(): JSX.Element {
       certificates.splice(index, 1)
       setRegistryData({certificates: certificates})
       dispatch(updateUser({certificates: certificates}))
+      dispatch(fetchDeleteFile(certificate))
     }
   }
   };

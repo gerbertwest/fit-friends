@@ -47,14 +47,10 @@ Content-Type: application/pdf
 
 ###
 
-# Delete user certificate
-POST http://localhost:4000/api/users/deleteCertificate HTTP/1.1
+# Delete file
+DELETE http://localhost:4000/api/upload/deleteFile?path=/static/2024/04/375b8399-a848-4985-b7b6-6c9d22183fe3.pdf HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcwMDE0ODYxOCwiZXhwIjoxNzAwMTQ5NTE4fQ.zvKGV8cHRjQZ8H_zkzfNcIYHF8TtcSlsNrGd-QYwEgw
-
-{
-  "certificate": "/static/2023/11/9f0536f0-ca4d-45b2-8fac-b784c1a61969.pdf"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1MTExOTU1YjIwYmRjMGFmZmY1NDEiLCJlbWFpbCI6ImdlcmJlcnQud2VzdEBnbWFpbC5ydSIsInJvbGUiOiLQotGA0LXQvdC10YAiLCJuYW1lIjoi0JLRj9GH0LXRgdC70LDQsiIsImlhdCI6MTcxMzUzMTQ0MCwiZXhwIjoxNzEzNTMzMjQwfQ.jNJlspfkEsqV6_Xh_DOPqWddWmrE8uqAJIVofnjVyH4
 
 ###
 
