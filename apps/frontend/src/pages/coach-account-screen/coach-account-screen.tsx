@@ -140,7 +140,8 @@ function CoachAccount(): JSX.Element {
         description: registryData.description,
         location: registryData.location,
         trainingType: trainingType,
-        avatar: avatar,
+        avatarFile: avatar,
+        avatar: registryData.avatar,
         personalTrainings: personalTrainings,
         level: registryData.level,
       };
@@ -149,20 +150,11 @@ function CoachAccount(): JSX.Element {
     setEditStatus(false)
   };
 
-  const handleCancel = () => {
-      setRegistryData({
-        name: userData?.name,
-        sex: userData?.sex,
-        location: userData?.location,
-        level: userData?.level,
-        description: userData?.description,
-        avatar: userData?.avatar,
-        certificates: userData?.certificates
-       }
-      );
-      addTrainingType(userData?.trainingType);
-      setPersonalTrainings(userData?.personalTrainings)
-      setEditStatus(false)
+  const handleDeleteAvatar = () => {
+    if (userData?.avatar) {dispatch(fetchDeleteFile(userData?.avatar))}
+    setRegistryData({
+      avatar: ''
+    })
   }
 
   useEffect(() => {
@@ -195,7 +187,7 @@ function CoachAccount(): JSX.Element {
                 setRegistryData={setRegistryData}
                 handleAvatarUpload={handleAvatarUpload}
                 handleSubmit={handleSubmit}
-                handleCancel={handleCancel}
+                handleCancel={handleDeleteAvatar}
                 onChange={onChange}
                 trainingType={trainingType}
                 onChangeType={onChangeType}

@@ -1,7 +1,8 @@
 export type UpdateUser = {
 name?: string | undefined;
 email?: string;
-avatar?: File | undefined;
+avatarFile?: File | undefined;
+avatar?: string;
 sex?: string | undefined;
 dateBirth?: Date;
 role?: string;

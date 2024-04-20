@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Header from "../../components/header/header"
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
-import { fetchUserByIdAction, updateUser } from "../../store/api-actions";
+import { fetchDeleteFile, fetchUserByIdAction, updateUser } from "../../store/api-actions";
 import { userSelector } from "../../store/user/selectors";
 import { User } from "../../types/user";
 import { Link, useParams } from "react-router-dom";
@@ -90,7 +90,8 @@ function UserAccount(): JSX.Element {
       description: registryData.description,
       location: registryData.location,
       trainingType: trainingType,
-      avatar,
+      avatarFile: avatar,
+      avatar: registryData.avatar,
       readyToTraining: readyToTraining,
       level: registryData.level,
     };
@@ -99,21 +100,28 @@ function UserAccount(): JSX.Element {
     setEditStatus(false)
   };
 
-  const handleCancel = () => {
+//   const handleCancel = () => {
+//     setRegistryData({
+//       name: userData?.name,
+//       sex: userData?.sex,
+//       location: userData?.location,
+//       level: userData?.level,
+//       description: userData?.description,
+//       avatar: userData?.avatar,
+//       certificates: userData?.certificates
+//      }
+//     );
+//     addTrainingType(userData?.trainingType);
+//     setReadyToTraining(userData?.readyToTraining)
+//     setEditStatus(false)
+// }
+
+  const handleDeleteAvatar = () => {
+    if (userData?.avatar) {dispatch(fetchDeleteFile(userData?.avatar))}
     setRegistryData({
-      name: userData?.name,
-      sex: userData?.sex,
-      location: userData?.location,
-      level: userData?.level,
-      description: userData?.description,
-      avatar: userData?.avatar,
-      certificates: userData?.certificates
-     }
-    );
-    addTrainingType(userData?.trainingType);
-    setReadyToTraining(userData?.readyToTraining)
-    setEditStatus(false)
-}
+      avatar: ''
+    })
+  }
 
   if (user.isLoading) {
     return (
@@ -138,7 +146,7 @@ function UserAccount(): JSX.Element {
                 setRegistryData={setRegistryData}
                 handleAvatarUpload={handleAvatarUpload}
                 handleSubmit={handleSubmit}
-                handleCancel={handleCancel}
+                handleCancel={handleDeleteAvatar}
                 onChange={onChange}
                 trainingType={trainingType}
                 onChangeType={onChangeType}

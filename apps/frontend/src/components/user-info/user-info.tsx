@@ -62,7 +62,7 @@ function UserInfo(props: UserInfoProp): JSX.Element {
               <use xlinkHref="#icon-change"></use>
             </svg>
           </button>
-          <button className="user-info-edit__control-btn" aria-label="удалить" onClick={props.handleCancel}>
+          <button className="user-info-edit__control-btn" aria-label="удалить" onClick={props.handleCancel} disabled={props.registryData.avatar === ''}>
             <svg width="14" height="16" aria-hidden="true">
               <use xlinkHref="#icon-trash"></use>
             </svg>
