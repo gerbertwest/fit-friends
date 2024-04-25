@@ -77,8 +77,8 @@ function PopupReview(props: PopupReviewProps): JSX.Element {
               <div className="popup__content popup__content--feedback">
                 <h3 className="popup__feedback-title">Оцените тренировку</h3>
                 <ul className="popup__rate-list">
-                  {ratingNumbers.map((number) => (
-                    <li className="popup__rate-item">
+                  {ratingNumbers.map((number, i) => (
+                    <li className="popup__rate-item" key={i}>
                     <div className="popup__rate-item-wrap">
                       <label>
                         <input type="radio" name="raiting" aria-label={`оценка ${number}.`} value={number} required onChange={onChange}/>
