@@ -175,8 +175,8 @@ function TrainingCardScreen(): JSX.Element {
                 training.isLoading || training.data?.reviews === null ? <LoadingScreen/> :
                 <ul className="reviews-side-bar__list">
                   {
-                    training.data?.reviews && training.data?.reviews.map((review) => (
-                      <li className="reviews-side-bar__item">
+                    training.data?.reviews && training.data?.reviews.map((review, i) => (
+                      <li className="reviews-side-bar__item" key={i}>
                       <div className="review">
                         <div className="review__user-info">
                           <div className="review__user-photo">

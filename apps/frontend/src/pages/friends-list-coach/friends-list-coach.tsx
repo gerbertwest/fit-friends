@@ -102,8 +102,8 @@ function FriendsListCoach(): JSX.Element {
                       </div>
                     </div>
                     <ul className="thumbnail-friend__training-types-list">
-                      {friend.trainingType?.map((type) =>
-                      <li key={friend.id}>
+                      {friend.trainingType?.map((type, i) =>
+                      <li key={i}>
                         <div className="hashtag thumbnail-friend__hashtag"><span>#{type}</span></div>
                       </li>
                       )}

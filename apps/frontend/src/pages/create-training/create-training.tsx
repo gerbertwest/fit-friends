@@ -86,7 +86,7 @@ function CreateTraining(): JSX.Element {
                             <span className="custom-select__label">Выберите тип тренировки</span>
                             <select className="custom-select__button" name='trainingType' aria-label="Выберите одну из опций" value={creatingData.trainingType}
                               onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})}>
-                             {TRAINING_TYPES.map((type) => (<option value={type}>{ucFirst(type)}</option>))}
+                             {TRAINING_TYPES.map((type, i) => (<option value={type} key={i}>{ucFirst(type)}</option>))}
                             </select>
                           </div>
                           <div className="custom-input custom-input--with-text-right">
@@ -102,7 +102,7 @@ function CreateTraining(): JSX.Element {
                             <span className="custom-select__label">Сколько времени потратим</span>
                             <select className="custom-select__button" name='trainingTime' aria-label="Выберите одну из опций" value={creatingData.trainingTime}
                               onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})}>
-                             {TRAINING_TIMES.map((time) => (<option value={time}>{time}</option>))}
+                             {TRAINING_TIMES.map((time, i) => (<option value={time} key={i}>{time}</option>))}
                             </select>
                           </div>
                           <div className="custom-input custom-input--with-text-right">
@@ -117,7 +117,7 @@ function CreateTraining(): JSX.Element {
                             <span className="custom-select__label">Выберите уровень тренировки</span>
                             <select className="custom-select__button" name='level' aria-label="Выберите одну из опций" value={creatingData.level}
                               onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})}>
-                             {LEVELS.map((level) => (<option value={level}>{ucFirst(level)}</option>))}
+                             {LEVELS.map((level, i) => (<option value={level} key={i}>{ucFirst(level)}</option>))}
                             </select>
                             <ul className="custom-select__list" role="listbox">
                             </ul>
@@ -126,8 +126,8 @@ function CreateTraining(): JSX.Element {
                             <span className="create-training__label">Кому подойдет тренировка</span>
                             <br/>
                             <div className="custom-toggle-radio create-training__radio">
-                              {GENDERS.map((sex) => (
-                               <div className="custom-toggle-radio__block">
+                              {GENDERS.map((sex, i) => (
+                               <div className="custom-toggle-radio__block" key={i}>
                                 <label>
                                  <input type="radio" name="sex" value={sex} checked={creatingData.sex === sex ? true : false} onChange={onChange} required></input>
                                   <span className="custom-toggle-radio__icon"></span>

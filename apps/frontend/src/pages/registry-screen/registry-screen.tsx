@@ -114,7 +114,7 @@ function Registry(): JSX.Element {
                         <span className="custom-input__wrapper">
                         <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={registryData.location}
                         onChange={({target}) => setRegistryData({...registryData, [target.name]: target.value})}>
-                          {LOCATIONS.map((local) => (<option value={local}>{local}</option>))}
+                          {LOCATIONS.map((local, i) => (<option value={local} key={i}>{local}</option>))}
                         </select>
                         </span>
                       </label>
@@ -128,8 +128,8 @@ function Registry(): JSX.Element {
                       <div className="sign-up__radio">
                         <span className="sign-up__label">Пол</span>
                         <div className="custom-toggle-radio custom-toggle-radio--big">
-                          {SEX.map((sex) => (
-                            <div className="custom-toggle-radio__block">
+                          {SEX.map((sex, i) => (
+                            <div className="custom-toggle-radio__block" key={i}>
                             <label>
                               <input type="radio" name="sex" value={sex} checked={registryData.sex === sex ? true : false} onChange={onChange} required></input>
                                 <span className="custom-toggle-radio__icon"></span>

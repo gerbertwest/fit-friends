@@ -82,8 +82,8 @@ function PopupCertificates(props: PopupCertificatesProps): JSX.Element {
             ref={sliderCert}
             {...settings}
             >
-            {props.user?.certificates?.map((cert) => (
-            <li className="popup__slide popup__slide--current">
+            {props.user?.certificates?.map((cert, i) => (
+            <li className="popup__slide popup__slide--current" key={i}>
               <div className="popup__slide-img">
                 <picture>
                   <source type="application/pdf" srcSet={`${STATIC_DIRECTORY}${cert}`}/>

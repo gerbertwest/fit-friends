@@ -37,8 +37,8 @@ function SpecialOffersCarousel(props: SpecialOffersCarouselProp): JSX.Element {
     >
       {
         props.error === false ?
-        props.specTrainings?.map((spec) => (
-        <li className="special-offers__item is-active">
+        props.specTrainings?.map((spec, i) => (
+        <li className="special-offers__item is-active" key={i}>
 
           <aside className="promo-slider">
             <div className="promo-slider__overlay"></div>

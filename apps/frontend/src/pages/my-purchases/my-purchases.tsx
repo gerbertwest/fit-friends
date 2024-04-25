@@ -61,8 +61,8 @@ function MyPurchases(): JSX.Element {
               </div>
               {orders.isLoading ? <LoadingScreen/> :
               <ul className="my-purchases__list">
-                {orders.data.map((order) =>
-                  <li className="my-purchases__item">
+                {orders.data.map((order, i) =>
+                  <li className="my-purchases__item" key={i}>
                   <div className="thumbnail-training">
                     <div className="thumbnail-training__inner">
                       <div className="thumbnail-training__image">

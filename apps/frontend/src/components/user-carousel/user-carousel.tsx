@@ -30,8 +30,8 @@ function UserCarousel(props: UserCarouselProp): JSX.Element {
     >
     {
     props.error === false ?
-    props.user?.map((user) => (
-      <li className="look-for-company__item">
+    props.user?.map((user, i) => (
+      <li className="look-for-company__item" key={i}>
        <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
          <div className="thumbnail-user__image">
            <picture>
@@ -50,8 +50,8 @@ function UserCarousel(props: UserCarouselProp): JSX.Element {
         </div>
         <ul className="thumbnail-user__hashtags-list">
          {
-          user.trainingType ? user.trainingType.map((type) => (
-            <li className="thumbnail-user__hashtags-item">
+          user.trainingType ? user.trainingType.map((type, i) => (
+            <li className="thumbnail-user__hashtags-item" key={i}>
                <div className="hashtag thumbnail-user__hashtag"><span>#{type}</span></div>
             </li>
           )) : ''

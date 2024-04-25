@@ -29,8 +29,8 @@ function TrainingCarousel(props: TrainingCarouselProp): JSX.Element {
     >
     {
       props.error === false ?
-      props.trainings?.map((training) => (
-        <li className="popular-trainings__item">
+      props.trainings?.map((training, i) => (
+        <li className="popular-trainings__item" key={i}>
         <div className="thumbnail-training">
           <div className="thumbnail-training__inner">
             <div className="thumbnail-training__image">

@@ -118,8 +118,8 @@ function UserCalatogScreen(): JSX.Element {
                     <div className="user-catalog-form__block user-catalog-form__block--location">
                       <h4 className="user-catalog-form__block-title">Локация, станция метро</h4>
                       <ul className="user-catalog-form__check-list">
-                        {locations.map((location) => (
-                          <li className="user-catalog-form__check-list-item">
+                        {locations.map((location, i) => (
+                          <li className="user-catalog-form__check-list-item" key={i}>
                           <div className="custom-toggle custom-toggle--checkbox">
                             <label>
                               <input type="checkbox" value={location} name="user-agreement" onChange={onChangeFilterLocation}/>
@@ -142,8 +142,8 @@ function UserCalatogScreen(): JSX.Element {
                     <div className="user-catalog-form__block user-catalog-form__block--spezialization">
                       <h4 className="user-catalog-form__block-title">Специализация</h4>
                       <ul className="user-catalog-form__check-list">
-                        {trainingTypes.map((type) => (
-                        <li className="user-catalog-form__check-list-item">
+                        {trainingTypes.map((type, i) => (
+                        <li className="user-catalog-form__check-list-item" key={i}>
                           <div className="custom-toggle custom-toggle--checkbox">
                             <label>
                               <input type="checkbox" value={type} name="spezialization" onChange={onChangeFilterType}/>
@@ -166,8 +166,8 @@ function UserCalatogScreen(): JSX.Element {
                     <div className="user-catalog-form__block user-catalog-form__block--level">
                       <h4 className="user-catalog-form__block-title">Ваш уровень</h4>
                       <div className="custom-toggle-radio">
-                        {LEVELS.map((level) => (
-                          <div className="custom-toggle-radio__block">
+                        {LEVELS.map((level, i) => (
+                          <div className="custom-toggle-radio__block" key={i}>
                           <label>
                             <input type="radio" name="level" value={level} onChange={onChange}/>
                             <span className="custom-toggle-radio__icon"></span>
@@ -197,8 +197,8 @@ function UserCalatogScreen(): JSX.Element {
                 <div className="users-catalog">
                   <ul className="users-catalog__list">
                     {
-                      users.data.map((user) => (
-                    <li className="users-catalog__item">
+                      users.data.map((user, i) => (
+                    <li className="users-catalog__item" key={i}>
                       <div className={`thumbnail-user thumbnail-user--role-${user.role === 'Пользователь' ? 'user' : 'coach'}`}>
                         <div className="thumbnail-user__image">
                           <picture>
@@ -216,8 +216,8 @@ function UserCalatogScreen(): JSX.Element {
                           </div>
                         </div>
                         <ul className="thumbnail-user__hashtags-list">
-                          {user.trainingType?.map((type) => (
-                            <li className="thumbnail-user__hashtags-item">
+                          {user.trainingType?.map((type, i) => (
+                            <li className="thumbnail-user__hashtags-item" key={i}>
                               <div className="hashtag thumbnail-user__hashtag"><span>#{type}</span></div>
                             </li>
                           ))}

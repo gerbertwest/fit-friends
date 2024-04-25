@@ -29,8 +29,8 @@ function SpecTrainingCarousel(props: SpecTrainingCarouselProp): JSX.Element {
     >
       {
         props.error === false ?
-        props.trainings?.map((training) => (
-        <li className="special-for-you__item">
+        props.trainings?.map((training, i) => (
+        <li className="special-for-you__item" key={i}>
          <div className="thumbnail-preview">
           <div className="thumbnail-preview__image">
             <picture>
