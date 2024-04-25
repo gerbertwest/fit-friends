@@ -130,21 +130,21 @@ function UserInfo(props: UserInfoProp): JSX.Element {
           <span className="custom-select__label">Локация</span>
           <select className="custom-select__button" name='location' aria-label="Выберите одну из опций" value={props.registryData.location}
             onChange={({target}) => props.setRegistryData({...props.registryData, [target.name]: target.value})} disabled={!props.editStatus}>
-                {LOCATIONS.map((local) => (<option value={local}>{local}</option>))}
+                {LOCATIONS.map((local, i) => (<option value={local} key={i}>{local}</option>))}
             </select>
         </div>
         <div className="custom-select--readonly custom-select user-info__select">
           <span className="custom-select__label">Пол</span>
           <select className="custom-select__button" name='sex' aria-label="Выберите одну из опций" value={props.registryData.sex}
               onChange={({target}) => props.setRegistryData({...props.registryData, [target.name]: target.value})} disabled={!props.editStatus}>
-                {SEX.map((sex) => (<option value={sex}>{ucFirst(sex)}</option>))}
+                {SEX.map((sex, i) => (<option value={sex} key={i}>{ucFirst(sex)}</option>))}
             </select>
         </div>
         <div className="custom-select--readonly custom-select user-info__select">
           <span className="custom-select__label">Уровень</span>
           <select className="custom-select__button" name='level' aria-label="Выберите одну из опций" value={props.registryData.level}
               onChange={({target}) => props.setRegistryData({...props.registryData, [target.name]: target.value})} disabled={!props.editStatus}>
-                {LEVELS.map((level) => (<option value={level}>{ucFirst(level)}</option>))}
+                {LEVELS.map((level, i) => (<option value={level} key={i}>{ucFirst(level)}</option>))}
             </select>
         </div>
       </form>

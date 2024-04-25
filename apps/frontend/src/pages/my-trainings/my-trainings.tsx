@@ -139,8 +139,8 @@ function MyTrainings(): JSX.Element {
                 <div className="my-training-form__block my-training-form__block--duration">
                   <h4 className="my-training-form__block-title">Длительность</h4>
                   <ul className="my-training-form__check-list">
-                    {TRAINING_TIMES.map((time) =>
-                      <li className="my-training-form__check-list-item">
+                    {TRAINING_TIMES.map((time, i) =>
+                      <li className="my-training-form__check-list-item" key={i}>
                       <div className="custom-toggle custom-toggle--checkbox">
                         <label>
                           <input type="checkbox" value={time} name="duration" onChange={onChangeFilterTime}/>
@@ -166,8 +166,8 @@ function MyTrainings(): JSX.Element {
             <div className="my-trainings">
               <ul className="my-trainings__list">
                 {
-                myTrainings.data.map((training) =>
-                  <li className="my-trainings__item">
+                myTrainings.data.map((training, i) =>
+                  <li className="my-trainings__item" key={i}>
                   <div className="thumbnail-training">
                     <div className="thumbnail-training__inner">
                       <div className="thumbnail-training__image">

@@ -14,7 +14,7 @@ export class AxiosExceptionFilter implements ExceptionFilter {
     const data: AxiosErrorInfo = error.response.data
     const message = data.message || INTERNAL_SERVER_ERROR_MESSAGE
     const status = data.statusCode || HttpStatus.INTERNAL_SERVER_ERROR;
-    const errorTitle = data.error //|| INTERNAL_SERVER_ERROR_MESSAGE
+    const errorTitle = data.error;
 
     response
       .status(status)

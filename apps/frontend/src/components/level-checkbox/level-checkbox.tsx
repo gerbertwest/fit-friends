@@ -9,8 +9,8 @@ type LevelCheckboxProps = {
 function LevelCheckbox(props: LevelCheckboxProps): JSX.Element {
   return (
     <>
-    {LEVELS.map((level) => (
-      <div className="custom-toggle-radio__block">
+    {LEVELS.map((level, i) => (
+      <div className="custom-toggle-radio__block" key={i}>
         <label>
           <input type="radio" name="level" value={level} onChange={props.onChange} required/>
             <span className="custom-toggle-radio__icon"></span>

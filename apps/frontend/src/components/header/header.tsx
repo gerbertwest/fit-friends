@@ -78,8 +78,8 @@ function Header(): JSX.Element {
             <div className="main-nav__dropdown">
               <p className="main-nav__label">Оповещения</p>
               <ul className="main-nav__sublist">
-                {alertsList.length !== 0 ? alertData.map((alert) =>
-                 <li className="main-nav__subitem">
+                {alertsList.length !== 0 ? alertData.map((alert, i) =>
+                 <li className="main-nav__subitem" key={i}>
                    <Link className="notification is-active" to="" onClick={() => handleDeleteAlert(alert.id)}>
                      <p className="notification__text">{alert.title}</p>
                      <time className="notification__time" dateTime="2023-12-23 12:35">{dayjs(alert.alertDate).locale('ru').format('DD MMMM, H:m')}</time>

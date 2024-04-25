@@ -18,8 +18,8 @@ function SpecializationCheckbox(props: SpecializationCheckboxProps): JSX.Element
 
   return (
     <>
-    {TRAINING_TYPES.map((type) => (
-    <div className="btn-checkbox">
+    {TRAINING_TYPES.map((type, i) => (
+    <div className="btn-checkbox" key={i}>
       <label>
         <input className="visually-hidden" type="checkbox" name="trainingType" value={type}
         onChange={props.onChangeType}

@@ -34,8 +34,8 @@ function CertCarousel(props: CertCarouselProp): JSX.Element {
       {...settings}
       className='personal-account-coach__list'
     >
-    {props.certificates ? props?.certificates.map((cert) => (
-      <li className="personal-account-coach__item">
+    {props.certificates ? props?.certificates.map((cert, i) => (
+      <li className="personal-account-coach__item" key={i}>
       <div className="certificate-card certificate-card--edit">
         <div className="certificate-card__image">
           <object>
