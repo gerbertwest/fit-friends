@@ -141,8 +141,8 @@ function TrainingCatalogScreen(): JSX.Element {
                       <h4 className="gym-catalog-form__block-title">Тип</h4>
                       <ul className="gym-catalog-form__check-list">
                         {
-                          TRAINING_TYPES.map((type) => (
-                            <li className="gym-catalog-form__check-list-item">
+                          TRAINING_TYPES.map((type, i) => (
+                            <li className="gym-catalog-form__check-list-item" key={i}>
                             <div className="custom-toggle custom-toggle--checkbox">
                               <label>
                                 <input type="checkbox" value={type} name="type" onChange={onChangeFilterType}/>
@@ -183,8 +183,8 @@ function TrainingCatalogScreen(): JSX.Element {
               <div className="training-catalog">
                 <ul className="training-catalog__list">
                   {
-                    trainings.data.map((training) => (
-                    <li className="training-catalog__item">
+                    trainings.data.map((training, i) => (
+                    <li className="training-catalog__item" key={i}>
                       <div className="thumbnail-training">
                         <div className="thumbnail-training__inner">
                           <div className="thumbnail-training__image">

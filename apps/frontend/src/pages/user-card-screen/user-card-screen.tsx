@@ -82,8 +82,8 @@ function UserCardScreen(): JSX.Element {
                         {user.data?.description}
                       </div>
                       <ul className="user-card__hashtag-list">
-                        {user.data?.trainingType?.map((type) => (
-                          <li className="user-card__hashtag-item">
+                        {user.data?.trainingType?.map((type, i) => (
+                          <li className="user-card__hashtag-item" key={i}>
                             <div className="hashtag"><span>#{type}</span></div>
                           </li>
                         ))}
