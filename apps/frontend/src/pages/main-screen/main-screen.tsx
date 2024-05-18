@@ -23,20 +23,19 @@ function MainScreen(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
 
-  const types = user.data?.trainingType?.join(',')
-
-  const queryString = `?limit=${DEFAULT_SPEC_TRAININGS_COUNT_LIMIT}&trainingTypes=${types}`
   const special = `?limit=${DEFAULT_OFFERS_COUNT_LIMIT}&special=true`
   const raiting = `?limit=${DEFAULT_TRAININGS_COUNT_LIMIT}&sortField=raiting`
   const readyToTraining = `?limit=${READY_TO_TRAINING_USERS_COUNT}&readyToTraining=true`
 
   useEffect(() => {
+    const types = user.data?.trainingType?.join(',')
+    const queryString = `?limit=${DEFAULT_SPEC_TRAININGS_COUNT_LIMIT}&trainingTypes=${types}`
     dispatch(fetchTrainingsAction({queryString}))
     dispatch(fetchSpecTrainingsAction({queryString: special}))
     dispatch(fetchRaitingTrainingsAction({queryString: raiting}))
     dispatch(fetchUserByIdAction(String(params.id)))
     dispatch(fetchUsers({queryString: readyToTraining}))
-  }, [dispatch, params.id, queryString, raiting, readyToTraining, special])
+  }, [dispatch, params.id, raiting, readyToTraining, special, user.data?.trainingType])
 
   const sliderUsers = useRef<Slider>(null);
   const sliderTrainings = useRef<Slider>(null);
@@ -68,7 +67,7 @@ function MainScreen(): JSX.Element {
     <Header/>
     <main>
       <h1 className="visually-hidden">FitFriends — Время находить тренировки, спортзалы и друзей спортсменов</h1>
-      <section className="special-for-you">
+      <section className="special-for-you" hidden={trainings.data.length === 0}>
         <div className="container">
           <div className="special-for-you__wrapper">
             <div className="special-for-you__title-wrapper">
@@ -94,7 +93,7 @@ function MainScreen(): JSX.Element {
           </div>
         </div>
       </section>
-      <section className="special-offers">
+      <section className="special-offers" hidden={specTrainings.data.length === 0}>
         <div className="container">
           <div className="special-offers__wrapper">
             <h2 className="visually-hidden">Специальные предложения</h2>
