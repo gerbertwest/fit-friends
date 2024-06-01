@@ -8,6 +8,7 @@ const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.NOT_FOUND]: true,
   [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.CONFLICT]: true,
 };
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
@@ -30,13 +31,23 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError<{message: string}>) => {
+    (error: AxiosError<{message: string | Array<string>}>) => {
+
+      console.log(error.response)
 
       if (error.response && shouldDisplayError(error.response)) {
-        const message = error.response.data.message
-        toast.warn(message, {
-          toastId: message
-        });
+        const message: string | Array<string> = error.response.data.message
+
+        if (message instanceof Array) {
+          message.map((mes: string) => toast.warn(mes, {
+            toastId: mes
+          }))
+        }
+
+        else {
+          toast.warn(message, {toastId: message});
+        }
+
       }
       throw error;
     }

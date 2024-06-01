@@ -3,6 +3,8 @@ import { NewReview } from "../../types/new-review";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/index";
 import { createReview } from "../../store/api-actions";
+import { toast } from "react-toastify";
+import { VALIDATION_FORM_ERROR } from "../../const";
 
 type PopupReviewProps = {
   onClose: () => void;
@@ -64,7 +66,7 @@ function PopupReview(props: PopupReviewProps): JSX.Element {
   return (
         <div className="popup-form popup-form--feedback">
           <section className="popup" ref={rootRef}>
-           <form method="get" onSubmit={handleSubmit}>
+           <form method="post" onSubmit={handleSubmit}>
             <div className="popup__wrapper">
               <div className="popup-head">
                 <h2 className="popup-head__header">Оставить отзыв</h2>
@@ -93,8 +95,9 @@ function PopupReview(props: PopupReviewProps): JSX.Element {
                   <div className="popup__feedback-textarea">
                     <div className="custom-textarea">
                       <label>
-                        <textarea name="message" placeholder=" " autoFocus required minLength={100} maxLength={1024}
-                          value={data.message} onChange={onChange}>
+                        <textarea name="message" placeholder=" " autoFocus required
+                          minLength={100} maxLength={1024}
+                          onChange={onChange} onInvalid={() => toast.warn(VALIDATION_FORM_ERROR.Length)}>
                         </textarea>
                       </label>
                     </div>

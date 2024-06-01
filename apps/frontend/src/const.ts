@@ -119,3 +119,7 @@ export const LOCATION_DICTIONARY: LOCATION_DICTIONARY = {
   Звёздная: [59.83336683172382, 30.34933468807454],
   Спортивная: [59.95188384342514, 30.29070468988651],
 }
+
+export enum VALIDATION_FORM_ERROR {
+  Length = 'Отзыв должен быть длиной от 100 до 1024 знаков'
+}
