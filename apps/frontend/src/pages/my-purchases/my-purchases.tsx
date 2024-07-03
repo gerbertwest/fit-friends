@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppSelector, useAppDispatch } from "../../hooks/index";
 import { userOrdersSelector } from "../../store/training/selectors";
@@ -14,7 +14,6 @@ function MyPurchases(): JSX.Element {
   const orders = useAppSelector(userOrdersSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = useParams();
 
   const [active, setActive] = useState(false);
   const [page, setPage] = useState<number>(DEFAULT_PAGE)
@@ -38,7 +37,7 @@ function MyPurchases(): JSX.Element {
         <section className="my-purchases">
           <div className="container">
             <div className="my-purchases__wrapper">
-              <button className="btn-flat my-purchases__back" type="button" onClick={() => navigate(`${AppRoute.UserAccount}/${params.id}`)}>
+              <button className="btn-flat my-purchases__back" type="button" onClick={() => navigate(-1)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { trainingSelector } from "../../store/training/selectors";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { fetchDeleteFile, fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
-import { AppRoute, STATIC_DIRECTORY, UserRole } from "../../const";
+import { STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import { EditTraining } from "../../types/edit-training";
 import PopupReview from "../popup-review/popup-review";
@@ -165,7 +165,7 @@ function TrainingCardScreen(): JSX.Element {
               <h1 className="visually-hidden">Карточка тренировки</h1>
               <aside className="reviews-side-bar">
                 <button className="btn-flat btn-flat--underlined reviews-side-bar__back" type="button"
-                  onClick={() => {role === UserRole.User ? navigate(`${AppRoute.TrainingCatalog}/${user.data?.id}`) : navigate(`${AppRoute.MyTrainings}/${user.data?.id}`)}}>
+                  onClick={() => navigate(-1)}>
                   <svg width="14" height="10" aria-hidden="true">
                     <use xlinkHref="#arrow-left"></use>
                   </svg><span>Назад</span>
@@ -257,7 +257,7 @@ function TrainingCardScreen(): JSX.Element {
                                 <svg width="18" height="18" aria-hidden="true">
                                   <use xlinkHref="#icon-star"></use>
                                 </svg></span>
-                              <input type="number" name="rating" value={training.data?.raiting} disabled={role === UserRole.User || !editStatus}/>
+                              <input type="number" name="rating" value={training.data?.raiting} disabled/>
                             </label>
                           </div>
                           <ul className="training-info__list">

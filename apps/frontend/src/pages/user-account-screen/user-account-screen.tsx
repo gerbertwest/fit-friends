@@ -100,22 +100,6 @@ function UserAccount(): JSX.Element {
     setEditStatus(false)
   };
 
-//   const handleCancel = () => {
-//     setRegistryData({
-//       name: userData?.name,
-//       sex: userData?.sex,
-//       location: userData?.location,
-//       level: userData?.level,
-//       description: userData?.description,
-//       avatar: userData?.avatar,
-//       certificates: userData?.certificates
-//      }
-//     );
-//     addTrainingType(userData?.trainingType);
-//     setReadyToTraining(userData?.readyToTraining)
-//     setEditStatus(false)
-// }
-
   const handleDeleteAvatar = () => {
     if (userData?.avatar) {dispatch(fetchDeleteFile(userData?.avatar))}
     setRegistryData({

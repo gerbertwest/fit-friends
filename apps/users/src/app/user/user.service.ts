@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import { User } from "@fit-friends/shared/app-types";
 import { UserQuery } from "./query/user.query";
@@ -65,7 +65,7 @@ public async existFriend (friendId: string, userId: string) {
   const index = userFriends.indexOf(friendId);
 
   if (index !== -1) {
-    throw new ConflictException(EXISTS_FRIEND);
+    throw new ForbiddenException(EXISTS_FRIEND);
   }
   return null
 }

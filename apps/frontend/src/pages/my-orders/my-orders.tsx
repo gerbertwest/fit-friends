@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks/index";
 import { trainerOrdersSelector } from "../../store/training/selectors";
 import { fetchTrainerOrdersAction } from "../../store/api-actions";
 import { AppRoute, DEFAULT_ORDERS_COUNT_LIMIT, STATIC_DIRECTORY } from "../../const";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getSortQueryString } from "../../util";
 import LoadingScreen from "../loading-screen/loading-screen";
 
@@ -20,7 +20,6 @@ function MyOrders(): JSX.Element {
   const orders = useAppSelector(trainerOrdersSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = useParams();
 
   const [sort, setSort] = useState(DEFAULT_SORT);
   const [page, setPage] = useState<number>(DEFAULT_PAGE)
@@ -48,7 +47,7 @@ function MyOrders(): JSX.Element {
         <section className="my-orders">
           <div className="container">
             <div className="my-orders__wrapper">
-              <button className="btn-flat btn-flat--underlined my-orders__back" type="button" onClick={() => navigate(`${AppRoute.CoachAccount}/${params.id}`)}>
+              <button className="btn-flat btn-flat--underlined my-orders__back" type="button" onClick={() => navigate(-1)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>

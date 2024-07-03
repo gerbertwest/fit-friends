@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector } from "../../store/training/selectors";
@@ -26,7 +26,6 @@ function TrainingCatalogScreen(): JSX.Element {
   const trainings = useAppSelector(myTrainingsSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = useParams();
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [filterType, addFilterType] = useState<string[]>(DEFAULT_TYPE)
@@ -86,7 +85,7 @@ function TrainingCatalogScreen(): JSX.Element {
               <div className="gym-catalog-form">
                 <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
                 <div className="gym-catalog-form__wrapper">
-                  <button className="btn-flat btn-flat--underlined gym-catalog-form__btnback" type="button" onClick={() => navigate(`${AppRoute.Main}/${params.id}`)}>
+                  <button className="btn-flat btn-flat--underlined gym-catalog-form__btnback" type="button" onClick={() => navigate(-1)}>
                     <svg width="14" height="10" aria-hidden="true">
                       <use xlinkHref="#arrow-left"></use>
                     </svg><span>Назад</span>

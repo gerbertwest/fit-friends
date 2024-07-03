@@ -5,8 +5,8 @@ import { useAppSelector, useAppDispatch } from "../../hooks/index";
 import { fetchUserByIdAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchMyTrainingsByIdAction,
   fetchNewRequestAction, fetchExistRequest, fetchAddSubscriptionAction,
   fetchDeleteSubscriptionAction, fetchSubscriptions, fetchExistFriend } from "../../store/api-actions";
-import { userSelector, tokenPayloadSelector, userRequest, usersSelector, existFriend } from "../../store/user/selectors";
-import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import { userSelector, userRequest, usersSelector, existFriend } from "../../store/user/selectors";
+import { STATIC_DIRECTORY } from "../../const";
 import PopupMap from "../popup-map/popup-map";
 import { myTrainingsSelector } from "../../store/training/selectors";
 import PopupCertificates from "../popup-certificates/popup-certificates";
@@ -19,7 +19,6 @@ function TrainerCardScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
-  const token = useAppSelector(tokenPayloadSelector);
   const myTrainings = useAppSelector(myTrainingsSelector);
   const existRequest = useAppSelector(userRequest);
   const subscriptions = useAppSelector(usersSelector).data;
@@ -109,7 +108,7 @@ function TrainerCardScreen(): JSX.Element {
         <div className="inner-page inner-page--no-sidebar">
           <div className="container">
             <div className="inner-page__wrapper">
-              <button className="btn-flat inner-page__back" type="button" onClick={() => navigate(`${AppRoute.UserCatalog}/${token.data?.sub}`)}>
+              <button className="btn-flat inner-page__back" type="button" onClick={() => navigate(-1)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>
@@ -157,8 +156,8 @@ function TrainerCardScreen(): JSX.Element {
                         </button> : ''
                         }
                         <ul className="user-card-coach__hashtag-list">
-                          {user.data?.trainingType?.map((type) => (
-                            <li className="user-card-coach__hashtag-item">
+                          {user.data?.trainingType?.map((type, i) => (
+                            <li className="user-card-coach__hashtag-item" key={i}>
                               <div className="hashtag"><span>#{type}</span></div>
                             </li>
                           ))}

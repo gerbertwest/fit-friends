@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { myTrainingsSelector } from "../../store/training/selectors";
 import { fetchMyTrainingsAction } from "../../store/api-actions";
 import { AppRoute, DEFAULT_TRAININGS_COUNT_LIMIT, STATIC_DIRECTORY, TRAINING_TIMES } from "../../const";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FilterSlider from "../../components/filter-slider/filter-slider";
 import { getQueryString } from "../../util";
 import LoadingScreen from "../loading-screen/loading-screen";
@@ -27,7 +27,6 @@ function MyTrainings(): JSX.Element {
   const myTrainings = useAppSelector(myTrainingsSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = useParams();
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [filterTime, addFilterTime] = useState<string[]>(DEFAULT_TIME)
@@ -85,7 +84,7 @@ function MyTrainings(): JSX.Element {
           <div className="my-training-form">
             <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
             <div className="my-training-form__wrapper">
-              <button className="btn-flat btn-flat--underlined my-training-form__btnback" type="button" onClick={() => navigate(`${AppRoute.CoachAccount}/${params.id}`)}>
+              <button className="btn-flat btn-flat--underlined my-training-form__btnback" type="button" onClick={() => navigate(-1)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>

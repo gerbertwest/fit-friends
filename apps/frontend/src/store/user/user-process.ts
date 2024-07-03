@@ -107,6 +107,9 @@ export const userProcess = createSlice({
       .addCase(fetchExistFriend.rejected, (state, action) => {
         state.friend.isError = true;
       })
+      .addCase(fetchExistFriend.fulfilled, (state, action) => {
+        state.friend.isError = false;
+      })
       .addCase(fetchRequestsByUser.fulfilled, (state, action) => {
         state.requests.data = action.payload;
       })

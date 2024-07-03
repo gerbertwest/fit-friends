@@ -3,7 +3,7 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { userFriendsSelector, userRequests, userRequestsByInitiator, userSelector } from "../../store/user/selectors";
 import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByInitiator, fetchRequestsByUser, fetchUpdateRequest, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
-import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
+import { DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
 import { useNavigate, useParams } from "react-router-dom";
 import { Request } from "../../types/request";
 import { UserRequest } from "@fit-friends/shared/app-types"
@@ -67,8 +67,7 @@ function FriendsListCoach(): JSX.Element {
         <section className="friends-list">
           <div className="container">
             <div className="friends-list__wrapper">
-              <button className="btn-flat friends-list__back" type="button" onClick={() => user?.role === UserRole.Admin ? navigate(`${AppRoute.CoachAccount}/${params.id}`) :
-               navigate(`${AppRoute.UserAccount}/${params.id}`)}>
+              <button className="btn-flat friends-list__back" type="button" onClick={() => navigate(-1)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>

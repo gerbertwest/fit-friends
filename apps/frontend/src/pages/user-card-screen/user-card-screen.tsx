@@ -3,16 +3,15 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header/header"
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { fetchAddFriendAction, fetchDeleteFriendAction, fetchExistFriend, fetchUserByIdAction } from "../../store/api-actions";
-import { existFriend, tokenPayloadSelector, userSelector } from "../../store/user/selectors";
+import { existFriend, userSelector } from "../../store/user/selectors";
 import PopupMap from "../popup-map/popup-map";
-import { AppRoute, STATIC_DIRECTORY } from "../../const";
+import { STATIC_DIRECTORY } from "../../const";
 
 function UserCardScreen(): JSX.Element {
   const user = useAppSelector(userSelector);
   const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
-  const token = useAppSelector(tokenPayloadSelector)
   const friendExistError = useAppSelector(existFriend).isError
 
   const [isModalActive, setModalActive] = useState(false);
@@ -54,7 +53,7 @@ function UserCardScreen(): JSX.Element {
         <div className="inner-page inner-page--no-sidebar">
           <div className="container">
             <div className="inner-page__wrapper">
-              <button className="btn-flat inner-page__back" type="button" onClick={() => navigate(`${AppRoute.UserCatalog}/${token.data?.sub}`)}>
+              <button className="btn-flat inner-page__back" type="button" onClick={() => navigate(-1)}>
                 <svg width="14" height="10" aria-hidden="true">
                   <use xlinkHref="#arrow-left"></use>
                 </svg><span>Назад</span>
