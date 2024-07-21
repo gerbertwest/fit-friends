@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import Header from "../../components/header/header"
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { fetchDeleteFile, fetchUserByIdAction, updateUser } from "../../store/api-actions";
@@ -107,6 +107,27 @@ function UserAccount(): JSX.Element {
     })
   }
 
+  const handleCancel = useCallback((event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setRegistryData({
+        name: userData?.name,
+        sex: userData?.sex,
+        location: userData?.location,
+        level: userData?.level,
+        description: userData?.description,
+        avatar: userData?.avatar,
+       }
+      );
+      addTrainingType(userData?.trainingType);
+      setReadyToTraining(userData?.readyToTraining)
+      setEditStatus(false)
+    }
+  },[userData?.avatar, userData?.description, userData?.level, userData?.location, userData?.name, userData?.readyToTraining, userData?.sex, userData?.trainingType])
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleCancel);
+  },[handleCancel])
+
   if (user.isLoading) {
     return (
       <LoadingScreen/>
@@ -130,7 +151,7 @@ function UserAccount(): JSX.Element {
                 setRegistryData={setRegistryData}
                 handleAvatarUpload={handleAvatarUpload}
                 handleSubmit={handleSubmit}
-                handleCancel={handleDeleteAvatar}
+                handleDeleteAvatar={handleDeleteAvatar}
                 onChange={onChange}
                 trainingType={trainingType}
                 onChangeType={onChangeType}

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { updateUserSelector, userSelector } from "../../store/user/selectors";
@@ -52,12 +52,12 @@ function CoachAccount(): JSX.Element {
   useEffect(() => {
     if (userData) {
       setRegistryData({
-        name: userData?.name,
-        sex: userData?.sex,
-        location: userData?.location,
-        level: userData?.level,
+        name: userData.name,
+        sex: userData.sex,
+        location: userData.location,
+        level: userData.level,
         description: userData.description,
-        avatar: userData?.avatar,
+        avatar: userData.avatar,
         certificates: userData.certificates
        }
       );
@@ -157,6 +157,27 @@ function CoachAccount(): JSX.Element {
     })
   }
 
+  const handleCancel = useCallback((event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setRegistryData({
+        name: userData?.name,
+        sex: userData?.sex,
+        location: userData?.location,
+        level: userData?.level,
+        description: userData?.description,
+        avatar: userData?.avatar,
+       }
+      );
+      addTrainingType(userData?.trainingType);
+      setPersonalTrainings(userData?.personalTrainings)
+      setEditStatus(false)
+    }
+  },[userData?.avatar, userData?.description, userData?.level, userData?.location, userData?.name, userData?.personalTrainings, userData?.sex, userData?.trainingType])
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleCancel);
+  },[handleCancel])
+
   useEffect(() => {
     if (updateUserData?.certificates) {
       setRegistryData({...registryData, certificates: updateUserData.certificates})
@@ -187,7 +208,7 @@ function CoachAccount(): JSX.Element {
                 setRegistryData={setRegistryData}
                 handleAvatarUpload={handleAvatarUpload}
                 handleSubmit={handleSubmit}
-                handleCancel={handleDeleteAvatar}
+                handleDeleteAvatar={handleDeleteAvatar}
                 onChange={onChange}
                 trainingType={trainingType}
                 onChangeType={onChangeType}

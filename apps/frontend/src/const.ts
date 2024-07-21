@@ -123,3 +123,10 @@ export const LOCATION_DICTIONARY: LOCATION_DICTIONARY = {
 export enum VALIDATION_FORM_ERROR {
   Length = 'Отзыв должен быть длиной от 100 до 1024 знаков'
 }
+
+export enum Length {
+  MinName = 1,
+  MaxName = 15,
+  MinDescriprion = 10,
+  MaxDescription = 140,
+}
