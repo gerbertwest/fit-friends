@@ -108,7 +108,7 @@ function UserAccount(): JSX.Element {
   }
 
   const handleCancel = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (userData && event.key === "Escape") {
       setRegistryData({
         name: userData?.name,
         sex: userData?.sex,
@@ -122,7 +122,7 @@ function UserAccount(): JSX.Element {
       setReadyToTraining(userData?.readyToTraining)
       setEditStatus(false)
     }
-  },[userData?.avatar, userData?.description, userData?.level, userData?.location, userData?.name, userData?.readyToTraining, userData?.sex, userData?.trainingType])
+  },[userData])
 
   useEffect(() => {
     window.addEventListener("keydown", handleCancel);

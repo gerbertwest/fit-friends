@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { trainingSelector } from "../../store/training/selectors";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { fetchDeleteFile, fetchOrderAction, fetchTrainingByIdAction, fetchUserByIdAction, updateOrder, updateTraining } from "../../store/api-actions";
 import { STATIC_DIRECTORY, UserRole } from "../../const";
 import { tokenPayloadSelector, userSelector } from "../../store/user/selectors";
@@ -124,6 +124,25 @@ function TrainingCardScreen(): JSX.Element {
     if (editData.video === '' && training.data?.video) {dispatch(fetchDeleteFile(training.data?.video))}
   };
 
+  const handleCancel = useCallback((event: KeyboardEvent) => {
+    if (training.data && event.key === "Escape") {
+      setEditData({
+        title: training.data.title,
+        description: training.data.description,
+        price: training.data.price,
+        id: training.data.id,
+        special: training.data.special,
+        video: training.data.video,
+        backgroundImage: training.data.backgroundImage
+       });
+      setEditStatus(false)
+    }
+  },[training.data])
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleCancel);
+  },[handleCancel])
+
   const handleModalOpen = (choosePopup: string) => {
     setModalActive({...isModalActive, popupStatus: true, [choosePopup]: true})
   };
@@ -182,7 +201,8 @@ function TrainingCardScreen(): JSX.Element {
                           <div className="review__user-photo">
                             <picture>
                               <source type="image/webp"/>
-                                <img src={`${STATIC_DIRECTORY}${user.data?.avatar}`} width="64" height="64" alt="Изображение пользователя"/>
+                                <img src={user.data?.avatar === '' ? 'public/img/content/user-photo-1.png' : `${STATIC_DIRECTORY}${user.data?.avatar}`}
+                                width="64" height="64" alt="Изображение пользователя"/>
                             </picture>
                           </div><span className="review__user-name">{user.data?.name}</span>
                           <div className="review__rating">
@@ -210,7 +230,7 @@ function TrainingCardScreen(): JSX.Element {
                       <div className="training-info__photo">
                         <picture>
                           <source type="image/webp"/>
-                            <img src={`${STATIC_DIRECTORY}${trainer?.avatar}`} width="64" height="64" alt="Изображение тренера"/>
+                            <img src={trainer?.avatar === '' ? 'public/img/content/user-photo-1.png' : `${STATIC_DIRECTORY}${trainer?.avatar}`} width="64" height="64" alt="Изображение тренера"/>
                         </picture>
                       </div>
                       <div className="training-info__coach-info"><span className="training-info__label">Тренер</span><span className="training-info__name">{trainer?.name}</span></div>
