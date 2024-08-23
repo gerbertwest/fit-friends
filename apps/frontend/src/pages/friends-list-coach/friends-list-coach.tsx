@@ -27,6 +27,8 @@ function FriendsListCoach(): JSX.Element {
     status: UserRequest.approval
   })
 
+  const [newReq, setNewReq] = useState('')
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -42,12 +44,12 @@ function FriendsListCoach(): JSX.Element {
     else {
       dispatch(fetchUserFriends({queryString}))
     }
-  }, [dispatch, page, params.id, user?.role])
-
+  }, [dispatch, page, params.id, user?.role, newReq])
 
   const handleCreateRequest = (friendId: string) => {
       dispatch(fetchNewRequestAction(friendId))
       dispatch(fetchRequestsByInitiator())
+      setNewReq(friendId)
   }
 
   const initiators = requests.data.map((req) => req.initiatorId)
