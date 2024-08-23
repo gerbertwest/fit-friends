@@ -1,5 +1,5 @@
-import { ChangeEventHandler, MouseEventHandler } from "react"
-import { LEVELS, LOCATIONS, SEX, STATIC_DIRECTORY, UserRole } from "../../const"
+import { ChangeEventHandler, FormEventHandler, MouseEventHandler } from "react"
+import { Length, LEVELS, LOCATIONS, SEX, STATIC_DIRECTORY, UserRole } from "../../const"
 import { User } from "../../types/user"
 import { ucFirst } from "../../util"
 import SpecializationCheckbox from "../specialization-checkbox/specialization-checkbox"
@@ -12,8 +12,8 @@ type UserInfoProp = {
   setEditStatus: React.Dispatch<React.SetStateAction<boolean>>,
   setRegistryData: React.Dispatch<React.SetStateAction<User>>,
   handleAvatarUpload: ChangeEventHandler<HTMLInputElement>,
-  handleSubmit: MouseEventHandler<HTMLButtonElement>,
-  handleCancel: MouseEventHandler<HTMLButtonElement>,
+  handleSubmit: FormEventHandler<HTMLFormElement>,
+  handleDeleteAvatar: MouseEventHandler<HTMLButtonElement>,
   onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
   trainingType: string[] | undefined,
   onChangeType: ChangeEventHandler<HTMLInputElement>,
@@ -23,10 +23,12 @@ type UserInfoProp = {
   onChangePersonalTrainings?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
 }
 
+
 function UserInfo(props: UserInfoProp): JSX.Element {
   return (
     <section className="user-info">
-      <div className="user-info__header">
+      <form className="user-info__form" action="#" method="post" onSubmit={props.handleSubmit}>
+       <div className="user-info__header">
         <div className="input-load-avatar">
           <label>
             <input className="visually-hidden" type="file" name="avatar" accept="image/png, image/jpeg" onChange={props.handleAvatarUpload} disabled={!props.editStatus}/>
@@ -57,20 +59,21 @@ function UserInfo(props: UserInfoProp): JSX.Element {
         </div>
         {props.editStatus === true ?
         <div className="user-info-edit__controls">
-          <button className="user-info-edit__control-btn" aria-label="обновить" type="button" onClick={props.handleSubmit} >
+          <button className="user-info-edit__control-btn" aria-label="обновить" type="submit">
             <svg width="16" height="16" aria-hidden="true">
               <use xlinkHref="#icon-change"></use>
             </svg>
           </button>
-          <button className="user-info-edit__control-btn" aria-label="удалить" onClick={props.handleCancel} disabled={props.registryData.avatar === ''}>
+          <button className="user-info-edit__control-btn" aria-label="удалить" onClick={props.handleDeleteAvatar} disabled={props.registryData.avatar === ''}>
             <svg width="14" height="16" aria-hidden="true">
               <use xlinkHref="#icon-trash"></use>
             </svg>
           </button>
         </div> : ''}
       </div>
-      <form className="user-info__form" action="#" method="post">
-        {props.editStatus === false ? <button className="btn-flat btn-flat--underlined user-info__edit-button" type="button" aria-label="Редактировать" onClick={() => props.setEditStatus(true)}>
+      {/* <form className="user-info__form" action="#" method="post"> */}
+        {props.editStatus === false ?
+        <button className="btn-flat btn-flat--underlined user-info__edit-button" type="button" aria-label="Редактировать" onClick={() => props.setEditStatus(true)}>
           <svg width="12" height="12" aria-hidden="true">
             <use xlinkHref="#icon-edit"></use>
           </svg><span>Редактировать</span>
@@ -81,14 +84,17 @@ function UserInfo(props: UserInfoProp): JSX.Element {
             <label>
               <span className="custom-input__label">Имя</span>
               <span className="custom-input__wrapper">
-                <input type="text" name="name" value={props.registryData.name} disabled={!props.editStatus} onChange={props.onChange}/>
+                <input type="text" name="name" value={props.registryData.name} disabled={!props.editStatus} onChange={props.onChange}
+                maxLength={Length.MaxName} minLength={Length.MinName} required/>
               </span>
             </label>
           </div>
           <div className="custom-textarea custom-textarea--readonly user-info__textarea">
-            <label><span className="custom-textarea__label">Описание</span>
+            <label>
+              <span className="custom-textarea__label">Описание</span>
               <textarea name="description" placeholder=" " value={props.registryData.description}
-                onChange={props.onChange} readOnly={!props.editStatus}>
+                onChange={props.onChange} disabled={!props.editStatus}
+                maxLength={Length.MaxDescription} minLength={Length.MinDescriprion} required>
                 {props.registryData.description}
               </textarea>
             </label>

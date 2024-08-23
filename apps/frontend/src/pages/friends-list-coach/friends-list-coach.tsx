@@ -3,8 +3,8 @@ import Header from "../../components/header/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { userFriendsSelector, userRequests, userRequestsByInitiator, userSelector } from "../../store/user/selectors";
 import { fetchMyFriends, fetchNewRequestAction, fetchRequestsByInitiator, fetchRequestsByUser, fetchUpdateRequest, fetchUserByIdAction, fetchUserFriends } from "../../store/api-actions";
-import { DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
-import { useNavigate, useParams } from "react-router-dom";
+import { AppRoute, DEFAULT_FRIENDS_COUNT_LIMIT, STATIC_DIRECTORY, UserRole } from "../../const";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Request } from "../../types/request";
 import { UserRequest } from "@fit-friends/shared/app-types"
 import LoadingScreen from "../loading-screen/loading-screen";
@@ -89,12 +89,17 @@ function FriendsListCoach(): JSX.Element {
                       <div className="thumbnail-friend__image">
                         <picture>
                           <source type="image/webp"/>
-                            <img src={`${STATIC_DIRECTORY}${friend.avatar}`} width="78" height="78" alt=""/>
+                            <img src={friend.avatar === '' ? 'public/img/content/user-photo-1.png' : `${STATIC_DIRECTORY}${friend.avatar}`} width="78" height="78" alt=""/>
                         </picture>
                       </div>
                     </div>
                     <div className="thumbnail-friend__header">
-                      <h2 className="thumbnail-friend__name">{friend.name}</h2>
+                      <Link to={friend.role === UserRole.Admin ? `${AppRoute.Trainer}/${friend.id}` : `${AppRoute.User}/${friend.id}`}>
+                      <h2 className="thumbnail-friend__name"
+                        >
+                        {friend.name}
+                      </h2>
+                      </Link>
                       <div className="thumbnail-friend__location">
                         <svg width="14" height="16" aria-hidden="true">
                           <use xlinkHref="#icon-location"></use>

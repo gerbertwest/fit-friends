@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { RequestRepository } from "./request.repository";
 import { CreateRequestDto } from "./dto/create-request.dto";
 import { RequestEntity } from "./request.entity";
@@ -17,7 +17,7 @@ export class RequestService {
     const existRequest = await this.requestRepository.findByUsers(request.userId, request.initiatorId)
 
     if (existRequest) {
-      throw new ConflictException(AuthUserError.Exists);
+      throw new ForbiddenException(AuthUserError.Exists);
     }
 
     return this.requestRepository
@@ -48,7 +48,7 @@ export class RequestService {
   public async existRequest (userId: string, initiatorId: string) {
     const existRequest = await this.requestRepository.findByUsers(userId, initiatorId)
     if (existRequest) {
-      throw new ConflictException(AuthUserError.Exists);
+      throw new ForbiddenException(AuthUserError.Exists);
     }
     return null
   }

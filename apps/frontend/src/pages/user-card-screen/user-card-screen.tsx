@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header/header"
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
-import { fetchAddFriendAction, fetchDeleteFriendAction, fetchExistFriend, fetchUserByIdAction } from "../../store/api-actions";
-import { existFriend, userSelector } from "../../store/user/selectors";
+import { checkAuthAction, fetchAddFriendAction, fetchDeleteFriendAction, fetchExistFriend, fetchUserByIdAction } from "../../store/api-actions";
+import { existFriend, tokenPayloadSelector, userSelector } from "../../store/user/selectors";
 import PopupMap from "../popup-map/popup-map";
-import { STATIC_DIRECTORY } from "../../const";
+import { STATIC_DIRECTORY, UserRole } from "../../const";
 
 function UserCardScreen(): JSX.Element {
   const user = useAppSelector(userSelector);
@@ -13,6 +13,7 @@ function UserCardScreen(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
   const friendExistError = useAppSelector(existFriend).isError
+  const authAction = useAppSelector(tokenPayloadSelector)
 
   const [isModalActive, setModalActive] = useState(false);
   const [friendButtonType, setFriendButtonType] = useState(true)
@@ -22,6 +23,7 @@ function UserCardScreen(): JSX.Element {
       dispatch(fetchUserByIdAction(params.id))
       dispatch(fetchExistFriend(params.id))
       setFriendButtonType(friendExistError)
+      dispatch(checkAuthAction())
     }
   }, [dispatch, friendExistError, params.id])
 
@@ -88,7 +90,7 @@ function UserCardScreen(): JSX.Element {
                         ))}
                       </ul>
                       {!friendButtonType ?
-                      <button className="btn user-card__btn" type="button" onClick={handleAddFriend}>Добавить в друзья</button>
+                      <button className="btn user-card__btn" type="button" onClick={handleAddFriend} disabled={authAction.data?.role === UserRole.Admin}>Добавить в друзья</button>
                       :
                       <button className="btn btn--outlined user-card-coach-2__btn" type="button" onClick={handleDeleteFriend}>Удалить из друзей</button>
                       }

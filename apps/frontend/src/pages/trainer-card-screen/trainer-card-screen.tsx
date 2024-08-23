@@ -140,7 +140,7 @@ function TrainerCardScreen(): JSX.Element {
                             </div>
                             :
                             <div className="user-card-coach-2__status user-card-coach-2__status--check">
-                              <span>Не готов к тренировке</span>
+                              <span>Не готов тренировать</span>
                             </div>
                           }
                         </div>

@@ -33,8 +33,6 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<{message: string | Array<string>}>) => {
 
-      console.log(error.response)
-
       if (error.response && shouldDisplayError(error.response)) {
         const message: string | Array<string> = error.response.data.message
 
