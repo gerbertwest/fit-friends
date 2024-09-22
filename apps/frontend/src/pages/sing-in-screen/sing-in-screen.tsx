@@ -47,7 +47,8 @@ function SignIn(): JSX.Element {
                           <input
                             type="email"
                             name="email"
-                            autoComplete="off" required
+                            //autoComplete="off"
+                            required
                             onChange={onChange}
                             />
                         </span>

@@ -44,7 +44,7 @@ function FriendsListCoach(): JSX.Element {
     else {
       dispatch(fetchUserFriends({queryString}))
     }
-  }, [dispatch, page, params.id, user?.role, newReq])
+  }, [dispatch, page, params.id, user?.role, newReq, requestData])
 
   const handleCreateRequest = (friendId: string) => {
       dispatch(fetchNewRequestAction(friendId))
@@ -58,8 +58,9 @@ function FriendsListCoach(): JSX.Element {
   const disabledCondition = myFriends.data.find((item) => item.totalPageNumber && item.totalPageNumber <= DEFAULT_FRIENDS_COUNT_LIMIT)
 
   const handleUpdateRequest = (friendId: string, status: string) => {
-    setRequestData({status: status, initiatorId: friendId})
     dispatch(fetchUpdateRequest({status: status, initiatorId: friendId}))
+    dispatch(fetchRequestsByUser())
+    setRequestData({status: status, initiatorId: friendId})
   }
 
   return (
@@ -150,7 +151,8 @@ function FriendsListCoach(): JSX.Element {
                     </div>
                     }
                     </div>
-                    {friend.id && initiators.includes(friend.id) && request?.status === UserRequest.approval && requestData.status === UserRequest.approval ?
+                    {friend.id && initiators.includes(friend.id) && request?.status === UserRequest.approval && requestData.status === UserRequest.approval
+                    ?
                     <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" key={friend.id}>
                         <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку</p>
                       <div className="thumbnail-friend__button-wrapper">
@@ -163,12 +165,15 @@ function FriendsListCoach(): JSX.Element {
                           Отклонить
                         </button>
                       </div>
-                    </div> : ''}
-                    {requestData.status ===  UserRequest.accepted && requestData.initiatorId === friend.id || request?.status === UserRequest.accepted ?
+                    </div> : ''
+                    }
+                    {requestData.status === UserRequest.accepted && requestData.initiatorId === friend.id || request?.status === UserRequest.accepted
+                    ?
                       <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" key={friend.id}>
                         <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку принят</p>
                       </div> :
-                      requestData.status ===  UserRequest.rejected && requestData.initiatorId === friend.id || request?.status === UserRequest.rejected ?
+                     requestData.status === UserRequest.rejected && requestData.initiatorId === friend.id || request?.status === UserRequest.rejected
+                     ?
                       <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" key={friend.id}>
                         <p className="thumbnail-friend__request-text">Запрос на&nbsp;{user?.role === UserRole.Admin ? 'персональную' : 'совместную'} тренировку отклонен</p>
                     </div> : ''
