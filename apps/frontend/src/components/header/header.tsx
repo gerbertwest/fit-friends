@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { AppRoute, UserRole } from "../../const";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { checkAuthAction, fetchAlertsAction, fetchDeleteAlertAction } from "../../store/api-actions";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { alerts, tokenPayloadSelector } from "../../store/user/selectors";
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
-import { Alert } from "../../types/alert";
 
 function Header(): JSX.Element {
 
@@ -20,18 +19,9 @@ function Header(): JSX.Element {
     dispatch(checkAuthAction())
   }, [dispatch])
 
-  const [alertData, setAlertData] = useState<Alert[]>(alertsList);
-
-  useEffect(() => {
-    if (alertsList) {
-      setAlertData(alertsList)
-    }
-  }, [alertsList])
-
   const handleDeleteAlert = (id: string | undefined) => {
     id && dispatch(fetchDeleteAlertAction(id))
     dispatch(fetchAlertsAction())
-    setAlertData(alertsList)
   }
 
   return (
@@ -78,7 +68,7 @@ function Header(): JSX.Element {
             <div className="main-nav__dropdown">
               <p className="main-nav__label">Оповещения</p>
               <ul className="main-nav__sublist">
-                {alertsList.length !== 0 ? alertData.map((alert, i) =>
+                {alertsList.length !== 0 ? alertsList.map((alert, i) =>
                  <li className="main-nav__subitem" key={i}>
                    <Link className="notification is-active" to="" onClick={() => handleDeleteAlert(alert.id)}>
                      <p className="notification__text">{alert.title}</p>

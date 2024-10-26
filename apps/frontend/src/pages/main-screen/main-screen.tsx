@@ -23,19 +23,19 @@ function MainScreen(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
 
+  const types = user.data?.trainingType?.join(',')
   const special = `?limit=${DEFAULT_OFFERS_COUNT_LIMIT}&special=true`
   const raiting = `?limit=${DEFAULT_TRAININGS_COUNT_LIMIT}&sortField=raiting`
   const readyToTraining = `?limit=${READY_TO_TRAINING_USERS_COUNT}&readyToTraining=true`
+  const queryString = `?limit=${DEFAULT_SPEC_TRAININGS_COUNT_LIMIT}&trainingTypes=${types}`
 
   useEffect(() => {
-    const types = user.data?.trainingType?.join(',')
-    const queryString = `?limit=${DEFAULT_SPEC_TRAININGS_COUNT_LIMIT}&trainingTypes=${types}`
     dispatch(fetchTrainingsAction({queryString}))
     dispatch(fetchSpecTrainingsAction({queryString: special}))
     dispatch(fetchRaitingTrainingsAction({queryString: raiting}))
     dispatch(fetchUserByIdAction(String(params.id)))
     dispatch(fetchUsers({queryString: readyToTraining}))
-  }, [dispatch, params.id, raiting, readyToTraining, special, user.data?.trainingType])
+  }, [dispatch, params.id, queryString, raiting, readyToTraining, special])
 
   const sliderUsers = useRef<Slider>(null);
   const sliderTrainings = useRef<Slider>(null);
