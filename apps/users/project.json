@@ -20,7 +20,8 @@
           "apps/users/src/assets"
         ],
         "isolatedConfig": true,
-        "webpackConfig": "apps/users/webpack.config.js"
+        "webpackConfig": "apps/users/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {},

@@ -19,7 +19,8 @@
         "styles": ["apps/frontend/src/public/css/style.min.css"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/frontend/webpack.config.js"
+        "webpackConfig": "apps/frontend/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {
