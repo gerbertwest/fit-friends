@@ -94,6 +94,15 @@
         "command": "npx ts-node seed.ts",
         "cwd": "libs/models/training-models/prisma"
       }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run training:build",
+          "docker build --file ./apps/training/Dockerfile --tag fit-friends.training:latest ."
+        ]
+      }
     }
   },
   "tags": []

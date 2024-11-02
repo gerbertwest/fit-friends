@@ -69,6 +69,15 @@
           "codeCoverage": true
         }
       }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run users:build",
+          "docker build --file ./apps/users/Dockerfile --tag fit-friends.users:latest ."
+        ]
+      }
     }
   },
   "tags": []

@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Training {
+  trainingId      Int      @id @default(autoincrement()) @map("training_id")
+  title           String   @default("")
+  backgroundImage String   @default("")
+  level           String   @default("")
+  trainingType    String   @default("")
+  trainingTime    String   @default("")
+  price           Int      @default(0)
+  caloriesCount   Int      @default(0)
+  description     String   @default("")
+  sex             String   @default("")
+  video           String   @default("")
+  raiting         Int      @default(0)
+  trainerId       String   @map("trainer_id")
+  special         Boolean  @default(false)
+  createdAt       DateTime @default(now()) @map("created_at")
+  publishAt       DateTime @updatedAt @map("publish_at")
+  orders          Order[]
+  reviews         Review[]
+
+  @@map("trainings")
+}
+
+model Review {
+  reviewId   Int      @id @default(autoincrement()) @map("review_id")
+  userId     String   @map("user_id")
+  training   Training @relation(fields: [trainingId], references: [trainingId], onDelete: Cascade, onUpdate: Cascade)
+  trainingId Int      @map("training_id")
+  raiting    Int      @default(0)
+  message    String   @default("")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("reviews")
+}
+
+model Order {
+  orderId       Int      @id @default(autoincrement()) @map("order_id")
+  type          String
+  training      Training @relation(fields: [trainingId], references: [trainingId], onDelete: Cascade, onUpdate: Cascade)
+  trainingId    Int      @map("training_id")
+  price         Int
+  count         Int
+  orderPrice    Int
+  paymentMethod String
+  createdAt     DateTime @default(now()) @map("created_at")
+  userId        String   @map("user_id")
+  idCount       Int      @default(0)
+  totalPrice    Int      @default(0)
+  active        Boolean  @default(true)
+
+  @@map("orders")
+}

@@ -1,0 +1,59 @@
+version: '3.9'
+services:
+  fitFriends.training.postgresdb:
+    image: postgres:14-alpine
+    container_name: fitFriends.training.postgresdb
+    env_file:
+      - .fit-friends.training.env
+    ports:
+      - 5442:5432
+    volumes:
+      - fitFriends.training.volume:/var/lib/postgresql/data
+    networks:
+      - fitFriends.training.network
+
+  fitFriends.training.pgadmin:
+    image: dpage/pgadmin4
+    container_name: fitFriends.training.pgadmindb
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "keks@htmlacademy.local"
+      PGADMIN_DEFAULT_PASSWORD: "test"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - 8092:80
+    networks:
+      - fitFriends.training.network
+
+  fitFriends.training.rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: fitFriends.training.rabbitmq
+    restart: always
+    env_file:
+      - .fit-friends.training.env
+    ports:
+      - '1078:15672'
+      - '5692:5672'
+    networks:
+      - fitFriends.training.network
+
+  fitFriends.training:
+    container_name: fitFriends.training
+    depends_on:
+      - fitFriends.training.postgresdb
+    restart: always
+    image: fit-friends.training:latest
+    env_file:
+      - .fit-friends.training.env
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    networks:
+      - fitFriends.training.network
+
+volumes:
+  fitFriends.training.volume:
+
+networks:
+  fitFriends.training.network:
+      driver: bridge
