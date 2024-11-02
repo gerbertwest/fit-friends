@@ -9,6 +9,17 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function CreateTraining(): JSX.Element {
 
+  const DEFAULT_VALUE = {
+    minPrice: 0,
+    maxPrice: 1000,
+    minCalories: 1000,
+    maxCalories: 5000,
+    minDescriprionLength: 10,
+    maxDescriprionLength: 140,
+    minTitleLength: 1,
+    maxTitleLength: 15
+  }
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -19,7 +30,7 @@ function CreateTraining(): JSX.Element {
     trainingType: '',
     trainingTime: '',
     price: 0,
-    caloriesCount: 0,
+    caloriesCount: DEFAULT_VALUE.minCalories,
     sex: '',
     description: '',
     special: false,
@@ -75,7 +86,9 @@ function CreateTraining(): JSX.Element {
                         <h2 className="create-training__legend">Название тренировки</h2>
                         <div className="custom-input create-training__input">
                           <label><span className="custom-input__wrapper">
-                              <input type="text" name="title" value={creatingData.title} onChange={onChange}/></span>
+                              <input type="text" name="title" value={creatingData.title} onChange={onChange}
+                              required minLength={DEFAULT_VALUE.minTitleLength} maxLength={DEFAULT_VALUE.maxTitleLength}/>
+                              </span>
                           </label>
                         </div>
                       </div>
@@ -85,7 +98,8 @@ function CreateTraining(): JSX.Element {
                           <div className="custom-select custom-select--not-selected">
                             <span className="custom-select__label">Выберите тип тренировки</span>
                             <select className="custom-select__button" name='trainingType' aria-label="Выберите одну из опций" value={creatingData.trainingType}
-                              onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})}>
+                              onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})} required>
+                              <option value=''disabled selected>Выберите тип</option>
                              {TRAINING_TYPES.map((type, i) => (<option value={type} key={i}>{ucFirst(type)}</option>))}
                             </select>
                           </div>
@@ -93,7 +107,8 @@ function CreateTraining(): JSX.Element {
                             <label>
                               <span className="custom-input__label">Сколько калорий потратим</span>
                               <span className="custom-input__wrapper">
-                                <input type="number" name="caloriesCount" value={creatingData.caloriesCount} onChange={onChange}/>
+                                <input type="number" name="caloriesCount" value={creatingData.caloriesCount} onChange={onChange}
+                                required min={DEFAULT_VALUE.minCalories} max={DEFAULT_VALUE.maxCalories}/>
                                 <span className="custom-input__text">ккал</span>
                               </span>
                             </label>
@@ -101,7 +116,8 @@ function CreateTraining(): JSX.Element {
                           <div className="custom-select custom-select--not-selected">
                             <span className="custom-select__label">Сколько времени потратим</span>
                             <select className="custom-select__button" name='trainingTime' aria-label="Выберите одну из опций" value={creatingData.trainingTime}
-                              onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})}>
+                              onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})} required>
+                              <option value=''disabled selected>Выберите время</option>
                              {TRAINING_TIMES.map((time, i) => (<option value={time} key={i}>{time}</option>))}
                             </select>
                           </div>
@@ -109,14 +125,16 @@ function CreateTraining(): JSX.Element {
                             <label>
                               <span className="custom-input__label">Стоимость тренировки</span>
                               <span className="custom-input__wrapper">
-                                <input type="number" name="price" value={creatingData.price} onChange={onChange}/>
+                                <input type="number" name="price" value={creatingData.price} onChange={onChange}
+                                required min={DEFAULT_VALUE.minPrice} max={DEFAULT_VALUE.maxPrice}/>
                                 <span className="custom-input__text">₽</span></span>
                             </label>
                           </div>
                           <div className="custom-select custom-select--not-selected">
                             <span className="custom-select__label">Выберите уровень тренировки</span>
                             <select className="custom-select__button" name='level' aria-label="Выберите одну из опций" value={creatingData.level}
-                              onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})}>
+                              onChange={({target}) => setCreatingData({...creatingData, [target.name]: target.value})} required>
+                              <option value=''disabled selected>Выберите уровень</option>
                              {LEVELS.map((level, i) => (<option value={level} key={i}>{ucFirst(level)}</option>))}
                             </select>
                             <ul className="custom-select__list" role="listbox">
@@ -145,7 +163,7 @@ function CreateTraining(): JSX.Element {
                         <div className="custom-textarea create-training__textarea">
                           <label>
                             <textarea name="description" placeholder=" " value={creatingData.description}
-                              onChange={onChange}>
+                              onChange={onChange} required minLength={DEFAULT_VALUE.minDescriprionLength} maxLength={DEFAULT_VALUE.maxDescriprionLength}>
                             </textarea>
                           </label>
                         </div>
